@@ -1,0 +1,163 @@
+CAB302 Project Requirements: AI Revision Flashcards  
+
+Project Brief 
+
+
+
+Synopsis:
+
+AI-Powered flashcard generator that takes lecture and tutorial notes and converts them into flashcards. This will enable students to address learning gaps, improving their study efficiency. 
+
+The application will include progress tracking and allows the user to adjust the flashcard difficulty. The application provides further insight and analysis by categorising progress further into topic. Users can share their decks with other users.  
+
+
+
+Key Features:
+
+1. Authentication system to sign-up/sign-in (MIN REQ 2) 
+
+2. Input of lecture notes with associated topic and week 
+
+3. Processing of lecture notes into database into a uniform format (MIN REQ 3) 
+
+4. Conversion of database into flashcards based on study / unit plan 
+
+5. Tagging of flashcards by topic and week 
+
+6. Users can create and delete flashcards 
+
+7. User can adjust difficulty of flashcards 
+
+8. Application saves test results to track user performance 
+
+9. User can view study progress with progress bars 
+
+10. Option to set test length (e.g., 10 questions, 15 questions) 
+
+11. Testing of student on flashcards, different types of tests 
+
+    11.1 Multiple choice (minimum) 
+
+    11.2 User input (stretch plan) 
+
+12. Analysis of testing e.g. what are deficiencies within topics (stretch plan) 
+
+13. AI-powered feedback and recommendations (stretch plan) 
+
+14. Time Limit on card completion (stretch plan) 
+
+*Key functions are achieved through multiple GUI / Windows (MIN REQ 1, 4) 
+
+
+
+Additional features: 
+
+1. Collaboration & Sharing – Users can share or import decks with other authenticated users. 
+
+2. Chatbot Tutor Mode – AI chatbot can quiz students and provide explanations. 
+
+3. Game mode - To make study session fun and engaging 
+
+ 
+
+
+ 
+
+Functional Requirements  
+
+1. User Management  
+
+    Authentication System  
+
+      Email 
+
+      Password (hashed) 
+    
+    Profile Adjustment  
+    
+      Set card difficulty 
+    
+      Set test length 
+    
+    Session Management 
+    
+      Keep users logged in 
+
+2.Flashcard Generation  
+
+    Upload 
+    
+      Load .txt or .pdf 
+    
+    Tagging of Flashcard 
+    
+      User input for topic  
+    
+      User input for week 
+    
+    Note storing and processing into uniform format 
+    
+    Ai generation  
+    
+      Link to Ai model  
+    
+      Provide context and guard rails  
+
+3. Flashcard Management  
+
+    Store Flashcard  
+    
+      Retrieve and store output from Ai 
+    
+      Store based on tagging and unique code 
+    
+    Deletion of Flashcard 
+    
+      Deletion of card from database 
+
+4. Progress Management  
+
+    System Logging  
+    
+      Log incorrect or correct  
+    
+      Store based on:  
+    
+        Flashcard Id 
+    
+        Date/Time 
+    
+        Result 
+    
+    Progress Calculation  
+    
+      Total correct of the card stack vs incorrect/not attempted  
+    
+    Display with progress bars  
+    
+      Total bar 
+    
+      Bar for each topic 
+
+ 
+
+
+Graphical User Interface (GUI) 
+
+Key windows / sections: 
+
+  1.Dashboard showing study progress 
+
+  2.File upload section for lecture / class notes 
+
+  3.Navigation between topics 
+
+  4.Difficulty levels 
+
+  5.View streaks 
+
+  6.Flashcard test UI 
+
+  7.Login / create account 
+
+  8.Manage account / settings 
