@@ -1,4 +1,4 @@
-package flashcardai.git7s;
+package git7s.flashcardai;
 
 import java.util.List;
 
