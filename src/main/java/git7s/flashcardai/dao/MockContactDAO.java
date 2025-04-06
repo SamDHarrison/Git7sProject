@@ -1,4 +1,6 @@
-package git7s.flashcardai;
+package git7s.flashcardai.dao;
+
+import git7s.flashcardai.Contact;
 
 import java.util.ArrayList;
 import java.util.List;
