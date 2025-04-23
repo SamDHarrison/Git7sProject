@@ -29,7 +29,7 @@ public class Main extends Application {
         UserDAO userDAO = new UserDAO();
         userDAO.createTable();
 
-        userDAO.insert(new User(10528067, "1qaz2wsx","Sam", "Lord", true, ""));
+        userDAO.insert(new User(10528067, "1qaz2wsx","Sam", "Lord", true));
         userDAO.close();
         ///Launch FXML App
         launch();

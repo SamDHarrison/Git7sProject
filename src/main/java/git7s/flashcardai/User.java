@@ -1,6 +1,7 @@
 package git7s.flashcardai;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class User {
 
@@ -9,22 +10,18 @@ public class User {
     private String firstName;
     private String lastName;
     private boolean admin;
-    private String friends;
 
-    public User(int id, String password, String firstName, String lastName, boolean admin, String friends) {
+    public User(int id, String password, String firstName, String lastName, boolean admin) {
         this.id = id;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.admin = admin;
-        this.friends = friends;
     }
 
     public String toString(){
-        return "User: Name: " + firstName + " " + lastName + ". Student ID: " + id + ". Admin: " + admin + ". Friends: "
-                + friends;
+        return "User: Name: " + firstName + " " + lastName + ". Student ID: " + id + ". Admin: " + admin + ". Subjects: ";
     }
-
 
     /// Getters
     public int getId() {
@@ -47,10 +44,6 @@ public class User {
         return admin;
     }
 
-    public String getFriends() {
-        return friends;
-    }
-
     /// Setters
     public void setId(int id) {
         this.id = id;
@@ -71,14 +64,4 @@ public class User {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
-
-    public void setFriends(String friends) {
-        this.friends = friends;
-    }
-
-    public void addFriend(int id) {
-        setFriends(getFriends() + " " + id);
-    }
-
-
 }

@@ -7,11 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO {
+public class ResultDAO {
 
     private Connection connection;
 
-    public UserDAO(){
+    public ResultDAO(){
         connection = DatabaseConnection.getInstance();
     }
 

@@ -1,7 +1,5 @@
 package git7s.flashcardai;
 
-import git7s.flashcardai.dao.IContactDAO;
-import git7s.flashcardai.dao.MockContactDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -11,7 +9,6 @@ import javafx.scene.input.MouseEvent;
 public class LoginController {
     @FXML
     private ListView<Contact> contactsListView;
-    private IContactDAO contactDAO;
     @FXML
     private TextField firstNameTextField;
     @FXML
