@@ -1,83 +1,36 @@
 package git7s.flashcardai;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 
 public class LoginController {
+
     @FXML
-    private ListView<Contact> contactsListView;
+    private TextField usernameField;
+
     @FXML
-    private TextField firstNameTextField;
+    private PasswordField passwordField;
+
     @FXML
-    private TextField lastNameTextField;
-    @FXML
-    private TextField emailTextField;
-    @FXML
-    private TextField phoneTextField;
-    public LoginController() {
-        contactDAO = new MockContactDAO();
+    private void handleLogin() {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        // Simple hardcoded login check (you can replace with database lookup later)
+        if ("admin".equals(username) && "password".equals(password)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Login Successful");
+            alert.setHeaderText(null);
+            alert.setContentText("Welcome, " + username + "!");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Login Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("Incorrect username or password.");
+            alert.showAndWait();
+        }
     }
-
-    private void selectContact(Contact contact) {
-        contactsListView.getSelectionModel().select(contact);
-        firstNameTextField.setText(contact.getFirstName());
-        lastNameTextField.setText(contact.getLastName());
-        emailTextField.setText(contact.getEmail());
-        phoneTextField.setText(contact.getPhone());
-    }
-    /**
-     * Renders a cell in the contacts list view by setting the text to the contact's full name.
-     * @param contactListView The list view to render the cell for.
-     * @return The rendered cell.
-     */
-    private ListCell<Contact> renderCell(ListView<Contact> contactListView) {
-        return new ListCell<>() {
-            /**
-             * Handles the event when a contact is selected in the list view.
-             * @param mouseEvent The event to handle.
-             */
-            private void onContactSelected(MouseEvent mouseEvent) {
-                ListCell<Contact> clickedCell = (ListCell<Contact>) mouseEvent.getSource();
-                // Get the selected contact from the list view
-                Contact selectedContact = clickedCell.getItem();
-                if (selectedContact != null) selectContact(selectedContact);
-            }
-
-            /**
-             * Updates the item in the cell by setting the text to the contact's full name.
-             * @param contact The contact to update the cell with.
-             * @param empty Whether the cell is empty.
-             */
-            @Override
-            protected void updateItem(Contact contact, boolean empty) {
-                super.updateItem(contact, empty);
-                // If the cell is empty, set the text to null, otherwise set it to the contact's full name
-                if (empty || contact == null || contact.getFullName() == null) {
-                    setText(null);
-                    super.setOnMouseClicked(this::onContactSelected);
-                } else {
-                    setText(contact.getFullName());
-                }
-            }
-        };
-    }
-
-    /**
-     * Synchronizes the contacts list view with the contacts in the database.
-     */
-    private void syncContacts() {
-        contactsListView.getItems().clear();
-        contactsListView.getItems().addAll(contactDAO.getAllContacts());
-    }
-
-    @FXML
-    public void initialize() {
-        contactsListView.setCellFactory(this::renderCell);
-        syncContacts();
-    }
-
-
 }
