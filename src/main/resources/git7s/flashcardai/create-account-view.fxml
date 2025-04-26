@@ -21,6 +21,6 @@
     <PasswordField fx:id="confirmPasswordField" layoutX="360" layoutY="160" promptText="Confirm Password" />
 
     <!-- Get Started Button -->
-    <Button layoutX="260" layoutY="230" text="Get Started" onAction="#handleGetStarted" />
+    <Button layoutX="260" layoutY="230" text="Get Started!" onAction="#handleGetStarted" />
 
 </AnchorPane>
