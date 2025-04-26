@@ -4,6 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 
 public class LoginController {
 
@@ -15,8 +20,19 @@ public class LoginController {
 
     @FXML
     private void handleCreateAccount() {
-        // You can add code later to open registration page
-        System.out.println("Create Account clicked!");
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/create-account-view.fxml"));
+            Parent root = fxmlLoader.load();
+
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            Scene currentScene = usernameField.getScene();
+
+            stage.setScene(new Scene(root, currentScene.getWidth(), currentScene.getHeight()));
+            stage.setTitle("Create Account");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

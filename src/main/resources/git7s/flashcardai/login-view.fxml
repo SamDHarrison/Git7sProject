@@ -16,7 +16,7 @@
 
     <Button layoutX="275" layoutY="200" text="Login" onAction="#handleLogin" />
 
-    <Label layoutX="185" layoutY="250" text="New here?" />
+    <Label layoutX="190" layoutY="250" text="New here?" />
 
-    <Button layoutX="255" layoutY="245" text="Create Account" onAction="#handleCreateAccount" />
+    <Button layoutX="250" layoutY="245" text="Create Account" onAction="#handleCreateAccount" />
 </AnchorPane>
