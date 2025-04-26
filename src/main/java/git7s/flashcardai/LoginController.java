@@ -14,6 +14,13 @@ public class LoginController {
     private PasswordField passwordField;
 
     @FXML
+    private void handleCreateAccount() {
+        // You can add code later to open registration page
+        System.out.println("Create Account clicked!");
+    }
+
+
+    @FXML
     private void handleLogin() {
         String username = usernameField.getText();
         String password = passwordField.getText();
@@ -33,4 +40,5 @@ public class LoginController {
             alert.showAndWait();
         }
     }
+
 }
