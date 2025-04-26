@@ -79,5 +79,5 @@ public class LoginController {
         syncContacts();
     }
 
-s
+
 }
