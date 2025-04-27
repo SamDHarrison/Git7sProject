@@ -5,28 +5,19 @@ import java.util.Date;
 public class Card {
 
     private int cardID;
-    private int creatorID;
+    private int userID;
     private String topic;
     private String subject;
-    private String question;
-    private String correct;
-    private String incorrect1;
-    private String incorrect2;
-    private String incorrect3;
-    private boolean isPublic;
+    private String front;
+    private String back;
 
-
-    public Card(int cardID, int creatorID, String topic, String subject, String question, String correct, String incorrect1, String incorrect2, String incorrect3, boolean isPublic) {
+    public Card(int cardID, int userID, String topic, String subject, String front, String back) {
         this.cardID = cardID;
-        this.creatorID = creatorID;
+        this.userID = userID;
         this.topic = topic;
         this.subject = subject;
-        this.question = question;
-        this.correct = correct;
-        this.incorrect1 = incorrect1;
-        this.incorrect2 = incorrect2;
-        this.incorrect3 = incorrect3;
-        this.isPublic = isPublic;
+        this.front = front;
+        this.back = back;
     }
 
     public int getCardID() {
@@ -37,12 +28,28 @@ public class Card {
         this.cardID = cardID;
     }
 
-    public int getCreatorID() {
-        return creatorID;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setCreatorID(int creatorID) {
-        this.creatorID = creatorID;
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public String getFront() {
+        return front;
+    }
+
+    public void setFront(String front) {
+        this.front = front;
+    }
+
+    public String getBack() {
+        return back;
+    }
+
+    public void setBack(String back) {
+        this.back = back;
     }
 
     public String getTopic() {
@@ -61,51 +68,4 @@ public class Card {
         this.subject = subject;
     }
 
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public String getCorrect() {
-        return correct;
-    }
-
-    public void setCorrect(String correct) {
-        this.correct = correct;
-    }
-
-    public String getIncorrect1() {
-        return incorrect1;
-    }
-
-    public void setIncorrect1(String incorrect1) {
-        this.incorrect1 = incorrect1;
-    }
-
-    public String getIncorrect2() {
-        return incorrect2;
-    }
-
-    public void setIncorrect2(String incorrect2) {
-        this.incorrect2 = incorrect2;
-    }
-
-    public String getIncorrect3() {
-        return incorrect3;
-    }
-
-    public void setIncorrect3(String incorrect3) {
-        this.incorrect3 = incorrect3;
-    }
-
-    public boolean isPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
-    }
 }

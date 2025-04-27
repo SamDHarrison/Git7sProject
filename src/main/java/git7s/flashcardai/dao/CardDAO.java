@@ -1,7 +1,8 @@
 package git7s.flashcardai.dao;
 
+import git7s.flashcardai.Card;
 import git7s.flashcardai.DatabaseConnection;
-import git7s.flashcardai.User;
+import git7s.flashcardai.Result;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,13 +20,13 @@ public class CardDAO {
         try {
             Statement createTable = connection.createStatement();
             createTable.execute(
-                    "CREATE TABLE IF NOT EXISTS users ("
-                            + "id INTEGER PRIMARY KEY NOT NULL, "
-                            + "password VARCHAR NOT NULL, "
-                            + "firstName VARCHAR NOT NULL, "
-                            + "lastName VARCHAR NOT NULL, "
-                            + "admin BIT NOT NULL, "
-                            + "subjects VARCHAR"
+                    "CREATE TABLE IF NOT EXISTS cards ("
+                            + "cardID INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL, "
+                            + "userID INTEGER NOT NULL, "
+                            + "topic VARCHAR NOT NULL, "
+                            + "subject VARCHAR NOT NULL, "
+                            + "front VARCHAR NOT NULL, "
+                            + "back VARCHAR NOT NULL"
                             + ")"
             );
         } catch (SQLException ex) {
@@ -33,79 +34,149 @@ public class CardDAO {
         }
     }
 
-    public void insert(User user){
+    public void insert(Card card){
         try {
-            PreparedStatement insertUser = connection.prepareStatement(
-            "INSERT INTO users (id, password, firstname, lastname, admin) VALUES (?, ?, ?, ?, ?)"
+            PreparedStatement insertCard = connection.prepareStatement(
+            "INSERT INTO cards (cardID, userID, topic, subject, front, back) VALUES (?, ?, ?, ?, ?, ?)"
             );
-            insertUser.setInt(1, user.getId());
-            insertUser.setString(2, user.getPassword());
-            insertUser.setString(3, user.getFirstName());
-            insertUser.setString(4, user.getLastName());
-            insertUser.setBoolean(5, user.isAdmin());
-            insertUser.executeUpdate();
+            insertCard.setInt(1, card.getCardID());
+            insertCard.setInt(2, card.getUserID());
+            insertCard.setString(3, card.getTopic());
+            insertCard.setString(4, card.getSubject());
+            insertCard.setString(5, card.getFront());
+            insertCard.setString(6, card.getBack());
+            insertCard.executeUpdate();
         } catch (SQLException ex) {
             System.err.println(ex);
         }
     }
 
-    public void update(int id, int newID, String newPassword, String newFirstName, String newLastName, boolean newAdmin){
+    public void update(int cardID, String newTopic, String newSubject, String newFront, String newBack){
         try{
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE users SET id = ?, password = ?, firstname = ?, lastname = ?, admin = ? WHERE id = ?");
-            updateStatement.setInt(6, id);
-            updateStatement.setInt(1, newID);
-            updateStatement.setString(2, newPassword);
-            updateStatement.setString(3, newFirstName);
-            updateStatement.setString(4, newLastName);
-            updateStatement.setBoolean(5, newAdmin);
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE cards SET topic = ?, subject = ?, front = ?, back = ? WHERE cardID = ?");
+            updateStatement.setInt(5, cardID);
+            updateStatement.setString(1, newTopic);
+            updateStatement.setString(2, newSubject);
+            updateStatement.setString(3, newFront);
+            updateStatement.setString(4, newBack);
             updateStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void delete(int id){
+    public void delete(int cardID){
         try{
-            PreparedStatement getStatement = connection.prepareStatement("DELETE * FROM users WHERE id = ?");
-            getStatement.setInt(1, id);
+            PreparedStatement getStatement = connection.prepareStatement("DELETE * FROM cards WHERE cardID = ?");
+            getStatement.setInt(1, cardID);
             getStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public List<User> getAll(){
-        List<User> users = new ArrayList<>();
+    public List<Card> getByUserID(int userIDQuery){
+        List<Card> cards = new ArrayList<>();
         try {
-            Statement insertStatement = connection.createStatement();
-            String query = "SELECT * FROM users";
-            ResultSet resultSet = insertStatement.executeQuery(query);
+            PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE userID = ?");
+            getStatement.setInt(1, userIDQuery);
+            ResultSet resultSet = getStatement.executeQuery();
             while (resultSet.next()){
-                int id = resultSet.getInt("id");
-                String password = resultSet.getString("password");
-                String firstName = resultSet.getString("firstname");
-                String lastName = resultSet.getString("lastname");
-                boolean admin = resultSet.getBoolean("admin");
-                User insertUser = new User(id, password, firstName, lastName, admin);
+                int cardID = resultSet.getInt("cardID");
+                int userID = resultSet.getInt("userID");
+                String topic = resultSet.getString("topic");
+                String subject = resultSet.getString("subject");
+                String front = resultSet.getString("front");
+                String back = resultSet.getString("back");
+                Card card = new Card(cardID, userID, topic, subject, front, back);
+                cards.add(card);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return users;
+        return cards;
     }
 
-    public User getById(int id) {
+    public List<Card> getByTopic(String topicQuery){
+        List<Card> cards = new ArrayList<>();
+        try {
+            PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE topic = ?");
+            getStatement.setString(1, topicQuery);
+            ResultSet resultSet = getStatement.executeQuery();
+            while (resultSet.next()){
+                int cardID = resultSet.getInt("cardID");
+                int userID = resultSet.getInt("userID");
+                String topic = resultSet.getString("topic");
+                String subject = resultSet.getString("subject");
+                String front = resultSet.getString("front");
+                String back = resultSet.getString("back");
+                Card card = new Card(cardID, userID, topic, subject, front, back);
+                cards.add(card);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cards;
+    }
+
+    public List<Card> getBySubject(String subjectQuery){
+        List<Card> cards = new ArrayList<>();
+        try {
+            PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE subject = ?");
+            getStatement.setString(1, subjectQuery);
+            ResultSet resultSet = getStatement.executeQuery();
+            while (resultSet.next()){
+                int cardID = resultSet.getInt("cardID");
+                int userID = resultSet.getInt("userID");
+                String topic = resultSet.getString("topic");
+                String subject = resultSet.getString("subject");
+                String front = resultSet.getString("front");
+                String back = resultSet.getString("back");
+                Card card = new Card(cardID, userID, topic, subject, front, back);
+                cards.add(card);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cards;
+    }
+
+    public List<Card> getAll(){
+        List<Card> cards = new ArrayList<>();
+        try {
+            Statement insertStatement = connection.createStatement();
+            String query = "SELECT * FROM cards";
+            ResultSet resultSet = insertStatement.executeQuery(query);
+            while (resultSet.next()){
+                int cardID = resultSet.getInt("cardID");
+                int userID = resultSet.getInt("userID");
+                String topic = resultSet.getString("topic");
+                String subject = resultSet.getString("subject");
+                String front = resultSet.getString("front");
+                String back = resultSet.getString("back");
+                Card card = new Card(cardID, userID, topic, subject, front, back);
+                cards.add(card);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cards;
+    }
+
+    public Card getById(int cardIDQuery) {
         try{
-            PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
-            getStatement.setInt(1, id);
+            PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE cardID = ?");
+            getStatement.setInt(1, cardIDQuery);
             ResultSet resultSet = getStatement.executeQuery();
             if (resultSet.next()){
-                String password = resultSet.getString("password");
-                String firstName = resultSet.getString("firstname");
-                String lastName = resultSet.getString("lastname");
-                boolean admin = resultSet.getBoolean("admin");
-                User getUser = new User(id, password, firstName, lastName, admin);
-                return getUser;
+                int cardID = resultSet.getInt("cardID");
+                int userID = resultSet.getInt("userID");
+                String topic = resultSet.getString("topic");
+                String subject = resultSet.getString("subject");
+                String front = resultSet.getString("front");
+                String back = resultSet.getString("back");
+                Card card = new Card(cardID, userID, topic, subject, front, back);
+                return card;
             }
         } catch (SQLException e) {
             e.printStackTrace();

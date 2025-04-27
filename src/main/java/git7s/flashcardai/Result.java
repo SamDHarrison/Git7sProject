@@ -1,21 +1,21 @@
 package git7s.flashcardai;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Result {
 
     private int resultID;
     private int userID;
     private int cardID;
-    private Date date;
+    private Timestamp at;
     private boolean correct;
 
 
-    public Result(int resultID, int userID, int cardID, Date date, boolean correct) {
+    public Result(int resultID, int userID, int cardID, Timestamp at, boolean correct) {
         this.resultID = resultID;
         this.userID = userID;
         this.cardID = cardID;
-        this.date = date;
+        this.at = at;
         this.correct = correct;
     }
 
@@ -43,12 +43,12 @@ public class Result {
         this.cardID = cardID;
     }
 
-    public Date getDate() {
-        return date;
+    public Timestamp getAt() {
+        return at;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setAt(Timestamp at) {
+        this.at = at;
     }
 
     public boolean isCorrect() {

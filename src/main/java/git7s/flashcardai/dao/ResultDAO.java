@@ -1,7 +1,7 @@
 package git7s.flashcardai.dao;
 
 import git7s.flashcardai.DatabaseConnection;
-import git7s.flashcardai.User;
+import git7s.flashcardai.Result;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,13 +19,14 @@ public class ResultDAO {
         try {
             Statement createTable = connection.createStatement();
             createTable.execute(
-                    "CREATE TABLE IF NOT EXISTS users ("
-                            + "id INTEGER PRIMARY KEY NOT NULL, "
-                            + "password VARCHAR NOT NULL, "
-                            + "firstName VARCHAR NOT NULL, "
-                            + "lastName VARCHAR NOT NULL, "
-                            + "admin BIT NOT NULL, "
-                            + "subjects VARCHAR"
+                    "CREATE TABLE IF NOT EXISTS results ("
+                            + "resultID INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL, "
+                            + "userID INTEGER NOT NULL, "
+                            + "cardID INTEGER NOT NULL, "
+                            + "at TIMESTAMP NOT NULL, "
+                            + "correct BIT NOT NULL,"
+                            + "FOREIGN KEY (userID) REFERENCES users(id),"
+                            + "FOREIGN KEY (cardID) REFERENCES cards(id),"
                             + ")"
             );
         } catch (SQLException ex) {
@@ -33,84 +34,72 @@ public class ResultDAO {
         }
     }
 
-    public void insert(User user){
+    public void insert(Result result){
         try {
-            PreparedStatement insertUser = connection.prepareStatement(
-            "INSERT INTO users (id, password, firstname, lastname, admin) VALUES (?, ?, ?, ?, ?)"
+            PreparedStatement insertResult = connection.prepareStatement(
+            "INSERT INTO results (resultID, userID, cardID, at, correct) VALUES (?, ?, ?, ?, ?)"
             );
-            insertUser.setInt(1, user.getId());
-            insertUser.setString(2, user.getPassword());
-            insertUser.setString(3, user.getFirstName());
-            insertUser.setString(4, user.getLastName());
-            insertUser.setBoolean(5, user.isAdmin());
-            insertUser.executeUpdate();
+            insertResult.setInt(1, result.getResultID());
+            insertResult.setInt(2, result.getUserID());
+            insertResult.setInt(3, result.getCardID());
+            insertResult.setTimestamp(4, result.getAt());
+            insertResult.setBoolean(5, result.isCorrect());
+            insertResult.executeUpdate();
         } catch (SQLException ex) {
             System.err.println(ex);
         }
     }
 
-    public void update(int id, int newID, String newPassword, String newFirstName, String newLastName, boolean newAdmin){
+    public void delete(int resultID){
         try{
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE users SET id = ?, password = ?, firstname = ?, lastname = ?, admin = ? WHERE id = ?");
-            updateStatement.setInt(6, id);
-            updateStatement.setInt(1, newID);
-            updateStatement.setString(2, newPassword);
-            updateStatement.setString(3, newFirstName);
-            updateStatement.setString(4, newLastName);
-            updateStatement.setBoolean(5, newAdmin);
-            updateStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void delete(int id){
-        try{
-            PreparedStatement getStatement = connection.prepareStatement("DELETE * FROM users WHERE id = ?");
-            getStatement.setInt(1, id);
+            PreparedStatement getStatement = connection.prepareStatement("DELETE * FROM results WHERE resultID = ?");
+            getStatement.setInt(1, resultID);
             getStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public List<User> getAll(){
-        List<User> users = new ArrayList<>();
+    public List<Result> getByCardID(int cardIDQuery){
+        List<Result> results = new ArrayList<>();
         try {
-            Statement insertStatement = connection.createStatement();
-            String query = "SELECT * FROM users";
-            ResultSet resultSet = insertStatement.executeQuery(query);
+            PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM results WHERE cardID = ?");
+            getStatement.setInt(1, cardIDQuery);
+            ResultSet resultSet = getStatement.executeQuery();
             while (resultSet.next()){
-                int id = resultSet.getInt("id");
-                String password = resultSet.getString("password");
-                String firstName = resultSet.getString("firstname");
-                String lastName = resultSet.getString("lastname");
-                boolean admin = resultSet.getBoolean("admin");
-                User insertUser = new User(id, password, firstName, lastName, admin);
+                int resultID = resultSet.getInt("resultID");
+                int userID = resultSet.getInt("userID");
+                int cardID = resultSet.getInt("cardID");
+                Timestamp at = resultSet.getTimestamp("at");
+                boolean correct = resultSet.getBoolean("correct");
+                Result result = new Result(resultID, userID, cardID, at, correct);
+                results.add(result);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return users;
+        return results;
     }
 
-    public User getById(int id) {
-        try{
-            PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
-            getStatement.setInt(1, id);
-            ResultSet resultSet = getStatement.executeQuery();
-            if (resultSet.next()){
-                String password = resultSet.getString("password");
-                String firstName = resultSet.getString("firstname");
-                String lastName = resultSet.getString("lastname");
-                boolean admin = resultSet.getBoolean("admin");
-                User getUser = new User(id, password, firstName, lastName, admin);
-                return getUser;
+    public List<Result> getAll(){
+        List<Result> results = new ArrayList<>();
+        try {
+            Statement insertStatement = connection.createStatement();
+            String query = "SELECT * FROM results";
+            ResultSet resultSet = insertStatement.executeQuery(query);
+            while (resultSet.next()){
+                int resultID = resultSet.getInt("resultID");
+                int userID = resultSet.getInt("userID");
+                int cardID = resultSet.getInt("cardID");
+                Timestamp at = resultSet.getTimestamp("at");
+                boolean correct = resultSet.getBoolean("correct");
+                Result result = new Result(resultID, userID, cardID, at, correct);
+                results.add(result);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return results;
     }
 
     public void close(){

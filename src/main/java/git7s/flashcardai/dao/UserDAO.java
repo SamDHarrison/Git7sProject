@@ -87,6 +87,7 @@ public class UserDAO {
                 String lastName = resultSet.getString("lastname");
                 boolean admin = resultSet.getBoolean("admin");
                 User insertUser = new User(id, password, firstName, lastName, admin);
+                users.add(insertUser);
             }
         } catch (Exception e) {
             e.printStackTrace();
