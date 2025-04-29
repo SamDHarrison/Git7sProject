@@ -9,6 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+
 public class CreateAccountController {
 
     @FXML
@@ -23,6 +24,7 @@ public class CreateAccountController {
     @FXML
     private void handleGetStarted() {
         String username = usernameField.getText();
+        int usernameID;
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
 
@@ -33,6 +35,22 @@ public class CreateAccountController {
 
         if (!password.equals(confirmPassword)) {
             showAlert(Alert.AlertType.ERROR, "Password Mismatch", "Passwords do not match.");
+            return;
+        }
+
+        try {
+            usernameID = Integer.parseInt(username);
+        } catch (NumberFormatException err) {
+            showAlert(Alert.AlertType.ERROR, "Invalid Username", "A valid username must be your student number.");
+            return;
+        }
+
+        User newUser = new User(usernameID, password, "FirstName", "Lastname", false);
+
+        if (Main.userDAO.getById(usernameID) == null){
+            Main.userDAO.insert(newUser);
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Username already used", "This username has already been taken");
             return;
         }
 

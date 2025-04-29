@@ -1,5 +1,7 @@
 package git7s.flashcardai;
 
+import git7s.flashcardai.dao.CardDAO;
+import git7s.flashcardai.dao.ResultDAO;
 import git7s.flashcardai.dao.UserDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,9 @@ public class Main extends Application {
     public static final String TITLE = "Flashcard AI";
     public static final int WIDTH = 640;
     public static final int HEIGHT = 360;
+    public static UserDAO userDAO = new UserDAO();
+    public static ResultDAO resultDAO = new ResultDAO();
+    public static CardDAO cardDAO = new CardDAO();
 
     //Start
     @Override
@@ -26,11 +31,24 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         ///Connect to DB
-        UserDAO userDAO = new UserDAO();
-        userDAO.createTable();
+            userDAO.createTable();
+            ///userDAO.insert(new User(123456789, "password", "Antonio", "miguel", true));
+            resultDAO.createTable();
+            ///resultDAO.insert(new Result(1, 123456789, 1, new Timestamp(System.currentTimeMillis()), true));
+            cardDAO.createTable();
+            ///cardDAO.insert(new Card(1, 123456789, "Week 5", "CAB302", "Java", "This is a programming language"));
+        /// Shutdown hook to close connections
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                if (userDAO != null) userDAO.close();
+                if (resultDAO != null) resultDAO.close();
+                if (cardDAO != null) cardDAO.close();
+                System.out.println("DAO connections closed successfully.");
+            } catch (Exception e) {
+                System.err.println("Error closing DAO connections: " + e.getMessage());
+            }
+        }));
 
-        userDAO.insert(new User(10528067, "1qaz2wsx","Sam", "Lord", true));
-        userDAO.close();
         ///Launch FXML App
         launch();
     }

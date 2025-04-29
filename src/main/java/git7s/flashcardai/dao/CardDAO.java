@@ -2,7 +2,6 @@ package git7s.flashcardai.dao;
 
 import git7s.flashcardai.Card;
 import git7s.flashcardai.DatabaseConnection;
-import git7s.flashcardai.Result;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,7 +25,8 @@ public class CardDAO {
                             + "topic VARCHAR NOT NULL, "
                             + "subject VARCHAR NOT NULL, "
                             + "front VARCHAR NOT NULL, "
-                            + "back VARCHAR NOT NULL"
+                            + "back VARCHAR NOT NULL, "
+                            + "FOREIGN KEY (userID) REFERENCES users(id)"
                             + ")"
             );
         } catch (SQLException ex) {
@@ -179,6 +179,7 @@ public class CardDAO {
                 return card;
             }
         } catch (SQLException e) {
+
             e.printStackTrace();
         }
         return null;

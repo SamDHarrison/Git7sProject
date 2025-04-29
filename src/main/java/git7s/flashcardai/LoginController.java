@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import git7s.flashcardai.Main;
 
 
 public class LoginController {
@@ -40,14 +41,26 @@ public class LoginController {
     private void handleLogin() {
         String username = usernameField.getText();
         String password = passwordField.getText();
+        int usernameID = Integer.parseInt(username);
 
-        // Simple hardcoded login check (you can replace with database lookup later)
-        if ("admin".equals(username) && "password".equals(password)) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Login Successful");
-            alert.setHeaderText(null);
-            alert.setContentText("Welcome, " + username + "!");
-            alert.showAndWait();
+        /// Database Check
+        if (Main.userDAO.getById(usernameID) != null )  {
+            if(Main.userDAO.getById(usernameID).getPassword().equals(password)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Login Successful");
+                alert.setHeaderText(null);
+                alert.setContentText("Welcome, " + username + "!");
+                alert.showAndWait();
+                SuccessfulLogin();
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Login Failed");
+                alert.setHeaderText(null);
+                alert.setContentText("Incorrect username or password.");
+                alert.showAndWait();
+            }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Login Failed");
@@ -57,4 +70,17 @@ public class LoginController {
         }
     }
 
+    private void SuccessfulLogin(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/dashboard-view.fxml"));
+            Parent root = fxmlLoader.load();
+
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+            stage.setTitle("Flashcard AI - Dashboard");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
