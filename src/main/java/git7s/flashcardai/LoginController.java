@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 
 public class LoginController {
     @FXML
-    private ListView<Contact> contactsListView;
+    private ListView<User> userListView;
     @FXML
     private TextField firstNameTextField;
     @FXML
@@ -17,33 +17,34 @@ public class LoginController {
     private TextField emailTextField;
     @FXML
     private TextField phoneTextField;
+    private UserDAO userDAO;
     public LoginController() {
-        contactDAO = new MockContactDAO();
+        userDAO = new UserDAO();
     }
 
-    private void selectContact(Contact contact) {
-        contactsListView.getSelectionModel().select(contact);
-        firstNameTextField.setText(contact.getFirstName());
-        lastNameTextField.setText(contact.getLastName());
-        emailTextField.setText(contact.getEmail());
-        phoneTextField.setText(contact.getPhone());
+    private void selectContact(User user) {
+        userListView.getSelectionModel().select(user);
+        firstNameTextField.setText(user.getFirstName());
+        lastNameTextField.setText(user.getLastName());
+        emailTextField.setText(user.getEmail());
+        phoneTextField.setText(user.getPhone());
     }
     /**
      * Renders a cell in the contacts list view by setting the text to the contact's full name.
-     * @param contactListView The list view to render the cell for.
+     * @param userListView The list view to render the cell for.
      * @return The rendered cell.
      */
-    private ListCell<Contact> renderCell(ListView<Contact> contactListView) {
-        return new ListCell<>() {
+    private ListCell<User> renderCell(ListView<User> userListView) {
+        return new ListCell<User>() {
             /**
              * Handles the event when a contact is selected in the list view.
              * @param mouseEvent The event to handle.
              */
             private void onContactSelected(MouseEvent mouseEvent) {
-                ListCell<Contact> clickedCell = (ListCell<Contact>) mouseEvent.getSource();
+                ListCell<User> clickedCell = (ListCell<User>) mouseEvent.getSource();
                 // Get the selected contact from the list view
-                Contact selectedContact = clickedCell.getItem();
-                if (selectedContact != null) selectContact(selectedContact);
+                User selectedUser = clickedCell.getItem();
+                if (selectedUser != null) selectContact(selectedUser);
             }
 
             /**
@@ -52,7 +53,7 @@ public class LoginController {
              * @param empty Whether the cell is empty.
              */
             @Override
-            protected void updateItem(Contact contact, boolean empty) {
+            protected void updateItem(User contact, boolean empty) {
                 super.updateItem(contact, empty);
                 // If the cell is empty, set the text to null, otherwise set it to the contact's full name
                 if (empty || contact == null || contact.getFullName() == null) {
@@ -69,13 +70,13 @@ public class LoginController {
      * Synchronizes the contacts list view with the contacts in the database.
      */
     private void syncContacts() {
-        contactsListView.getItems().clear();
-        contactsListView.getItems().addAll(contactDAO.getAllContacts());
+        userListView.getItems().clear();
+        userListView.getItems().addAll(userDAO.getAllContacts());
     }
 
     @FXML
     public void initialize() {
-        contactsListView.setCellFactory(this::renderCell);
+        userListView.setCellFactory(this::renderCell);
         syncContacts();
     }
 

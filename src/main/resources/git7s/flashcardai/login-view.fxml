@@ -19,7 +19,7 @@
     <Label text="Select a contact to view or edit." />
     <HBox VBox.vgrow="ALWAYS" spacing="20.0">
         <VBox spacing="10.0">
-            <ListView fx:id="contactsListView"  />
+            <ListView fx:id="userListView"  />
             <Button text="New" maxWidth="Infinity"/>
         </VBox>
         <VBox spacing="10.0" prefWidth="400" >
