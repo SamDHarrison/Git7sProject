@@ -1,5 +1,6 @@
 package git7s.flashcardai;
 
+import git7s.flashcardai.dao.UserDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -22,7 +23,7 @@ public class LoginController {
         userDAO = new UserDAO();
     }
 
-    private void selectContact(User user) {
+    private void selectUser(User user) {
         userListView.getSelectionModel().select(user);
         firstNameTextField.setText(user.getFirstName());
         lastNameTextField.setText(user.getLastName());
@@ -44,7 +45,7 @@ public class LoginController {
                 ListCell<User> clickedCell = (ListCell<User>) mouseEvent.getSource();
                 // Get the selected contact from the list view
                 User selectedUser = clickedCell.getItem();
-                if (selectedUser != null) selectContact(selectedUser);
+                if (selectedUser != null) selectUser(selectedUser);
             }
 
             /**
@@ -71,7 +72,7 @@ public class LoginController {
      */
     private void syncContacts() {
         userListView.getItems().clear();
-        userListView.getItems().addAll(userDAO.getAllContacts());
+        userListView.getItems().addAll(userDAO.getAllUsers());
     }
 
     @FXML

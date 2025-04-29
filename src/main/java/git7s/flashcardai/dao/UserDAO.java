@@ -74,7 +74,7 @@ public class UserDAO {
         }
     }
 
-    public List<User> getAll(){
+    public List<User> getAllUsers(){
         List<User> users = new ArrayList<>();
         try {
             Statement insertStatement = connection.createStatement();
