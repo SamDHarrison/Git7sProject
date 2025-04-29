@@ -2,6 +2,7 @@ package git7s.flashcardai.dao;
 
 import git7s.flashcardai.DatabaseConnection;
 import git7s.flashcardai.User;
+import javafx.scene.chart.PieChart;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class UserDAO {
                             + ")"
             );
         } catch (SQLException ex) {
+
             System.err.println(ex);
         }
     }

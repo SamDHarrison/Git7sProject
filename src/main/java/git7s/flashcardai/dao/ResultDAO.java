@@ -25,11 +25,12 @@ public class ResultDAO {
                             + "cardID INTEGER NOT NULL, "
                             + "at TIMESTAMP NOT NULL, "
                             + "correct BIT NOT NULL,"
-                            + "FOREIGN KEY (userID) REFERENCES users(id),"
-                            + "FOREIGN KEY (cardID) REFERENCES cards(id),"
+                            + "FOREIGN KEY (userID) REFERENCES users(id), "
+                            + "FOREIGN KEY (cardID) REFERENCES cards(id)"
                             + ")"
             );
         } catch (SQLException ex) {
+
             System.err.println(ex);
         }
     }

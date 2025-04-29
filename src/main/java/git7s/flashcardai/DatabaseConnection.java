@@ -7,21 +7,16 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 
 
-    private static Connection instance = null;
+    private static final String url = "jdbc:sqlite:database.db";
 
-    private DatabaseConnection() {
-        String url = "jdbc:sqlite:database.db";
-        try {
-            instance = DriverManager.getConnection(url);
-        } catch (SQLException sqlEx) {
-            System.err.println(sqlEx);
-        }
-    }
 
     public static Connection getInstance() {
-        if (instance == null) {
-            new DatabaseConnection();
+        try {
+            Connection connection = DriverManager.getConnection(url);
+            return connection;
+        } catch (SQLException e) {
+            System.err.print(e);
         }
-        return instance;
+        return null;
     }
 }
