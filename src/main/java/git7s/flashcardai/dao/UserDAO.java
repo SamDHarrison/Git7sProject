@@ -21,7 +21,8 @@ public class UserDAO {
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS users ("
                             + "id INTEGER PRIMARY KEY NOT NULL, "
-                            + "password VARCHAR NOT NULL, "
+                            + "passwordHash VARCHAR NOT NULL, "
+                            + "salt VARCHAR NOT NULL, "
                             + "firstName VARCHAR NOT NULL, "
                             + "lastName VARCHAR NOT NULL, "
                             + "admin BIT NOT NULL, "
@@ -36,13 +37,14 @@ public class UserDAO {
     public void insert(User user){
         try {
             PreparedStatement insertUser = connection.prepareStatement(
-            "INSERT INTO users (id, password, firstname, lastname, admin) VALUES (?, ?, ?, ?, ?)"
+            "INSERT INTO users (id, passwordHash, salt, firstname, lastname, admin) VALUES (?, ?, ?, ?, ?)"
             );
             insertUser.setInt(1, user.getId());
-            insertUser.setString(2, user.getPassword());
-            insertUser.setString(3, user.getFirstName());
-            insertUser.setString(4, user.getLastName());
-            insertUser.setBoolean(5, user.isAdmin());
+            insertUser.setString(2, user.getPasswordHash());
+            insertUser.setString(3, user.getSaltAsString());
+            insertUser.setString(4, user.getFirstName());
+            insertUser.setString(5, user.getLastName());
+            insertUser.setBoolean(6, user.isAdmin());
             insertUser.executeUpdate();
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -51,13 +53,19 @@ public class UserDAO {
 
     public void update(int id, int newID, String newPassword, String newFirstName, String newLastName, boolean newAdmin){
         try{
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE users SET id = ?, password = ?, firstname = ?, lastname = ?, admin = ? WHERE id = ?");
-            updateStatement.setInt(6, id);
+            User existingUser= getById(id);
+            if(existingUser==null) {
+                return;
+            }
+
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE users SET id = ?, passwordHash = ?, salt = ?, firstname = ?, lastname = ?, admin = ? WHERE id = ?");
+            updateStatement.setInt(7, id);
             updateStatement.setInt(1, newID);
-            updateStatement.setString(2, newPassword);
-            updateStatement.setString(3, newFirstName);
-            updateStatement.setString(4, newLastName);
-            updateStatement.setBoolean(5, newAdmin);
+            updateStatement.setString(2, existingUser.getPasswordHash());
+            updateStatement.setString(3, existingUser.getSaltAsString());
+            updateStatement.setString(4, newFirstName);
+            updateStatement.setString(5, newLastName);
+            updateStatement.setBoolean(6, newAdmin);
             updateStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,11 +90,14 @@ public class UserDAO {
             ResultSet resultSet = insertStatement.executeQuery(query);
             while (resultSet.next()){
                 int id = resultSet.getInt("id");
-                String password = resultSet.getString("password");
+                String passwordHash = resultSet.getString("passwordHash");
+                String salt = resultSet.getString("salt");
                 String firstName = resultSet.getString("firstname");
                 String lastName = resultSet.getString("lastname");
                 boolean admin = resultSet.getBoolean("admin");
-                User insertUser = new User(id, password, firstName, lastName, admin);
+                User insertUser = new User(id, passwordHash, firstName, lastName, admin);
+                insertUser.setPasswordHash(passwordHash);
+                insertUser.setSaltFromString(salt);
                 users.add(insertUser);
             }
         } catch (Exception e) {
@@ -101,15 +112,26 @@ public class UserDAO {
             getStatement.setInt(1, id);
             ResultSet resultSet = getStatement.executeQuery();
             if (resultSet.next()){
-                String password = resultSet.getString("password");
+                String passwordHash = resultSet.getString("passwordHash");
+                String salt = resultSet.getString("salt");
                 String firstName = resultSet.getString("firstname");
                 String lastName = resultSet.getString("lastname");
                 boolean admin = resultSet.getBoolean("admin");
-                User getUser = new User(id, password, firstName, lastName, admin);
+                User getUser = new User(id, passwordHash, firstName, lastName, admin);
+                getUser.setPasswordHash(passwordHash);
+                getUser.setSaltFromString(salt);
                 return getUser;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    public User authenticate(int id, String password) {
+        User user = getById(id);
+        if (user != null && user.authenticate(password)) {
+            return user;
         }
         return null;
     }
