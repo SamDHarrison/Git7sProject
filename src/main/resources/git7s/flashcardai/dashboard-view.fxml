@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="git7s.flashcardai.DashboardController" prefWidth="600" prefHeight="400">
+
+    <Label layoutX="230" layoutY="180" text="Main Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+</AnchorPane>
