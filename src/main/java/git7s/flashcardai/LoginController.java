@@ -45,7 +45,7 @@ public class LoginController {
 
         /// Database Check
         if (Main.userDAO.getById(usernameID) != null )  {
-            if(Main.userDAO.getById(usernameID).getPassword().equals(password)) {
+            if(Main.userDAO.getById(usernameID).getPasswordHash().equals(password)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Login Successful");
                 alert.setHeaderText(null);
