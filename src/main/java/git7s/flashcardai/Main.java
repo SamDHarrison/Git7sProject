@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Main extends Application {
     //Constants
-    public static final String TITLE = "Address Book";
+    public static final String TITLE = "Flashcard AI";
     public static final int WIDTH = 640;
     public static final int HEIGHT = 360;
 
