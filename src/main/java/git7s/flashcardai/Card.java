@@ -10,7 +10,7 @@ public class Card {
     private String subject;
     private String front;
     private String back;
-
+    /// Constructor
     public Card(int cardID, int userID, String topic, String subject, String front, String back) {
         this.cardID = cardID;
         this.userID = userID;
