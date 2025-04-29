@@ -40,6 +40,10 @@ public class User {
         return lastName;
     }
 
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
     public boolean isAdmin() {
         return admin;
     }
@@ -63,5 +67,10 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    //Methods
+    public boolean authenticate(String inputPassword) {
+        return this.password.equals(inputPassword);
     }
 }
