@@ -20,52 +20,60 @@ public class Card {
         this.back = back;
     }
 
+    //getters
     public int getCardID() {
         return cardID;
-    }
-
-    public void setCardID(int cardID) {
-        this.cardID = cardID;
     }
 
     public int getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
     public String getFront() {
         return front;
-    }
-
-    public void setFront(String front) {
-        this.front = front;
     }
 
     public String getBack() {
         return back;
     }
 
-    public void setBack(String back) {
-        this.back = back;
-    }
-
     public String getTopic() {
         return topic;
-    }
-
-    public void setTopic(String topic) {
-        this.topic = topic;
     }
 
     public String getSubject() {
         return subject;
     }
 
+
+    //setters
+    public void setCardID(int cardID) {
+        this.cardID = cardID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public void setFront(String front) {
+        this.front = front;
+    }
+
+    public void setBack(String back) {
+        this.back = back;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+    
     public void setSubject(String subject) {
         this.subject = subject;
     }
+
+    //methods
+    //Flip card to back when user ready to review answer within test mode
+    public String flip() {
+        return this.back;}
 
 }

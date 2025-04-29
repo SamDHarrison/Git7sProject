@@ -19,42 +19,46 @@ public class Result {
         this.correct = correct;
     }
 
+    //getters
+
     public int getResultID() {
         return resultID;
-    }
-
-    public void setResultID(int resultID) {
-        this.resultID = resultID;
     }
 
     public int getUserID() {
         return userID;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
     public int getCardID() {
         return cardID;
-    }
-
-    public void setCardID(int cardID) {
-        this.cardID = cardID;
     }
 
     public Timestamp getAt() {
         return at;
     }
 
-    public void setAt(Timestamp at) {
-        this.at = at;
-    }
-
     public boolean isCorrect() {
         return correct;
     }
 
+    //setters
+
+    public void setResultID(int resultID) {
+        this.resultID = resultID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public void setCardID(int cardID) {
+        this.cardID = cardID;
+    }
+
+    public void setAt(Timestamp at) {
+        this.at = at;
+    }
+    
     public void setCorrect(boolean correct) {
         this.correct = correct;
     }
