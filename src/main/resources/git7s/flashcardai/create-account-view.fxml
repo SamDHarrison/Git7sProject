@@ -14,13 +14,19 @@
     <!-- Username Field -->
     <TextField fx:id="usernameField" layoutX="200" layoutY="100" promptText="Username" />
 
+    <!-- First Name -->
+    <TextField fx:id="firstNameField" layoutX="200" layoutY="160" promptText="First Name" />
+
+    <!-- Last Name -->
+    <TextField fx:id="lastNameField" layoutX="360" layoutY="160" promptText="Last Name" />
+
     <!-- Password Field -->
-    <PasswordField fx:id="passwordField" layoutX="200" layoutY="160" promptText="Password" />
+    <PasswordField fx:id="passwordField" layoutX="200" layoutY="220" promptText="Password" />
 
     <!-- Confirm Password Field -->
-    <PasswordField fx:id="confirmPasswordField" layoutX="360" layoutY="160" promptText="Confirm Password" />
+    <PasswordField fx:id="confirmPasswordField" layoutX="360" layoutY="220" promptText="Confirm Password" />
 
     <!-- Get Started Button -->
-    <Button layoutX="260" layoutY="230" text="Get Started!" onAction="#handleGetStarted" />
+    <Button layoutX="260" layoutY="290" text="Get Started!" onAction="#handleGetStarted" />
 
 </AnchorPane>
