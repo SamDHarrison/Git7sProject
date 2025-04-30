@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CardTest {
 
-    private Card geoCard;
+    private Card geographyCard;
     private Card mathCard;
     private Card compsciCard;
     private Card chemistryCard;
@@ -15,7 +15,7 @@ public class CardTest {
 
     @BeforeEach
     public void setUp() {
-        geoCard = new Card(1, 117249823, "Australian Capitals", "GEO301", "Capital of Queensland?", "Brisbane");
+        geographyCard = new Card(1, 117249823, "Australian Capitals", "GEO301", "Capital of Queensland?", "Brisbane");
         mathCard = new Card(2, 117249824, "Basic Math", "MATH301", "What is 9 + 6?", "15");
         compsciCard = new Card(3, 117249825, "Computer Science Basics", "CAB301", "What does RAM stand for?", "Random Access Memory");
         chemistryCard = new Card(4, 117249826, "Periodic Table", "CHEM301", "What is the symbol for Sodium?", "Na");
@@ -27,7 +27,7 @@ public class CardTest {
     ///Test for the Flip functionality of the card
     @Test
     public void testFlipReturnsBackText() {
-        assertEquals("Brisbane", geoCard.flip());
+        assertEquals("Brisbane", geographyCard.flip());
         assertEquals("15", mathCard.flip());
         assertEquals("Random Access Memory", compsciCard.flip());
         assertEquals("Na", chemistryCard.flip());
@@ -37,14 +37,14 @@ public class CardTest {
 
     @Test
     public void testGettersForId() {
-        assertEquals(1, geoCard.getCardID());
+        assertEquals(1, geographyCard.getCardID());
         assertEquals(2, mathCard.getCardID());
         assertEquals(3, compsciCard.getCardID());
         assertEquals(4, chemistryCard.getCardID());
         assertEquals(5, politicsCard.getCardID());
         assertEquals(6, engineeringCard.getCardID());
 
-        assertEquals(117249823, geoCard.getUserID());
+        assertEquals(117249823, geographyCard.getUserID());
         assertEquals(117249824, mathCard.getUserID());
         assertEquals(117249825, compsciCard.getUserID());
         assertEquals(117249826, chemistryCard.getUserID());
@@ -54,7 +54,7 @@ public class CardTest {
 
     @Test
     public void testGettersForCardId() {
-        assertEquals(1, geoCard.getCardID());
+        assertEquals(1, geographyCard.getCardID());
         assertEquals(2, mathCard.getCardID());
         assertEquals(3, compsciCard.getCardID());
         assertEquals(4, chemistryCard.getCardID());
@@ -64,7 +64,7 @@ public class CardTest {
     }
     @Test
     public void testGettersForUserId() {
-        assertEquals(117249823, geoCard.getUserID());
+        assertEquals(117249823, geographyCard.getUserID());
         assertEquals(117249824, mathCard.getUserID());
         assertEquals(117249825, compsciCard.getUserID());
         assertEquals(117249826, chemistryCard.getUserID());
@@ -74,7 +74,7 @@ public class CardTest {
 
     @Test
     public void testGettersForTopic() {
-        assertEquals("Australian Capitals", geoCard.getTopic());
+        assertEquals("Australian Capitals", geographyCard.getTopic());
         assertEquals("Basic Math", mathCard.getTopic());
         assertEquals("Computer Science Basics", compsciCard.getTopic());
         assertEquals("Periodic Table", chemistryCard.getTopic());
@@ -84,7 +84,7 @@ public class CardTest {
 
     @Test
     public void testGettersForSubject() {
-        assertEquals("GEO301", geoCard.getSubject());
+        assertEquals("GEO301", geographyCard.getSubject());
         assertEquals("MATH301", mathCard.getSubject());
         assertEquals("CAB301", compsciCard.getSubject());
         assertEquals("CHEM301", chemistryCard.getSubject());
@@ -94,7 +94,7 @@ public class CardTest {
 
     @Test
     public void testGettersForFront() {
-        assertEquals("Capital of Queensland?", geoCard.getFront());
+        assertEquals("Capital of Queensland?", geographyCard.getFront());
         assertEquals("What is 9 + 6?", mathCard.getFront());
         assertEquals("What does RAM stand for?", compsciCard.getFront());
         assertEquals("What is the symbol for Sodium?", chemistryCard.getFront());
@@ -104,7 +104,7 @@ public class CardTest {
 
     @Test
     public void testGettersForBack() {
-        assertEquals("Brisbane", geoCard.getBack());
+        assertEquals("Brisbane", geographyCard.getBack());
         assertEquals("15", mathCard.getBack());
         assertEquals("Random Access Memory", compsciCard.getBack());
         assertEquals("Na", chemistryCard.getBack());
@@ -114,8 +114,8 @@ public class CardTest {
 
     @Test
     public void testSetterCardID() {
-        geoCard.setCardID(10);
-        assertEquals(10, geoCard.getCardID());
+        geographyCard.setCardID(10);
+        assertEquals(10, geographyCard.getCardID());
     }
 
     @Test
