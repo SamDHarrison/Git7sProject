@@ -22,13 +22,21 @@ public class CreateAccountController {
     private PasswordField confirmPasswordField;
 
     @FXML
+    private TextField firstNameField;
+
+    @FXML
+    private TextField lastNameField;
+
+    @FXML
     private void handleGetStarted() {
         String username = usernameField.getText();
         int usernameID;
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
+        String firstName = firstNameField.getText();
+        String lastName = lastNameField.getText();
 
-        if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+        if (username.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Form Error!", "Please fill in all fields.");
             return;
         }
@@ -45,7 +53,7 @@ public class CreateAccountController {
             return;
         }
 
-        User newUser = new User(usernameID, password, "FirstName", "Lastname", false);
+        User newUser = new User(usernameID, password, firstName, lastName, false);
 
         if (Main.userDAO.getById(usernameID) == null){
             Main.userDAO.insert(newUser);
