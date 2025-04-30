@@ -39,7 +39,7 @@ public class UserDAO {
     public void insert(User user){
         try {
             PreparedStatement insertUser = connection.prepareStatement(
-            "INSERT INTO users (id, passwordHash, salt, firstname, lastname, admin) VALUES (?, ?, ?, ?, ?)"
+            "INSERT INTO users (id, passwordHash, salt, firstName, lastName, admin) VALUES (?, ?, ?, ?, ?, ?)"
             );
             insertUser.setInt(1, user.getId());
             insertUser.setString(2, user.getPasswordHash());
@@ -76,7 +76,7 @@ public class UserDAO {
 
     public void delete(int id){
         try{
-            PreparedStatement getStatement = connection.prepareStatement("DELETE * FROM users WHERE id = ?");
+            PreparedStatement getStatement = connection.prepareStatement("DELETE FROM users WHERE id = ?");
             getStatement.setInt(1, id);
             getStatement.executeUpdate();
         } catch (SQLException e) {
