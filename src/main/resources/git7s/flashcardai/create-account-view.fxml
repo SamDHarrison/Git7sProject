@@ -9,24 +9,26 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="git7s.flashcardai.CreateAccountController" prefHeight="400" prefWidth="600">
 
     <!-- Title -->
-    <Label layoutX="230" layoutY="40" text="CREATE ACCOUNT" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+    <Label layoutX="230" layoutY="50" text="CREATE ACCOUNT" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
 
     <!-- Username Field -->
-    <TextField fx:id="usernameField" layoutX="200" layoutY="100" promptText="Username" />
+    <TextField fx:id="usernameField" layoutX="150" layoutY="110" promptText="Student number" />
 
     <!-- First Name -->
-    <TextField fx:id="firstNameField" layoutX="200" layoutY="160" promptText="First Name" />
+    <TextField fx:id="firstNameField" layoutX="150" layoutY="160" promptText="First Name" />
 
     <!-- Last Name -->
-    <TextField fx:id="lastNameField" layoutX="360" layoutY="160" promptText="Last Name" />
+    <TextField fx:id="lastNameField" layoutX="310" layoutY="160" promptText="Last Name" />
 
     <!-- Password Field -->
-    <PasswordField fx:id="passwordField" layoutX="200" layoutY="220" promptText="Password" />
+    <PasswordField fx:id="passwordField" layoutX="150" layoutY="200" promptText="Password" />
 
     <!-- Confirm Password Field -->
-    <PasswordField fx:id="confirmPasswordField" layoutX="360" layoutY="220" promptText="Confirm Password" />
+    <PasswordField fx:id="confirmPasswordField" layoutX="310" layoutY="200" promptText="Confirm Password" />
 
     <!-- Get Started Button -->
-    <Button layoutX="260" layoutY="290" text="Get Started!" onAction="#handleGetStarted" />
+    <Button layoutX="230" layoutY="250" prefWidth="150" text="Get Started!" onAction="#handleGetStarted"
+            style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold; "
+    />
 
 </AnchorPane>
