@@ -6,7 +6,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="git7s.flashcardai.CreateAccountController" prefWidth="600" prefHeight="400">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="git7s.flashcardai.CreateAccountController" prefWidth="700" prefHeight="500">
 
     <!-- Title -->
     <Label layoutX="230" layoutY="40" text="CREATE ACCOUNT" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
