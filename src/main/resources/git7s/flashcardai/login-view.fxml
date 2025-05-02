@@ -16,11 +16,13 @@
 
     <PasswordField fx:id="passwordField" layoutX="380" layoutY="150" promptText="Password" />
 
-    <Button layoutX="425" layoutY="180" onAction="#handleLogin" text="Login"
-        style="-fx-background-color: #60C3D8;"
+    <Button layoutX="380" layoutY="180" prefWidth="150" onAction="#handleLogin" text="Login"
+        style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold; "
     />
 
-    <Label layoutX="330" layoutY="250" text="New here?" />
+    <Label layoutX="380" layoutY="220" text="New here?" />
 
-    <Button layoutX="395" layoutY="245" onAction="#handleCreateAccount" text="Create Account" />
+    <Label layoutX="440" layoutY="220" text="Create Account"
+           onMouseClicked="#handleCreateAccount"
+           style="-fx-text-fill: #007BFF; -fx-underline: true; -fx-cursor: hand;" />
 </AnchorPane>
