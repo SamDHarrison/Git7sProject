@@ -12,7 +12,7 @@
 
     <Label layoutX="425" layoutY="80" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="LOGIN" />
 
-    <TextField fx:id="usernameField" layoutX="380" layoutY="115" promptText="Username" />
+    <TextField fx:id="usernameField" layoutX="380" layoutY="115" promptText="Student number" />
 
     <PasswordField fx:id="passwordField" layoutX="380" layoutY="150" promptText="Password" />
 
