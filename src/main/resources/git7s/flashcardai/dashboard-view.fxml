@@ -32,7 +32,7 @@
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
             <Label text="Study Progress" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-            <ProgressBar fx:id="studyProgressBar" prefWidth="500"/>
+            <ProgressBar fx:id="studyProgressBar" prefWidth="50"/>
 
             <VBox spacing="10">
                 <Label text="Quick Stats" style="-fx-font-weight: bold;"/>
@@ -53,19 +53,16 @@
         </VBox>
     </center>
 
-    <!-- Right Panel: Manage Account -->
-    <right>
-        <VBox spacing="20" alignment="CENTER_RIGHT" prefWidth="200" style="-fx-background-color: #f9f9f9;">
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
-            <Label text="Manage Account" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
-            <Button text="My Info" prefWidth="150"/>
-            <Button text="Account Security" prefWidth="150"/>
-            <Button text="Settings" prefWidth="150"/>
-            <Button text="Share Flashcard Deck" prefWidth="150"/>
-        </VBox>
-    </right>
+<!--    &lt;!&ndash; Right Panel: Manage Account &ndash;&gt;-->
+<!--    <right>-->
+<!--        <VBox spacing="20" alignment="CENTER_RIGHT" prefWidth="200" style="-fx-background-color: #f9f9f9;">-->
+<!--            <padding>-->
+<!--                <Insets top="20" right="20" bottom="20" left="20"/>-->
+<!--            </padding>-->
+<!--            <Label text="Manage Account" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>-->
+<!--            <Button text="Settings" prefWidth="150"/>-->
+<!--        </VBox>-->
+<!--    </right>-->
 
 </BorderPane>
 
