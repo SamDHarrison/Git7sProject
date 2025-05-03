@@ -2,6 +2,9 @@ package git7s.flashcardai;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserTest {
@@ -47,12 +50,32 @@ public class UserTest {
         assertFalse(milly.getSaltAsString().isEmpty());
     }
 
+    @Test
+    void getSaltShouldReturn16Bytes() {
+        assertEquals(16, milly.getSalt().length, "Salt should be 16 bytes long.");
+    }
+
+    @Test
+    void setSaltFromStringShouldDecodeBase64Correctly() {
+        String originalSalt = milly.getSaltAsString();
+        milly.setSaltFromString(originalSalt);
+        assertEquals(originalSalt, milly.getSaltAsString(), "Salt should match after decoding and re-encoding.");
+    }
+
     /// Hash Test
     @Test
     void passwordHashShouldChangeWithNewPassword() {
         String originalHash = jacob.getPasswordHash();
         jacob.setPassword("NewJacobPass123");
         assertNotEquals(originalHash, jacob.getPasswordHash(), "Hash should change after password update");
+    }
+
+    @Test
+    void hashPasswordShouldBeConsistentWithSameSaltAndInput() {
+        byte[] salt = jacob.getSalt();
+        String hash1 = jacob.hashPassword("Jacob456", salt);
+        String hash2 = jacob.hashPassword("Jacob456", salt);
+        assertEquals(hash1, hash2, "Hash should be consistent with same password and salt.");
     }
 
     ///To String Test
