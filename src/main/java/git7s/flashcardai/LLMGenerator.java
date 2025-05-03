@@ -14,14 +14,6 @@ public class LLMGenerator {
     private CompletableFuture<HttpResponse<String>> futureResponse;
     private AtomicBoolean responded = new AtomicBoolean(false);
 
-    /**
-     * Fetches a response from the Ollama API.
-     * GET: https://dummyjson.com/users/{id}
-     *
-     * @param data the notes to translate into flashcards
-     * @return the response object
-     */
-
     public void fetchFlashCards(String data) {
         String url = "http://localhost:11434/api/generate";
         String payload = generatePayload(data, 10);

@@ -1,5 +1,3 @@
-package git7s.flashcardai;
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -9,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.util.Duration;
 
-import java.net.http.HttpResponse;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
