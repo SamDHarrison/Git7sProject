@@ -4,17 +4,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="git7s.flashcardai.DashboardController">
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="git7s.flashcardai.AddSubjectController">
 
     <!-- Left Panel: My Studies -->
     <left>
         <VBox alignment="CENTER" prefWidth="300" spacing="30" style="-fx-background-color: #f0f0f1; -fx-padding: 5 20 10 20;">
             <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="MY STUDIES" />
 
-            <Button fx:id="subjectsButton" prefHeight="40" prefWidth="250" text="My Subjects"
+            <Button fx:id="createDeckButton" prefHeight="40" prefWidth="250" text="Flashcard Deck"
                     style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
-            <Button fx:id="settingsButton" prefHeight="40" prefWidth="250"
-                    style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="Settings" />
+            <Button fx:id="viewFlashcardsButton" prefHeight="40" prefWidth="250" text="My Subjects"
+                    style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Button fx:id="testAllFlashcardsButton" prefHeight="40" prefWidth="250"
+                    style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="TEST ALL FLASHCARDS" />
         </VBox>
     </left>
 
@@ -45,16 +47,10 @@
                 <Label style="-fx-font-weight: bold;" text="Weakest subject:" />
                 <Label fx:id="weakestTopicLabel" text="Science" />
             </HBox>
+
+            <Button fx:id="settingsButton" prefHeight="40" prefWidth="250" text="Settings"
+                    style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
         </VBox>
     </right>
-
-    <!-- Log Out Button Positioned at Bottom Right -->
-    <bottom>
-        <AnchorPane>
-            <Button fx:id="logOutButton" prefHeight="25" prefWidth="80" text="Log Out"
-                    style="-fx-background-color: white; -fx-text-fill: black; -fx-font-weight: bold; -fx-border-color: black;"
-                    AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10" />
-        </AnchorPane>
-    </bottom>
 
 </BorderPane>
