@@ -39,13 +39,13 @@ public class LoginController {
 
     @FXML
     private void handleLogin() {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-        int usernameID = Integer.parseInt(username);
+        int username = Integer.parseInt(usernameField.getText());
 
         /// Database Check
-        if (Main.userDAO.getById(usernameID) != null )  {
-            if(Main.userDAO.getById(usernameID).getPasswordHash().equals(password)) {
+        if (Main.userDAO.getById(username) != null )  {
+            User attemptUser = Main.userDAO.getById(username);
+            String attemptPassword = attemptUser.hashPassword(passwordField.getText(), attemptUser.getSalt());
+            if(attemptUser.getPasswordHash().equals(attemptPassword)) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Login Successful");
                 alert.setHeaderText(null);

@@ -58,6 +58,10 @@ public class User {
         return Base64.getEncoder().encodeToString(salt);
     }
 
+    public byte[] getSalt() {
+        return this.salt;
+    }
+
     /// Setters
     public void setId(int id) {
         this.id = id;
@@ -100,7 +104,7 @@ public class User {
     }
 
 
-    private String hashPassword(String password, byte[] salt){
+    public String hashPassword(String password, byte[] salt){
         try{
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(salt);
