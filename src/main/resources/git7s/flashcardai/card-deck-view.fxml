@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="git7s.flashcardai.DashboardController">
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="git7s.flashcardai.CardDeckController">
 
     <!-- Left Panel: My Studies -->
     <left>
@@ -21,7 +21,7 @@
     <!-- Vertical Separator -->
     <center>
         <VBox prefWidth="2" alignment="CENTER">
-            <Rectangle width="2" height="250" style="-fx-fill: rgb(192,192,191);" />
+            <Rectangle width="2" height="250" style="-fx-fill: rgb(192,192,192);" />
         </VBox>
     </center>
 

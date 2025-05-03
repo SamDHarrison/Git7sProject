@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
-public class DashboardController {
+public class CardDeckController {
     public Label progressTextLabel;
     @FXML private ProgressBar studyProgressBar;
     @FXML private Label strongestTopicLabel;

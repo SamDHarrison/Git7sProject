@@ -5,15 +5,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
-public class DashboardController {
+public class AddSubjectController {
     public Label progressTextLabel;
     @FXML private ProgressBar studyProgressBar;
     @FXML private Label strongestTopicLabel;
     @FXML private Label weakestTopicLabel;
 
-    @FXML private Button subjectsButton;
+    @FXML private Button createDeckButton;
+    @FXML private Button viewFlashcardsButton;
+    @FXML private Button testAllFlashcardsButton;
     @FXML private Button settingsButton;
-    @FXML private Button logOutButton;
 
     @FXML
     public void initialize() {
