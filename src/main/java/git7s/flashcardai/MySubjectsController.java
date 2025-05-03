@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.control.Button;
 
 public class MySubjectsController {
 
@@ -21,6 +22,9 @@ public class MySubjectsController {
 
     @FXML
     private ListView<String> topicsListView;
+
+    @FXML
+    private Button createFlashcardsButton;
 
     // Subjects for dropdown menu are hardcoded for now. Need to work on logic to allow user to create subject.
     private final Map<String, List<String>> subjectTopics = new HashMap<>();
