@@ -29,7 +29,7 @@ public class DashboardController {
         strongestTopicLabel.setText("Programming");
         weakestTopicLabel.setText("Science");
     }
-
+//Test My Subject button function
     @FXML
     private void handleMySubjects() {
         try {

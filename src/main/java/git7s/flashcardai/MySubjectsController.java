@@ -5,10 +5,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class MySubjectsController {
 
@@ -39,6 +43,22 @@ public class MySubjectsController {
             topicsListView.setItems(FXCollections.observableArrayList(subjectTopics.get(selectedSubject)));
         } else {
             topicsListView.setItems(FXCollections.observableArrayList());
+        }
+    }
+
+    @FXML
+    private void handleCreateFlashcardsPopup() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/create-new-flashcards.fxml"));
+            Parent popupRoot = fxmlLoader.load();
+
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Create Flashcards");
+            popupStage.setScene(new Scene(popupRoot));
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Blocks interaction with the main window
+            popupStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

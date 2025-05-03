@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
-
+<?import javafx.scene.control.Button?>
 <AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" fx:controller="git7s.flashcardai.MySubjectsController" >
 
 
@@ -20,5 +20,9 @@
     <!-- Topics List -->
     <Label layoutX="125" layoutY="140" text="Topics:" />
     <ListView fx:id="topicsListView" layoutX="195" layoutY="135" prefWidth="250" prefHeight="200" />
+
+    <!-- Button to create -->
+    <Button fx:id="createFlashcardsButton" layoutX="250" layoutY="350" text="Create New Flashcards" onAction="#handleCreateFlashcardsPopup"
+            style="-fx-background-color: #60C3D8; -fx-text-fill: white;"/>
 
 </AnchorPane>
