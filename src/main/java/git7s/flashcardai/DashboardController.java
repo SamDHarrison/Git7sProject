@@ -22,10 +22,9 @@ public class DashboardController {
     @FXML private Label strongestTopicLabel;
     @FXML private Label weakestTopicLabel;
 
-    @FXML private Button createDeckButton;
-    @FXML private Button viewFlashcardsButton;
-    @FXML private Button testAllFlashcardsButton;
+    @FXML private Button subjectsButton;
     @FXML private Button settingsButton;
+    @FXML private Button logOutButton;
 
     /// Will go into new GUI
     int manageAsyncResponse = 0;
