@@ -9,16 +9,16 @@
 
 
     <!-- Page Title -->
-    <Label layoutX="230" layoutY="30" text="My Subjects"
+    <Label layoutX="250" layoutY="30" text="My Subjects"
            style="-fx-font-size: 18px; -fx-font-weight: bold;" />
 
     <!-- Subject Dropdown -->
-    <Label layoutX="80" layoutY="90" text="Select Subject:" />
-    <ComboBox fx:id="subjectComboBox" layoutX="200" layoutY="85" prefWidth="250"
+    <Label layoutX="70" layoutY="90" text="Select Subject:" />
+    <ComboBox fx:id="subjectComboBox" layoutX="180" layoutY="85" prefWidth="250"
               onAction="#handleSubjectSelection" />
 
     <!-- Topics List -->
-    <Label layoutX="80" layoutY="140" text="Topics:" />
-    <ListView fx:id="topicsListView" layoutX="200" layoutY="135" prefWidth="250" prefHeight="200" />
+    <Label layoutX="70" layoutY="140" text="Topics:" />
+    <ListView fx:id="topicsListView" layoutX="180" layoutY="135" prefWidth="250" prefHeight="200" />
 
 </AnchorPane>

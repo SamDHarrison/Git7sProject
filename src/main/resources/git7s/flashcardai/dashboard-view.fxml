@@ -17,6 +17,8 @@
                     style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
             <Button fx:id="testAllFlashcardsButton" prefHeight="40" prefWidth="250"
                     style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="TEST ALL FLASHCARDS" />
+            <Button fx:id="mySubjectsButton" prefHeight="40" prefWidth="250" text="My Subjects"
+                    style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleMySubjects" />
         </VBox>
     </left>
 
