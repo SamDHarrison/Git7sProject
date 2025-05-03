@@ -45,7 +45,9 @@ public class LLMGenerator {
 
     private String generatePayload(String data, int quantity) {
 
-        String prompt = "Do not send any text other than the data requested, using the requested format Create a set of "+quantity+" questions and answers for flashcards " +
+        String prompt = "Do not send any text other than the data requested, using the requested format Create a set of "+quantity+" questions and answers for flashcards" +
+                "They must be questions and answers or name and definition. feel free to use your own knowledge to expand the set. Illegal characters in questions and answers are (, ), : as " +
+                "these are used by the template below and the pattern matching algorithm. ONLY 1 ANSWER/DEFINITION PER QUESTION/NAME "+
                 "using the following data format to be automatically read: " +
                 "Format: (front:back)(front:back) Example: (Java:A programming language)(Object Oriented Programming:Programming based " +
                 "on object design principles) " +
