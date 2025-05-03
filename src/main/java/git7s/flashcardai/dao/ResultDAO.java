@@ -103,6 +103,26 @@ public class ResultDAO {
         return results;
     }
 
+    public List<Result> getByUserID(int userIDQuery){
+        List<Result> results = new ArrayList<>();
+        try {
+            PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM results WHERE userID = ?");
+            getStatement.setInt(1, userIDQuery);
+            ResultSet resultSet = getStatement.executeQuery();
+            while (resultSet.next()){
+                int resultID = resultSet.getInt("resultID");
+                int userID = resultSet.getInt("userID");
+                int cardID = resultSet.getInt("cardID");
+                Timestamp at = resultSet.getTimestamp("at");
+                boolean correct = resultSet.getBoolean("correct");
+                Result result = new Result(resultID, userID, cardID, at, correct);
+                results.add(result);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
     public void close(){
         try {
             connection.close();
