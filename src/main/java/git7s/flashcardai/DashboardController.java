@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
 public class DashboardController {
+    public Label progressTextLabel;
     @FXML private ProgressBar studyProgressBar;
     @FXML private Label strongestTopicLabel;
     @FXML private Label weakestTopicLabel;
