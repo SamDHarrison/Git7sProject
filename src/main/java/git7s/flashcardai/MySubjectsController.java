@@ -18,14 +18,14 @@ public class MySubjectsController {
     @FXML
     private ListView<String> topicsListView;
 
-    // Subjects for dropdown menu are hardcoded for now. Need to work on logic to allow User to create subject.
+    // Subjects for dropdown menu are hardcoded for now. Need to work on logic to allow user to create subject.
     private final Map<String, List<String>> subjectTopics = new HashMap<>();
 
     @FXML
     public void initialize() {
-        subjectTopics.put("Math", List.of("Algebra", "Calculus", "Geometry"));
-        subjectTopics.put("Science", List.of("Physics", "Chemistry", "Biology"));
-        subjectTopics.put("History", List.of("Ancient Rome", "World War II", "Cold War"));
+        subjectTopics.put("CAB302 Software Development", List.of("Collaborative Programming", "High Performing Teams", "Graphical User Interface"));
+        subjectTopics.put("IFB240 Cyber Security", List.of("Threats and Vulnerabilities", "Risk Management", "User Authentication"));
+        subjectTopics.put("CAB222 Networks", List.of("Subnetting and Supernetting", "Routing"));
 
         ObservableList<String> subjects = FXCollections.observableArrayList(subjectTopics.keySet());
         subjectComboBox.setItems(subjects);
