@@ -11,16 +11,13 @@ public class CardDAO {
 
     private Connection connection;
 
-    public CardDAO(){
-        connection = DatabaseConnection.getInstance();
-    }
-
     public void createTable(){
+        open();
         try {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS cards ("
-                            + "cardID INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL, "
+                            + "cardID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                             + "userID INTEGER NOT NULL, "
                             + "topic VARCHAR NOT NULL, "
                             + "subject VARCHAR NOT NULL, "
@@ -32,26 +29,29 @@ public class CardDAO {
         } catch (SQLException ex) {
             System.err.println(ex);
         }
+        close();
     }
 
     public void insert(Card card){
+        open();
         try {
             PreparedStatement insertCard = connection.prepareStatement(
-            "INSERT INTO cards (cardID, userID, topic, subject, front, back) VALUES (?, ?, ?, ?, ?, ?)"
+                    "INSERT INTO cards (userID, topic, subject, front, back) VALUES (?, ?, ?, ?, ?)"
             );
-            insertCard.setInt(1, card.getCardID());
-            insertCard.setInt(2, card.getUserID());
-            insertCard.setString(3, card.getTopic());
-            insertCard.setString(4, card.getSubject());
-            insertCard.setString(5, card.getFront());
-            insertCard.setString(6, card.getBack());
+            insertCard.setInt(1, card.getUserID());
+            insertCard.setString(2, card.getTopic());
+            insertCard.setString(3, card.getSubject());
+            insertCard.setString(4, card.getFront());
+            insertCard.setString(5, card.getBack());
             insertCard.executeUpdate();
         } catch (SQLException ex) {
             System.err.println(ex);
         }
+        close();
     }
 
     public void update(int cardID, String newTopic, String newSubject, String newFront, String newBack){
+
         try{
             PreparedStatement updateStatement = connection.prepareStatement("UPDATE cards SET topic = ?, subject = ?, front = ?, back = ? WHERE cardID = ?");
             updateStatement.setInt(5, cardID);
@@ -76,6 +76,7 @@ public class CardDAO {
     }
 
     public List<Card> getByUserID(int userIDQuery){
+        open();
         List<Card> cards = new ArrayList<>();
         try {
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE userID = ?");
@@ -88,12 +89,14 @@ public class CardDAO {
                 String subject = resultSet.getString("subject");
                 String front = resultSet.getString("front");
                 String back = resultSet.getString("back");
-                Card card = new Card(cardID, userID, topic, subject, front, back);
+                Card card = new Card(userID, topic, subject, front, back);
+                card.setCardID(cardID);
                 cards.add(card);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        close();
         return cards;
     }
 
@@ -110,7 +113,8 @@ public class CardDAO {
                 String subject = resultSet.getString("subject");
                 String front = resultSet.getString("front");
                 String back = resultSet.getString("back");
-                Card card = new Card(cardID, userID, topic, subject, front, back);
+                Card card = new Card(userID, topic, subject, front, back);
+                card.setCardID(cardID);
                 cards.add(card);
             }
         } catch (Exception e) {
@@ -132,7 +136,8 @@ public class CardDAO {
                 String subject = resultSet.getString("subject");
                 String front = resultSet.getString("front");
                 String back = resultSet.getString("back");
-                Card card = new Card(cardID, userID, topic, subject, front, back);
+                Card card = new Card(userID, topic, subject, front, back);
+                card.setCardID(cardID);
                 cards.add(card);
             }
         } catch (Exception e) {
@@ -154,7 +159,8 @@ public class CardDAO {
                 String subject = resultSet.getString("subject");
                 String front = resultSet.getString("front");
                 String back = resultSet.getString("back");
-                Card card = new Card(cardID, userID, topic, subject, front, back);
+                Card card = new Card(userID, topic, subject, front, back);
+                card.setCardID(cardID);
                 cards.add(card);
             }
         } catch (Exception e) {
@@ -175,7 +181,8 @@ public class CardDAO {
                 String subject = resultSet.getString("subject");
                 String front = resultSet.getString("front");
                 String back = resultSet.getString("back");
-                Card card = new Card(cardID, userID, topic, subject, front, back);
+                Card card = new Card(userID, topic, subject, front, back);
+                card.setCardID(cardID);
                 return card;
             }
         } catch (SQLException e) {
@@ -185,6 +192,10 @@ public class CardDAO {
         return null;
     }
 
+
+    public void open(){
+        connection = DatabaseConnection.getInstance();
+    }
     public void close(){
         try {
             connection.close();

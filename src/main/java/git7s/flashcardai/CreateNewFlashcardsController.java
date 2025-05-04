@@ -1,18 +1,28 @@
 package git7s.flashcardai;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.util.Duration;
 
 public class CreateNewFlashcardsController {
 
     @FXML
+    public TextField subjectField;
+    public Button createFlashcardsButton;
+    @FXML
     private TextField topicField;
-
     @FXML
     private TextArea contentArea;
-
     @FXML
     private Spinner<Integer> flashcardCountSpinner;
+
+    int manageAsyncResponse = 0;
+    Timeline timeline = new Timeline();
+    LLMGenerator llm = new LLMGenerator();
+    FlashCardDraft newCards;
 
     @FXML
     private void initialize() {
@@ -24,18 +34,17 @@ public class CreateNewFlashcardsController {
 
     @FXML
     private void handleCreateFlashcards() {
+        String subject = subjectField.getText();
         String topic = topicField.getText();
         String content = contentArea.getText();
         int count = flashcardCountSpinner.getValue();
 
-        if (topic.isEmpty() || content.isEmpty()) {
+        if (topic.isEmpty() || content.isEmpty() || subject.isEmpty()) {
             showAlert("All fields must be filled.");
             return;
         }
 
-        // To do: Add flashcard generation logic here
-
-        showAlert("Flashcards created for topic: " + topic + " (" + count + " cards)");
+        handleGenerateFlashCards();
     }
 
     private void showAlert(String message) {
@@ -44,5 +53,47 @@ public class CreateNewFlashcardsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    /// will go into new gui when ready
+    public void handleGenerateFlashCards() {
+
+        switch (manageAsyncResponse) {
+            case 0:
+                llm.fetchFlashCards(contentArea.getText());
+                createFlashcardsButton.setStyle("-fx-background-color: #f9f9f9; -fx-text-fill: black;");
+                createFlashcardsButton.setText("Loading...");
+                timeline = getTimeline();
+                timeline.play();
+                break;
+            case 1:
+                newCards = new FlashCardDraft(llm.getResponse());
+                newCards.showFlashCards();
+                manageAsyncResponse = 2;
+                break;
+            case 2:
+                /// Do nothing
+            default:
+                manageAsyncResponse = 0;
+                break;
+        }
+
+        // To do: Add flashcard generation logic here
+        showAlert("Flashcards created!");
+    }
+    ///FOR NEW GUI TO HANDLE THE FLASHCARD GENERATION
+    private Timeline getTimeline() {
+        timeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), event -> {
+                    if (llm.checkResponse()) {
+                        createFlashcardsButton.setText("Click to continue!");
+                        createFlashcardsButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
+                        manageAsyncResponse = 1;
+                        timeline.stop(); // Stop the timeline once done
+                    }
+                })
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        return timeline;
     }
 }
