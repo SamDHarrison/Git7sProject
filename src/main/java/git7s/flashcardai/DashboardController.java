@@ -145,6 +145,27 @@ public class DashboardController {
         }
     }
 
+    //Logout Button functionality.
+    @FXML
+    private void handleLogout() {
+        try {
+            // Clear the logged-in user
+            Main.loggedInUser = null;
+
+            // Load login screen
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/login-view.fxml"));
+            Parent root = loader.load();
+
+            // Switch scenes
+            Stage stage = (Stage) logOutButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.sizeToScene();
+            stage.setTitle("Login");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
