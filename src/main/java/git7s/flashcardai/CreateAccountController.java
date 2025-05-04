@@ -77,6 +77,21 @@ public class CreateAccountController {
         }
     }
 
+    @FXML
+    private void handleBackToLogin() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/login-view.fxml"));
+            Parent root = fxmlLoader.load();
+
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+            stage.setTitle("Login");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

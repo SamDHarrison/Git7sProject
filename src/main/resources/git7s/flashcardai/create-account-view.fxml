@@ -28,7 +28,10 @@
 
     <!-- Get Started Button -->
     <Button layoutX="230" layoutY="250" prefWidth="150" text="Get Started!" onAction="#handleGetStarted"
-            style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold; "
-    />
+            style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold; " />
+
+    <!-- Back to Login Screen Button -->
+    <Button text="Back" layoutX="20" layoutY="20" onAction="#handleBackToLogin"
+            style="-fx-background-color: #d3d3d3; -fx-text-fill: #000000; -fx-border-color: grey;" />
 
 </AnchorPane>
