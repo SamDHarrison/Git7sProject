@@ -54,6 +54,7 @@ public class UserDAO {
     }
 
     public void update(int id, int newID, String newPassword, String newFirstName, String newLastName, boolean newAdmin){
+        open();
         try{
             User existingUser= getById(id);
             if(existingUser==null) {
@@ -72,9 +73,11 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        close();
     }
 
     public void delete(int id){
+        open();
         try{
             PreparedStatement getStatement = connection.prepareStatement("DELETE FROM users WHERE id = ?");
             getStatement.setInt(1, id);
@@ -82,6 +85,7 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        close();
     }
 
     public List<User> getAll(){

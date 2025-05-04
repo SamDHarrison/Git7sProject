@@ -14,9 +14,9 @@ public class LLMGenerator {
     private CompletableFuture<HttpResponse<String>> futureResponse;
     private AtomicBoolean responded = new AtomicBoolean(false);
 
-    public void fetchFlashCards(String data) {
+    public void fetchFlashCards(String data, Integer count) {
         String url = "http://localhost:11434/api/generate";
-        String payload = generatePayload(data, 10);
+        String payload = generatePayload(data, count);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
