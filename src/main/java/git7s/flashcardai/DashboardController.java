@@ -16,13 +16,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 
 public class DashboardController {
     public Label progressTextLabel;
     @FXML private ProgressBar studyProgressBar;
     @FXML private Label strongestTopicLabel;
     @FXML private Label weakestTopicLabel;
-    @FXML private Button mySubjectsButton;
 
     @FXML private Button subjectsButton;
     @FXML private Button settingsButton;
@@ -124,6 +129,21 @@ public class DashboardController {
         return studyData;
     }
 
+    //"My Subjects" button functionality
+    @FXML
+    private void handleMySubjects() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/my-subjects-view.fxml"));
+            Parent root = fxmlLoader.load();
+
+            Stage stage = (Stage) subjectsButton.getScene().getWindow();
+            stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+            stage.setTitle("My Subjects");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 
