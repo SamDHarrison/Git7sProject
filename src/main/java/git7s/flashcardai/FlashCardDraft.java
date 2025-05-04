@@ -21,7 +21,6 @@ public class FlashCardDraft {
 
     }
 
-
     public void generateFlashcards() {
         String jsonBody = response.body();
         JsonObject jsonObject = JsonParser.parseString(jsonBody).getAsJsonObject();

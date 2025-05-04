@@ -15,9 +15,8 @@
                            style="-fx-text-fill: #555; -fx-font-size: 14px;" />
             </HBox>
             <HBox alignment="CENTER" spacing="20" style="-fx-padding: 5;">
-                <Label text="CAB203 Object Oriented Programming in Java"
+                <Label fx:id="titleLabel" text="CAB203 Object Oriented Programming in Java"
                        style="-fx-font-size: 20px; -fx-font-weight: bold;" />
-                <Label text="Deck 1" style="-fx-font-size: 16px; -fx-text-fill: #555;" />
             </HBox>
         </VBox>
     </top>
@@ -35,14 +34,12 @@
     <!-- Bottom navigation -->
     <bottom>
         <HBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
-            <Button fx:id="prevCardButton" text="←"
-                    style="-fx-font-size: 14px; -fx-font-weight: bold;" />
             <Label fx:id="flashcardCounterLabel" text="1 of 15" style="-fx-font-size: 16px;" />
-            <Button fx:id="nextCardButton" text="→"
-                    style="-fx-font-size: 14px; -fx-font-weight: bold;" />
             <Button fx:id="flipCardButton" text="Flip"
                     style="-fx-font-size: 14px; -fx-font-weight: bold;" />
-            <Button fx:id="shuffleDeckButton" text="⟳"
+            <Button fx:id="correctAnswerButton" text="✔"
+                    style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+            <Button fx:id="incorrectAnswerButton" text="✘"
                     style="-fx-font-size: 14px; -fx-font-weight: bold;" />
         </HBox>
     </bottom>

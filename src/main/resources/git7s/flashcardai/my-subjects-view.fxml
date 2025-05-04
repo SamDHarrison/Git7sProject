@@ -19,10 +19,13 @@
 
     <!-- Topics List -->
     <Label layoutX="125" layoutY="140" text="Topics:" />
-    <ListView fx:id="topicsListView" layoutX="195" layoutY="135" prefWidth="250" prefHeight="200" />
+    <ListView fx:id="topicsListView" layoutX="195" layoutY="135" prefWidth="250" prefHeight="200"/>
 
     <!-- Button to create -->
-    <Button fx:id="createFlashcardsButton" layoutX="250" layoutY="350" text="Create New Flashcards" onAction="#handleCreateFlashcardsPopup"
+    <Button fx:id="createFlashcardsButton" layoutX="200" layoutY="350" text="Create New Flashcards" onAction="#handleCreateFlashcardsPopup"
+            style="-fx-background-color: #60C3D8; -fx-text-fill: white;"/>
+
+    <Button fx:id="testCurrentTopic" layoutX="350" layoutY="350" text="Test Topic" onAction="#handleTestCurrentTopic"
             style="-fx-background-color: #60C3D8; -fx-text-fill: white;"/>
 
     <!-- Back to Dashboard Screen Button -->

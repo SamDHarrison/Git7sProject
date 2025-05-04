@@ -34,6 +34,7 @@ public class ResultDAO {
     }
 
     public void insert(Result result){
+        open();
         try {
             PreparedStatement insertResult = connection.prepareStatement(
                     "INSERT INTO results (userID, cardID, at, correct) VALUES (?, ?, ?, ?)"
@@ -46,9 +47,11 @@ public class ResultDAO {
         } catch (SQLException ex) {
             System.err.println(ex);
         }
+        close();
     }
 
     public void delete(int resultID){
+        open();
         try{
             PreparedStatement getStatement = connection.prepareStatement("DELETE * FROM results WHERE resultID = ?");
             getStatement.setInt(1, resultID);
@@ -56,9 +59,11 @@ public class ResultDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        close();
     }
 
     public List<Result> getByCardID(int cardIDQuery){
+        open();
         List<Result> results = new ArrayList<>();
         try {
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM results WHERE cardID = ?");
@@ -70,16 +75,19 @@ public class ResultDAO {
                 int cardID = resultSet.getInt("cardID");
                 Timestamp at = resultSet.getTimestamp("at");
                 boolean correct = resultSet.getBoolean("correct");
-                Result result = new Result(resultID, userID, cardID, at, correct);
+                Result result = new Result(userID, cardID, at, correct);
+                result.setResultID(resultID);
                 results.add(result);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        close();
         return results;
     }
 
     public List<Result> getAll(){
+        open();
         List<Result> results = new ArrayList<>();
         try {
             Statement insertStatement = connection.createStatement();
@@ -91,12 +99,14 @@ public class ResultDAO {
                 int cardID = resultSet.getInt("cardID");
                 Timestamp at = resultSet.getTimestamp("at");
                 boolean correct = resultSet.getBoolean("correct");
-                Result result = new Result(resultID, userID, cardID, at, correct);
+                Result result = new Result(userID, cardID, at, correct);
+                result.setResultID(resultID);
                 results.add(result);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        close();
         return results;
     }
 
@@ -113,7 +123,8 @@ public class ResultDAO {
                 int cardID = resultSet.getInt("cardID");
                 Timestamp at = resultSet.getTimestamp("at");
                 boolean correct = resultSet.getBoolean("correct");
-                Result result = new Result(resultID, userID, cardID, at, correct);
+                Result result = new Result(userID, cardID, at, correct);
+                result.setResultID(resultID);
                 results.add(result);
             }
         } catch (Exception e) {
