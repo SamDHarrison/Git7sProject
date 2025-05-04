@@ -11,8 +11,7 @@ public class Result {
     private boolean correct;
 
 
-    public Result(int resultID, int userID, int cardID, Timestamp at, boolean correct) {
-        this.resultID = resultID;
+    public Result(int userID, int cardID, Timestamp at, boolean correct) {
         this.userID = userID;
         this.cardID = cardID;
         this.at = at;

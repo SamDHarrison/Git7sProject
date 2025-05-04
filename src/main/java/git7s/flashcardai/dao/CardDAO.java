@@ -51,7 +51,7 @@ public class CardDAO {
     }
 
     public void update(int cardID, String newTopic, String newSubject, String newFront, String newBack){
-
+        open();
         try{
             PreparedStatement updateStatement = connection.prepareStatement("UPDATE cards SET topic = ?, subject = ?, front = ?, back = ? WHERE cardID = ?");
             updateStatement.setInt(5, cardID);
@@ -63,9 +63,11 @@ public class CardDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        close();
     }
 
     public void delete(int cardID){
+        open();
         try{
             PreparedStatement getStatement = connection.prepareStatement("DELETE * FROM cards WHERE cardID = ?");
             getStatement.setInt(1, cardID);
@@ -73,6 +75,7 @@ public class CardDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        close();
     }
 
     public List<Card> getByUserID(int userIDQuery){
@@ -101,6 +104,7 @@ public class CardDAO {
     }
 
     public List<Card> getByTopic(String topicQuery){
+        open();
         List<Card> cards = new ArrayList<>();
         try {
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE topic = ?");
@@ -120,10 +124,12 @@ public class CardDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        close();
         return cards;
     }
 
     public List<Card> getBySubject(String subjectQuery){
+        open();
         List<Card> cards = new ArrayList<>();
         try {
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE subject = ?");
@@ -143,10 +149,12 @@ public class CardDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        close();
         return cards;
     }
 
     public List<Card> getAll(){
+        open();
         List<Card> cards = new ArrayList<>();
         try {
             Statement insertStatement = connection.createStatement();
@@ -166,10 +174,12 @@ public class CardDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        close();
         return cards;
     }
 
     public Card getById(int cardIDQuery) {
+        open();
         try{
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE cardID = ?");
             getStatement.setInt(1, cardIDQuery);
@@ -189,6 +199,7 @@ public class CardDAO {
 
             e.printStackTrace();
         }
+        close();
         return null;
     }
 

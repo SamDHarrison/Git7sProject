@@ -60,15 +60,16 @@ public class CreateNewFlashcardsController {
 
         switch (manageAsyncResponse) {
             case 0:
-                llm.fetchFlashCards(contentArea.getText());
+                llm.fetchFlashCards(contentArea.getText(), flashcardCountSpinner.getValue());
                 createFlashcardsButton.setStyle("-fx-background-color: #f9f9f9; -fx-text-fill: black;");
                 createFlashcardsButton.setText("Loading...");
                 timeline = getTimeline();
                 timeline.play();
+                showAlert("Generation takes 10-15 seconds, please be patient!");
                 break;
             case 1:
                 newCards = new FlashCardDraft(llm.getResponse());
-                newCards.showFlashCards();
+                newCards.addFlashCards(subjectField.getText(), topicField.getText());
                 manageAsyncResponse = 2;
                 break;
             case 2:
@@ -78,15 +79,13 @@ public class CreateNewFlashcardsController {
                 break;
         }
 
-        // To do: Add flashcard generation logic here
-        showAlert("Flashcards created!");
     }
     ///FOR NEW GUI TO HANDLE THE FLASHCARD GENERATION
     private Timeline getTimeline() {
         timeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), event -> {
                     if (llm.checkResponse()) {
-                        createFlashcardsButton.setText("Click to continue!");
+                        createFlashcardsButton.setText("Click to return!");
                         createFlashcardsButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
                         manageAsyncResponse = 1;
                         timeline.stop(); // Stop the timeline once done
@@ -96,4 +95,6 @@ public class CreateNewFlashcardsController {
         timeline.setCycleCount(Animation.INDEFINITE);
         return timeline;
     }
+
+
 }

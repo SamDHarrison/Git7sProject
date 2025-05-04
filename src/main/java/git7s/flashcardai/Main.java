@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Main extends Application {
     //Constants
@@ -20,6 +21,9 @@ public class Main extends Application {
     public static ResultDAO resultDAO = new ResultDAO();
     public static CardDAO cardDAO = new CardDAO();
     public static User loggedInUser = null;
+    public static String currentDeck;
+    public static int currentDeckProgress;
+
 
     //Start
     @Override
