@@ -27,6 +27,7 @@ public class CreateAccountController {
     @FXML
     private TextField lastNameField;
 
+    // Method called when "Get Started" button is clicked
     @FXML
     private void handleGetStarted() {
         String username = usernameField.getText();
@@ -36,16 +37,19 @@ public class CreateAccountController {
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
 
+        // Makes sure that that no fields are empty
         if (username.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Form Error!", "Please fill in all fields.");
             return;
         }
 
+        // Makes sure that password and confirmation match
         if (!password.equals(confirmPassword)) {
             showAlert(Alert.AlertType.ERROR, "Password Mismatch", "Passwords do not match.");
             return;
         }
 
+        // Attempt to parse username (student number) into an integer
         try {
             usernameID = Integer.parseInt(username);
         } catch (NumberFormatException err) {
@@ -53,6 +57,7 @@ public class CreateAccountController {
             return;
         }
 
+        // Create new User object
         User newUser = new User(usernameID, password, firstName, lastName, false);
 
         if (Main.userDAO.getById(usernameID) == null){
@@ -64,6 +69,7 @@ public class CreateAccountController {
         Main.loggedInUser = newUser;
         showAlert(Alert.AlertType.INFORMATION, "Account Created", "Your account has been created successfully!");
 
+        // Navigate to Dashboard view
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/dashboard-view.fxml"));
             Parent root = fxmlLoader.load();
@@ -77,6 +83,7 @@ public class CreateAccountController {
         }
     }
 
+    // Navigate back to the login screen when "Back" button is pressed
     @FXML
     private void handleBackToLogin() {
         try {
@@ -92,6 +99,7 @@ public class CreateAccountController {
         }
     }
 
+    // Reusable method so alerts can be shown
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
