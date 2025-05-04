@@ -125,7 +125,9 @@ public class MySubjectsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-      
+    }
+
+    @FXML
     private void handleBackToDashboard() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/dashboard-view.fxml"));
