@@ -1,60 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="git7s.flashcardai.CardDeckController">
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="git7s.flashcardai.CardDeckController">
 
-    <!-- Left Panel: My Studies -->
-    <left>
-        <VBox alignment="CENTER" prefWidth="300" spacing="30" style="-fx-background-color: #f0f0f1; -fx-padding: 5 20 10 20;">
-            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="MY STUDIES" />
-
-            <Button fx:id="subjectsButton" prefHeight="40" prefWidth="250" text="My Subjects"
-                    style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
-            <Button fx:id="settingsButton" prefHeight="40" prefWidth="250"
-                    style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="Settings" />
+    <!-- Top bar with Back link, Title, and Deck label -->
+    <top>
+        <VBox style="-fx-background-color: #ffffff; -fx-padding: 10;">
+            <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5;">
+                <Hyperlink fx:id="backToTopicsLink" text="← Back to Topics"
+                           style="-fx-text-fill: #555; -fx-font-size: 14px;" />
+            </HBox>
+            <HBox alignment="CENTER" spacing="20" style="-fx-padding: 5;">
+                <Label text="CAB203 Object Oriented Programming in Java"
+                       style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+                <Label text="Deck 1" style="-fx-font-size: 16px; -fx-text-fill: #555;" />
+            </HBox>
         </VBox>
-    </left>
+    </top>
 
-    <!-- Vertical Separator -->
+    <!-- Flashcard Display -->
     <center>
-        <VBox prefWidth="2" alignment="CENTER">
-            <Rectangle width="2" height="250" style="-fx-fill: rgb(192,192,192);" />
+        <VBox alignment="CENTER" spacing="20" style="-fx-padding: 30;">
+            <StackPane style="-fx-padding: 40; -fx-border-color: #ccc; -fx-border-radius: 10; -fx-background-color: white; -fx-background-radius: 10;">
+                <Label fx:id="flashcardLabel" wrapText="true"
+                       style="-fx-font-size: 18px; -fx-font-weight: normal; -fx-text-alignment: center;" />
+            </StackPane>
         </VBox>
     </center>
 
-    <!-- Right Panel: My Progress -->
-    <right>
-        <VBox alignment="CENTER" spacing="30" style="-fx-padding: 5 20 10 20;">
-            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="MY PROGRESS" />
-
-            <StackPane>
-                <ProgressBar fx:id="studyProgressBar" prefHeight="20.0" prefWidth="290.0"
-                             style="-fx-accent: #60C3D8;" />
-                <Label fx:id="progressTextLabel" text="75% complete" style="-fx-text-fill: white; -fx-font-weight: bold;" />
-            </StackPane>
-
-            <HBox spacing="10">
-                <Label style="-fx-font-weight: bold;" text="Strongest subject:" />
-                <Label fx:id="strongestTopicLabel" text="Programming" />
-            </HBox>
-
-            <HBox spacing="10">
-                <Label style="-fx-font-weight: bold;" text="Weakest subject:" />
-                <Label fx:id="weakestTopicLabel" text="Science" />
-            </HBox>
-        </VBox>
-    </right>
-
-    <!-- Log Out Button Positioned at Bottom Right -->
+    <!-- Bottom navigation -->
     <bottom>
-        <AnchorPane>
-            <Button fx:id="logOutButton" prefHeight="25" prefWidth="80" text="Log Out"
-                    style="-fx-background-color: white; -fx-text-fill: black; -fx-font-weight: bold; -fx-border-color: black;"
-                    AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10" />
-        </AnchorPane>
+        <HBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
+            <Button fx:id="prevCardButton" text="←"
+                    style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+            <Label fx:id="flashcardCounterLabel" text="1 of 15" style="-fx-font-size: 16px;" />
+            <Button fx:id="nextCardButton" text="→"
+                    style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+            <Button fx:id="flipCardButton" text="Flip"
+                    style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+            <Button fx:id="shuffleDeckButton" text="⟳"
+                    style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+        </HBox>
     </bottom>
-
 </BorderPane>
+
