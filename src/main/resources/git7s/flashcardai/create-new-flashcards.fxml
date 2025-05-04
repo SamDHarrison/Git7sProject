@@ -8,12 +8,14 @@
 
     <Label text="Create New Flashcards" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
 
+    <TextField fx:id="subjectField" promptText="Enter subject" />
+
     <TextField fx:id="topicField" promptText="Enter topic" />
 
     <TextArea fx:id="contentArea" promptText="Paste your content here..." prefRowCount="5" wrapText="true"/>
 
     <Spinner fx:id="flashcardCountSpinner" promptText="Number of flashcards" editable="true" />
 
-    <Button text="Create Flashcards" onAction="#handleCreateFlashcards"
+    <Button fx:id="createFlashcardsButton" text="Create Flashcards" onAction="#handleCreateFlashcards"
             style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
 </VBox>

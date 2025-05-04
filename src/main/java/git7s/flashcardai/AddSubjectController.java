@@ -32,47 +32,5 @@ public class AddSubjectController {
         weakestTopicLabel.setText("Science");
     }
 
-    /// will go into new gui when ready
-    public void handleGenerateFlashCards() {
 
-        switch (manageAsyncResponse) {
-            case 0:
-                llm.fetchFlashCards("Programmer defined aggregate type\n" +
-                        "Typically declared with (1)\n" +
-                        "Struct declaration and access (2)\n" +
-                        "\n" +
-                        "Structs can be passed between functions and copied normally\n" +
-                        "Structs can contain arrays, which means arrays can be copied by passing through structs\n");
-                createDeckButton.setStyle("-fx-background-color: #f9f9f9; -fx-text-fill: black;");
-                createDeckButton.setText("Loading...");
-                timeline = getTimeline();
-                timeline.play();
-                break;
-            case 1:
-                newCards = new FlashCardDraft(llm.getResponse());
-                newCards.showFlashCards();
-                manageAsyncResponse = 2;
-                break;
-            case 2:
-                /// Do nothing
-            default:
-                manageAsyncResponse = 0;
-                break;
-        }
-    }
-    ///FOR NEW GUI TO HANDLE THE FLASHCARD GENERATION
-    private Timeline getTimeline() {
-        timeline = new Timeline(
-                new KeyFrame(Duration.seconds(1), event -> {
-                    if (llm.checkResponse()) {
-                        createDeckButton.setText("Click to continue!");
-                        createDeckButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
-                        manageAsyncResponse = 1;
-                        timeline.stop(); // Stop the timeline once done
-                    }
-                })
-        );
-        timeline.setCycleCount(Animation.INDEFINITE);
-        return timeline;
-    }
 }

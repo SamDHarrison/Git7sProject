@@ -11,15 +11,22 @@ public class Card {
     private String front;
     private String back;
     /// Constructor
-    public Card(int cardID, int userID, String topic, String subject, String front, String back) {
-        this.cardID = cardID;
+    public Card(int userID, String topic, String subject, String front, String back) {
         this.userID = userID;
         this.topic = topic;
         this.subject = subject;
         this.front = front;
         this.back = back;
     }
-
+    /*
+        public Card(int cardID, int userID, String topic, String subject, String front, String back) {
+            this.userID = userID;
+            this.topic = topic;
+            this.subject = subject;
+            this.front = front;
+            this.back = back;
+        }
+    */
     //getters
     public int getCardID() {
         return cardID;
@@ -66,7 +73,7 @@ public class Card {
     public void setTopic(String topic) {
         this.topic = topic;
     }
-    
+
     public void setSubject(String subject) {
         this.subject = subject;
     }

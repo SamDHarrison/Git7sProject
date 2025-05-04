@@ -38,8 +38,6 @@ public class FlashCardDraft {
                     String front = fb[0].trim();
                     String back = fb[1].trim();
                     Flashcards.put(front, back);
-                } else {
-                    System.err.println("Skipping invalid flashcard: " + flashcardString);
                 }
             }
         }
@@ -50,8 +48,20 @@ public class FlashCardDraft {
         for (String str : Flashcards.keySet()){
             System.out.println("FRONT: " + str + " BACK: " + Flashcards.get(str));
         }
+        addFlashCards("CAB202", "Week 5");
     }
 
+    public void addFlashCards(String subject, String topic) {
+        String firstfront = "";
+        String firstback = "";
+        for (String str : Flashcards.keySet()){
+            Main.cardDAO.insert(new Card(Main.loggedInUser.getId(), topic, subject, str, Flashcards.get(str)));
+        }
+
+
+
+
+    }
 
 
 }

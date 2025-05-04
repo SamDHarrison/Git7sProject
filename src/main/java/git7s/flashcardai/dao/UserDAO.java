@@ -12,11 +12,8 @@ public class UserDAO {
 
     private Connection connection;
 
-    public UserDAO(){
-        connection = DatabaseConnection.getInstance();
-    }
-
     public void createTable(){
+        open();
         try {
             Statement createTable = connection.createStatement();
             createTable.execute(
@@ -34,12 +31,14 @@ public class UserDAO {
 
             System.err.println(ex);
         }
+        close();
     }
 
     public void insert(User user){
+        open();
         try {
             PreparedStatement insertUser = connection.prepareStatement(
-            "INSERT INTO users (id, passwordHash, salt, firstName, lastName, admin) VALUES (?, ?, ?, ?, ?, ?)"
+                    "INSERT INTO users (id, passwordHash, salt, firstName, lastName, admin) VALUES (?, ?, ?, ?, ?, ?)"
             );
             insertUser.setInt(1, user.getId());
             insertUser.setString(2, user.getPasswordHash());
@@ -51,6 +50,7 @@ public class UserDAO {
         } catch (SQLException ex) {
             System.err.println(ex);
         }
+        close();
     }
 
     public void update(int id, int newID, String newPassword, String newFirstName, String newLastName, boolean newAdmin){
@@ -85,6 +85,7 @@ public class UserDAO {
     }
 
     public List<User> getAll(){
+        open();
         List<User> users = new ArrayList<>();
         try {
             Statement insertStatement = connection.createStatement();
@@ -105,10 +106,12 @@ public class UserDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        close();
         return users;
     }
 
     public User getById(int id) {
+        open();
         try{
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
             getStatement.setInt(1, id);
@@ -122,11 +125,13 @@ public class UserDAO {
                 User getUser = new User(id, passwordHash, firstName, lastName, admin);
                 getUser.setPasswordHash(passwordHash);
                 getUser.setSaltFromString(salt);
+                close();
                 return getUser;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        close();
         return null;
     }
 
@@ -136,6 +141,10 @@ public class UserDAO {
             return user;
         }
         return null;
+    }
+
+    public void open(){
+        connection = DatabaseConnection.getInstance();
     }
 
     public void close(){

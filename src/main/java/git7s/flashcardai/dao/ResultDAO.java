@@ -11,16 +11,13 @@ public class ResultDAO {
 
     private Connection connection;
 
-    public ResultDAO(){
-        connection = DatabaseConnection.getInstance();
-    }
-
     public void createTable(){
+        open();
         try {
             Statement createTable = connection.createStatement();
             createTable.execute(
                     "CREATE TABLE IF NOT EXISTS results ("
-                            + "resultID INTEGER AUTO_INCREMENT PRIMARY KEY NOT NULL, "
+                            + "resultID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                             + "userID INTEGER NOT NULL, "
                             + "cardID INTEGER NOT NULL, "
                             + "at TIMESTAMP NOT NULL, "
@@ -33,18 +30,18 @@ public class ResultDAO {
 
             System.err.println(ex);
         }
+        close();
     }
 
     public void insert(Result result){
         try {
             PreparedStatement insertResult = connection.prepareStatement(
-            "INSERT INTO results (resultID, userID, cardID, at, correct) VALUES (?, ?, ?, ?, ?)"
+                    "INSERT INTO results (userID, cardID, at, correct) VALUES (?, ?, ?, ?)"
             );
-            insertResult.setInt(1, result.getResultID());
-            insertResult.setInt(2, result.getUserID());
-            insertResult.setInt(3, result.getCardID());
-            insertResult.setTimestamp(4, result.getAt());
-            insertResult.setBoolean(5, result.isCorrect());
+            insertResult.setInt(1, result.getUserID());
+            insertResult.setInt(2, result.getCardID());
+            insertResult.setTimestamp(3, result.getAt());
+            insertResult.setBoolean(4, result.isCorrect());
             insertResult.executeUpdate();
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -104,6 +101,7 @@ public class ResultDAO {
     }
 
     public List<Result> getByUserID(int userIDQuery){
+        open();
         List<Result> results = new ArrayList<>();
         try {
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM results WHERE userID = ?");
@@ -121,8 +119,15 @@ public class ResultDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        close();
         return results;
+
     }
+
+    public void open(){
+        connection = DatabaseConnection.getInstance();
+    }
+
     public void close(){
         try {
             connection.close();
