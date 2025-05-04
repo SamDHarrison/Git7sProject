@@ -28,4 +28,8 @@
     <Button fx:id="testCurrentTopic" layoutX="350" layoutY="350" text="Test Topic" onAction="#handleTestCurrentTopic"
             style="-fx-background-color: #60C3D8; -fx-text-fill: white;"/>
 
+    <!-- Back to Dashboard Screen Button -->
+    <Button text="Back" layoutX="20" layoutY="20" onAction="#handleBackToDashboard"
+            style="-fx-background-color: #d3d3d3; -fx-text-fill: #000000; -fx-border-color: grey;" />
+
 </AnchorPane>

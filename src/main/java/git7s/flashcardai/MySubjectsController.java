@@ -74,7 +74,7 @@ public class MySubjectsController {
             Stage popupStage = new Stage();
             popupStage.setTitle("Create Flashcards");
             popupStage.setScene(new Scene(popupRoot));
-            popupStage.initModality(Modality.APPLICATION_MODAL); // Blocks interaction with the main window
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Blocks interaction with the My Subject view
             popupStage.showAndWait();
             //Refresh
             initialize();
@@ -125,5 +125,18 @@ public class MySubjectsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+      
+    private void handleBackToDashboard() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/dashboard-view.fxml"));
+            Parent root = fxmlLoader.load();
+
+            Stage stage = (Stage) subjectComboBox.getScene().getWindow();
+            stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+            stage.setTitle("Dashboard");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

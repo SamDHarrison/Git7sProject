@@ -15,12 +15,23 @@ public class CardTest {
 
     @BeforeEach
     public void setUp() {
-        geographyCard = new Card(1, 117249823, "Australian Capitals", "GEO301", "Capital of Queensland?", "Brisbane");
-        mathCard = new Card(2, 117249824, "Basic Math", "MATH301", "What is 9 + 6?", "15");
-        compsciCard = new Card(3, 117249825, "Computer Science Basics", "CAB301", "What does RAM stand for?", "Random Access Memory");
-        chemistryCard = new Card(4, 117249826, "Periodic Table", "CHEM301", "What is the symbol for Sodium?", "Na");
-        politicsCard = new Card(5, 117249827, "Politics", "POL301", "Who is the current Prime Minister of Australia?", "Anthony Albanese");
-        engineeringCard = new Card(6, 117249828, "Engineering", "ENGR301", "What does CAD stand for?", "Computer-Aided Design");
+        geographyCard = new Card(117249823, "Australian Capitals", "GEO301", "Capital of Queensland?", "Brisbane");
+        geographyCard.setCardID(1);
+
+        mathCard = new Card(117249824, "Basic Math", "MATH301", "What is 9 + 6?", "15");
+        mathCard.setCardID(2);
+
+        compsciCard = new Card(117249825, "Computer Science Basics", "CAB301", "What does RAM stand for?", "Random Access Memory");
+        compsciCard.setCardID(3);
+
+        chemistryCard = new Card(117249826, "Periodic Table", "CHEM301", "What is the symbol for Sodium?", "Na");
+        chemistryCard.setCardID(4);
+
+        politicsCard = new Card(117249827, "Politics", "POL301", "Who is the current Prime Minister of Australia?", "Anthony Albanese");
+        politicsCard.setCardID(5);
+
+        engineeringCard = new Card(117249828, "Engineering", "ENGR301", "What does CAD stand for?", "Computer-Aided Design");
+        engineeringCard.setCardID(6);
     }
 
 
@@ -34,36 +45,18 @@ public class CardTest {
         assertEquals("Anthony Albanese", politicsCard.flip());
         assertEquals("Computer-Aided Design", engineeringCard.flip());
     }
-
     @Test
-    public void testGettersForId() {
+    public void testGettersForCardID() {
         assertEquals(1, geographyCard.getCardID());
         assertEquals(2, mathCard.getCardID());
         assertEquals(3, compsciCard.getCardID());
         assertEquals(4, chemistryCard.getCardID());
         assertEquals(5, politicsCard.getCardID());
         assertEquals(6, engineeringCard.getCardID());
-
-        assertEquals(117249823, geographyCard.getUserID());
-        assertEquals(117249824, mathCard.getUserID());
-        assertEquals(117249825, compsciCard.getUserID());
-        assertEquals(117249826, chemistryCard.getUserID());
-        assertEquals(117249827, politicsCard.getUserID());
-        assertEquals(117249828, engineeringCard.getUserID());
     }
 
     @Test
-    public void testGettersForCardId() {
-        assertEquals(1, geographyCard.getCardID());
-        assertEquals(2, mathCard.getCardID());
-        assertEquals(3, compsciCard.getCardID());
-        assertEquals(4, chemistryCard.getCardID());
-        assertEquals(5, politicsCard.getCardID());
-        assertEquals(6, engineeringCard.getCardID());
-
-    }
-    @Test
-    public void testGettersForUserId() {
+    public void testGettersForUserID() {
         assertEquals(117249823, geographyCard.getUserID());
         assertEquals(117249824, mathCard.getUserID());
         assertEquals(117249825, compsciCard.getUserID());
