@@ -6,20 +6,26 @@
 
 <AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="git7s.flashcardai.LoginController">
 
+    <!-- App logo displayed using ImageView -->
     <ImageView fitHeight="240" fitWidth="240" layoutX="40" layoutY="70" pickOnBounds="true" preserveRatio="true">
         <Image url="@flashcardlogo.png" />
     </ImageView>
 
+    <!-- Title -->
     <Label layoutX="425" layoutY="80" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="LOGIN" />
 
+    <!-- Student Number input field -->
     <TextField fx:id="usernameField" layoutX="380" layoutY="115" promptText="Student number" />
 
+    <!-- Password input field -->
     <PasswordField fx:id="passwordField" layoutX="380" layoutY="150" promptText="Password" />
 
+    <!-- Login button triggers handleLogin() method in controller. Brings user to dashboard -->
     <Button layoutX="380" layoutY="180" prefWidth="150" onAction="#handleLogin" text="Login"
         style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold; "
     />
 
+    <!-- Account creation prompt and link to Create Account Screen -->
     <Label layoutX="380" layoutY="220" text="New here?" />
 
     <Label layoutX="440" layoutY="220" text="Create Account"
