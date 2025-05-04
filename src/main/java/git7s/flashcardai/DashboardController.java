@@ -16,11 +16,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
 public class DashboardController {
     public Label progressTextLabel;
     @FXML private ProgressBar studyProgressBar;
     @FXML private Label strongestTopicLabel;
     @FXML private Label weakestTopicLabel;
+    @FXML private Button mySubjectsButton;
 
     @FXML private Button subjectsButton;
     @FXML private Button settingsButton;
@@ -124,3 +126,5 @@ public class DashboardController {
 
 
 }
+
+
