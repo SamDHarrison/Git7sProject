@@ -51,6 +51,7 @@ public class LoginController {
                 alert.setHeaderText(null);
                 alert.setContentText("Welcome, " + username + "!");
                 alert.showAndWait();
+                Main.loggedInUser = attemptUser;
                 SuccessfulLogin();
             }
             else
@@ -72,6 +73,7 @@ public class LoginController {
 
     private void SuccessfulLogin(){
         try {
+
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/dashboard-view.fxml"));
             Parent root = fxmlLoader.load();
 

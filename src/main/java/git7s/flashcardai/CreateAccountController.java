@@ -61,7 +61,7 @@ public class CreateAccountController {
             showAlert(Alert.AlertType.ERROR, "Username already used", "This username has already been taken");
             return;
         }
-
+        Main.loggedInUser = newUser;
         showAlert(Alert.AlertType.INFORMATION, "Account Created", "Your account has been created successfully!");
 
         try {

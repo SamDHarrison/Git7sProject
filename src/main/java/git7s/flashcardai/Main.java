@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 public class Main extends Application {
     //Constants
@@ -18,6 +19,7 @@ public class Main extends Application {
     public static UserDAO userDAO = new UserDAO();
     public static ResultDAO resultDAO = new ResultDAO();
     public static CardDAO cardDAO = new CardDAO();
+    public static User loggedInUser = null;
 
     //Start
     @Override
@@ -29,14 +31,14 @@ public class Main extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         ///Connect to DB
             userDAO.createTable();
             ///userDAO.insert(new User(123456789, "password", "Antonio", "miguel", true));
             resultDAO.createTable();
             ///resultDAO.insert(new Result(1, 123456789, 1, new Timestamp(System.currentTimeMillis()), true));
             cardDAO.createTable();
-            ///cardDAO.insert(new Card(1, 123456789, "Week 5", "CAB302", "Java", "This is a programming language"));
+            ///cardDAO.insert(new Card(5, 123456789, "Week 8", "CAB202", "Java", "This is a programming language"));
         /// Shutdown hook to close connections
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
@@ -48,8 +50,12 @@ public class Main extends Application {
                 System.err.println("Error closing DAO connections: " + e.getMessage());
             }
         }));
-
         ///Launch FXML App
         launch();
+
     }
+
+
 }
+
+
