@@ -7,10 +7,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The DAO object for interacting with the Card Table over the specified connection
+ */
 public class CardDAO {
-
+    /**
+     * The connection used for connecting to the db
+     */
     private Connection connection;
 
+    /**
+     * Creates a Table in the database if not already created.
+     */
     public void createTable(){
         open();
         try {
@@ -32,6 +40,10 @@ public class CardDAO {
         close();
     }
 
+    /**
+     * Inserts a card to the db
+     * @param card New Card for insertion
+     */
     public void insert(Card card){
         open();
         try {
@@ -50,6 +62,14 @@ public class CardDAO {
         close();
     }
 
+    /**
+     * Updates a card in the db
+     * @param cardID New CardID
+     * @param newTopic New topic
+     * @param newSubject New Subject
+     * @param newFront New Front text
+     * @param newBack New back text
+     */
     public void update(int cardID, String newTopic, String newSubject, String newFront, String newBack){
         open();
         try{
@@ -66,6 +86,10 @@ public class CardDAO {
         close();
     }
 
+    /**
+     * Deletes a card from the db
+     * @param cardID Card to be deleted
+     */
     public void delete(int cardID){
         open();
         try{
@@ -78,6 +102,11 @@ public class CardDAO {
         close();
     }
 
+    /**
+     * Get by userID - pulls all cards for the specified userID
+     * @param userIDQuery Specified user ID
+     * @return List of Cards by user ID
+     */
     public List<Card> getByUserID(int userIDQuery){
         open();
         List<Card> cards = new ArrayList<>();
@@ -102,7 +131,11 @@ public class CardDAO {
         close();
         return cards;
     }
-
+    /**
+     * Get by userID - pulls all cards for the specified topic
+     * @param topicQuery Specified topic ID
+     * @return List of Cards by topic ID
+     */
     public List<Card> getByTopic(String topicQuery){
         open();
         List<Card> cards = new ArrayList<>();
@@ -127,7 +160,11 @@ public class CardDAO {
         close();
         return cards;
     }
-
+    /**
+     * Get by userID - pulls all cards for the specified subject
+     * @param subjectQuery Specified subject ID
+     * @return List of Cards by subject ID
+     */
     public List<Card> getBySubject(String subjectQuery){
         open();
         List<Card> cards = new ArrayList<>();
@@ -153,6 +190,10 @@ public class CardDAO {
         return cards;
     }
 
+    /**
+     * Gets all records from the db
+     * @return List of all records
+     */
     public List<Card> getAll(){
         open();
         List<Card> cards = new ArrayList<>();
@@ -178,6 +219,11 @@ public class CardDAO {
         return cards;
     }
 
+    /**
+     * Gets a specific card by its ID
+     * @param cardIDQuery Specified Card
+     * @return Card Object
+     */
     public Card getById(int cardIDQuery) {
         open();
         try{
@@ -203,10 +249,16 @@ public class CardDAO {
         return null;
     }
 
-
+    /**
+     * Open the DB connection
+     */
     public void open(){
         connection = DatabaseConnection.getInstance();
     }
+
+    /**
+     * Close the DB connection
+     */
     public void close(){
         try {
             connection.close();

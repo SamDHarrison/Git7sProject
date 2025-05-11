@@ -6,11 +6,17 @@ import git7s.flashcardai.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The DAO object for interacting with the Results Table over the specified connection
+ */
 public class ResultDAO {
-
+    /**
+     * The connection used for connecting to the db
+     */
     private Connection connection;
-
+    /**
+     * Creates a Table in the database if not already created.
+     */
     public void createTable(){
         open();
         try {
@@ -32,7 +38,10 @@ public class ResultDAO {
         }
         close();
     }
-
+    /**
+     * Inserts a Result to the db
+     * @param result New Result for insertion
+     */
     public void insert(Result result){
         open();
         try {
@@ -50,6 +59,10 @@ public class ResultDAO {
         close();
     }
 
+    /**
+     * Deletes the specified result
+     * @param resultID Specified result
+     */
     public void delete(int resultID){
         open();
         try{
@@ -62,6 +75,11 @@ public class ResultDAO {
         close();
     }
 
+    /**
+     * Gets results for a specified Card
+     * @param cardIDQuery Specified Card
+     * @return List of results
+     */
     public List<Result> getByCardID(int cardIDQuery){
         open();
         List<Result> results = new ArrayList<>();
@@ -86,6 +104,10 @@ public class ResultDAO {
         return results;
     }
 
+    /**
+     * Pulls all db results
+     * @return List of results
+     */
     public List<Result> getAll(){
         open();
         List<Result> results = new ArrayList<>();
@@ -110,6 +132,11 @@ public class ResultDAO {
         return results;
     }
 
+    /**
+     * Gets results by the user who got the results
+     * @param userIDQuery The user ID
+     * @return List of results
+     */
     public List<Result> getByUserID(int userIDQuery){
         open();
         List<Result> results = new ArrayList<>();
@@ -135,10 +162,16 @@ public class ResultDAO {
 
     }
 
+    /**
+     * Close the DB
+     */
     public void open(){
         connection = DatabaseConnection.getInstance();
     }
 
+    /**
+     * Open the db
+     */
     public void close(){
         try {
             connection.close();

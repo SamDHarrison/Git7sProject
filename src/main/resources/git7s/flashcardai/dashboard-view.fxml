@@ -10,6 +10,8 @@
     <left>
         <VBox alignment="CENTER" prefWidth="300" spacing="30" style="-fx-background-color: #f0f0f1; -fx-padding: 5 20 10 20;">
             <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="MY STUDIES" />
+            <Button fx:id="testAllButton" prefHeight="40" prefWidth="250" text="Test All Flashcards"
+                    style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleTestAll" />
             <Button fx:id="subjectsButton" prefHeight="40" prefWidth="250" text="My Subjects"
                     style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleMySubjects" />
             <Button fx:id="settingsButton" prefHeight="40" prefWidth="250"
@@ -32,7 +34,7 @@
             <StackPane>
                 <ProgressBar fx:id="studyProgressBar" prefHeight="20.0" prefWidth="290.0"
                              style="-fx-accent: #60C3D8;" />
-                <Label fx:id="progressTextLabel" text="75% complete" style="-fx-text-fill: white; -fx-font-weight: bold;" />
+                <Label fx:id="progressTextLabel" style="-fx-text-fill: white; -fx-font-weight: bold;" />
             </StackPane>
 
             <HBox spacing="10">

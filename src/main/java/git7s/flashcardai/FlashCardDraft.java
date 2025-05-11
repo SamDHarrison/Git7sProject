@@ -10,17 +10,32 @@ import java.util.regex.Pattern;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+/**
+ * This class converts the API response, formats into flashcard
+ */
 public class FlashCardDraft {
-
+    /**
+     * The response from the API REST POST call
+     */
     private HttpResponse<String> response;
+    /**
+     * The Flashcards Hashmap references the processed front and back Strings
+     */
     private HashMap<String, String> Flashcards = new HashMap<String, String>();
 
+    /**
+     * The FlashCardDraft constructor takes the API response and generates formatted cards.
+     * @param response The response from the API REST POST call
+     */
     public FlashCardDraft(HttpResponse<String> response) {
         this.response = response;
         generateFlashcards();
 
     }
 
+    /**
+     * This method generates the flashcards from the response.
+     */
     public void generateFlashcards() {
         String jsonBody = response.body();
         JsonObject jsonObject = JsonParser.parseString(jsonBody).getAsJsonObject();
@@ -43,23 +58,22 @@ public class FlashCardDraft {
 
     }
 
-    public void showFlashCards() {
-        for (String str : Flashcards.keySet()){
-            System.out.println("FRONT: " + str + " BACK: " + Flashcards.get(str));
-        }
-        addFlashCards("CAB202", "Week 5");
-    }
+    /**
+     * This method takes the generated flashcards and adds them to the db
+     * @param subject The specified subject
+     * @param topic The specified topic
+     * @param quantity The specified quantity
+     */
+    public void addFlashCards(String subject, String topic, int quantity) {
 
-    public void addFlashCards(String subject, String topic) {
-        String firstfront = "";
-        String firstback = "";
+        int created = 0;
         for (String str : Flashcards.keySet()){
             Main.cardDAO.insert(new Card(Main.loggedInUser.getId(), topic, subject, str, Flashcards.get(str)));
+            created++;
+            if (created >= quantity) {
+                return;
+            }
         }
-
-
-
-
     }
 
 
