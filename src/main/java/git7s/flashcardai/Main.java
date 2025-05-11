@@ -9,23 +9,46 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.List;
 
+/**
+ * The Main class extends application and is the static base of the program.
+ */
 public class Main extends Application {
-    //Constants
+    /**
+     * Title of the FXML
+     */
     public static final String TITLE = "Flashcard AI";
+    /**
+     * WIDTH of the FXML
+     */
     public static final int WIDTH = 640;
+    /**
+     * HEIGHT of the FXML
+     */
     public static final int HEIGHT = 360;
+    /**
+     * User DAO object
+     */
     public static UserDAO userDAO = new UserDAO();
+    /**
+     * Result DAO object
+     */
     public static ResultDAO resultDAO = new ResultDAO();
+    /**
+     * Card DAO object
+     */
     public static CardDAO cardDAO = new CardDAO();
+    /**
+     * User that is currently logged in.
+     */
     public static User loggedInUser = null;
-    public static String currentDeck;
-    public static int currentDeckProgress;
 
 
-    //Start
+    /**
+     * Called to initialise FXML operations
+     * @param stage The stage for the current view
+     * @throws IOException Exception in-case of error loading stage.
+     */
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login-view.fxml"));
@@ -35,14 +58,18 @@ public class Main extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) throws IOException {
+    /**
+     * Main method to initialise entire program
+     * 1. Creates DB tables
+     * 2. Adds shutdown hook to ensure dbs are all safely closed
+     * 3. Launch FXML
+     * @param args Default Param
+     */
+    public static void main(String[] args) {
         ///Connect to DB
             userDAO.createTable();
-            ///userDAO.insert(new User(123456789, "password", "Antonio", "miguel", true));
             resultDAO.createTable();
-            ///resultDAO.insert(new Result(1, 123456789, 1, new Timestamp(System.currentTimeMillis()), true));
             cardDAO.createTable();
-            ///cardDAO.insert(new Card(5, 123456789, "Week 8", "CAB202", "Java", "This is a programming language"));
         /// Shutdown hook to close connections
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {

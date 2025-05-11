@@ -8,17 +8,25 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import git7s.flashcardai.Main;
 
-
+/**
+ * This class is the login GUI controller
+ */
 public class LoginController {
-
+    /**
+     * This textfield takes the username input
+     */
     @FXML
     private TextField usernameField;
-
+    /**
+     * This textfield takes the password input
+     */
     @FXML
     private PasswordField passwordField;
 
+    /**
+     * This handles the button that takes the user to the Create Account gui
+     */
     @FXML
     private void handleCreateAccount() {
         try {
@@ -36,7 +44,9 @@ public class LoginController {
         }
     }
 
-
+    /**
+     * This takes the user through the login process, generating an alert box if not feasible (bad input)
+     */
     @FXML
     private void handleLogin() {
         int username = Integer.parseInt(usernameField.getText());
@@ -71,6 +81,9 @@ public class LoginController {
         }
     }
 
+    /**
+     * If the userinput is good, login
+     */
     private void SuccessfulLogin(){
         try {
 

@@ -26,7 +26,7 @@
         <VBox alignment="CENTER" spacing="20" style="-fx-padding: 30;">
             <StackPane style="-fx-padding: 40; -fx-border-color: #ccc; -fx-border-radius: 10; -fx-background-color: white; -fx-background-radius: 10;">
                 <Label fx:id="flashcardLabel" wrapText="true"
-                       style="-fx-font-size: 18px; -fx-font-weight: normal; -fx-text-alignment: center;" />
+                       style="-fx-font-size: 14px; -fx-font-weight: normal; -fx-text-alignment: center;" />
             </StackPane>
         </VBox>
     </center>
@@ -40,6 +40,8 @@
             <Button fx:id="correctAnswerButton" text="✔"
                     style="-fx-font-size: 14px; -fx-font-weight: bold;" />
             <Button fx:id="incorrectAnswerButton" text="✘"
+                    style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+            <Button fx:id="askAI" text="Ask AI to explain!"
                     style="-fx-font-size: 14px; -fx-font-weight: bold;" />
         </HBox>
     </bottom>

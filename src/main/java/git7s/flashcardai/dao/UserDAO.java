@@ -7,11 +7,17 @@ import javafx.scene.chart.PieChart;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The DAO object for interacting with the User Table over the specified connection
+ */
 public class UserDAO {
-
+    /**
+     * The connection used for connecting to the db
+     */
     private Connection connection;
-
+    /**
+     * Creates a Table in the database if not already created.
+     */
     public void createTable(){
         open();
         try {
@@ -33,7 +39,10 @@ public class UserDAO {
         }
         close();
     }
-
+    /**
+     * Inserts a user to the db
+     * @param user New User for insertion
+     */
     public void insert(User user){
         open();
         try {
@@ -53,6 +62,15 @@ public class UserDAO {
         close();
     }
 
+    /**
+     * Update a specific user
+     * @param id The existing ID
+     * @param newID The new ID
+     * @param newPassword The new password
+     * @param newFirstName The new firstname
+     * @param newLastName The new lastname
+     * @param newAdmin The admin level
+     */
     public void update(int id, int newID, String newPassword, String newFirstName, String newLastName, boolean newAdmin){
         open();
         try{
@@ -76,6 +94,10 @@ public class UserDAO {
         close();
     }
 
+    /**
+     * Deletes a specific user from the db
+     * @param id Specified user
+     */
     public void delete(int id){
         open();
         try{
@@ -88,6 +110,10 @@ public class UserDAO {
         close();
     }
 
+    /**
+     * Gets a list of all the users in the DB
+     * @return List of users
+     */
     public List<User> getAll(){
         open();
         List<User> users = new ArrayList<>();
@@ -114,6 +140,11 @@ public class UserDAO {
         return users;
     }
 
+    /**
+     * Gets a user by a specified ID
+     * @param id The specified user ID
+     * @return The User Specified, if exists
+     */
     public User getById(int id) {
         open();
         try{
@@ -139,6 +170,12 @@ public class UserDAO {
         return null;
     }
 
+    /**
+     * Authenticates a user by their ID
+     * @param id User ID
+     * @param password User Password (Hashed)
+     * @return The User - if authenticated
+     */
     public User authenticate(int id, String password) {
         User user = getById(id);
         if (user != null && user.authenticate(password)) {
@@ -147,10 +184,16 @@ public class UserDAO {
         return null;
     }
 
+    /**
+     * Open the DB
+     */
     public void open(){
         connection = DatabaseConnection.getInstance();
     }
 
+    /**
+     * Close the DB
+     */
     public void close(){
         try {
             connection.close();

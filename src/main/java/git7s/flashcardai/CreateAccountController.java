@@ -9,25 +9,39 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-
+/**
+ * A class that handles the Create Account GUI
+ */
 public class CreateAccountController {
-
+    /**
+     * Textfield for the username input
+     */
     @FXML
     private TextField usernameField;
-
+    /**
+     * Textfield for the password input
+     */
     @FXML
     private PasswordField passwordField;
-
+    /**
+     * Textfield for the confirmed password input
+     */
     @FXML
     private PasswordField confirmPasswordField;
-
+    /**
+     * Textfield for the First Name input
+     */
     @FXML
     private TextField firstNameField;
-
+    /**
+     * Textfield for the Last Name input
+     */
     @FXML
     private TextField lastNameField;
 
-    // Method called when "Get Started" button is clicked
+    /**
+     * This is the method called when the get started button is pressed, generating a user if inputs are correct
+     */
     @FXML
     private void handleGetStarted() {
         String username = usernameField.getText();
@@ -83,7 +97,9 @@ public class CreateAccountController {
         }
     }
 
-    // Navigate back to the login screen when "Back" button is pressed
+    /**
+     * A method that goes back to the login screen
+     */
     @FXML
     private void handleBackToLogin() {
         try {
@@ -99,7 +115,12 @@ public class CreateAccountController {
         }
     }
 
-    // Reusable method so alerts can be shown
+    /**
+     * Simple alert GUI method
+     * @param alertType The type of alert
+     * @param title Title of the alert box
+     * @param message Message of the alert box
+     */
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
