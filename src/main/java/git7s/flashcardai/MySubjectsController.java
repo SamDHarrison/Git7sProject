@@ -187,9 +187,32 @@ public class MySubjectsController {
         String selectedTopic = topicsListView.getSelectionModel().getSelectedItem();
 
         if (selectedSubject != null && selectedTopic != null) {
+            // Delete the flashcards
             Main.cardDAO.deleteBySubjectAndTopic(Main.loggedInUser.getId(), selectedSubject, selectedTopic);
+
+            // Refresh the user's cards
+            usersCards.setAll(Main.cardDAO.getByUserID(Main.loggedInUser.getId()));
+
+            // Rebuild subject list
+            subjects.clear();
+            for (Card card : usersCards) {
+                if (!subjects.contains(card.getSubject())) {
+                    subjects.add(card.getSubject());
+                }
+            }
+            subjectComboBox.setItems(subjects);
+
+            // If the subject is now gone this clears it on the ListView
+            if (!subjects.contains(selectedSubject)) {
+                subjectComboBox.getSelectionModel().clearSelection();
+                topicsListView.setItems(FXCollections.observableArrayList());
+            } else {
+                // Refresh the topics list for the still-existing subject
+                subjectComboBox.setValue(selectedSubject); // re-select to trigger refresh
+                handleSubjectSelection();
+            }
+
             showAlert("Flashcards deleted for: " + selectedTopic);
-            initialize(); // Refresh list
         } else {
             showAlert("Please select both subject and topic.");
         }
