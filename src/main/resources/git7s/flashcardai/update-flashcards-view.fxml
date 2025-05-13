@@ -13,4 +13,5 @@
     <TextField fx:id="backField" promptText="Edit Answer" />
     <Button text="Save Changes" onAction="#handleUpdateFlashcard" />
 
+    //simple gui for now. Needed just to create controller class
 </AnchorPane>
