@@ -266,4 +266,20 @@ public class CardDAO {
             System.err.println(ex);
         }
     }
+
+    public void deleteBySubjectAndTopic(int userID, String subject, String topic) {
+        open();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "DELETE FROM cards WHERE userID = ? AND subject = ? AND topic = ?"
+            );
+            stmt.setInt(1, userID);
+            stmt.setString(2, subject);
+            stmt.setString(3, topic);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+        close();
+    }
 }

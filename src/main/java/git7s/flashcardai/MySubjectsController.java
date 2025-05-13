@@ -180,4 +180,78 @@ public class MySubjectsController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleDeleteFlashcards() {
+        // Get selected subject and topic from UI
+        String selectedSubject = subjectComboBox.getValue();
+        String selectedTopic = topicsListView.getSelectionModel().getSelectedItem();
+
+        if (selectedSubject != null && selectedTopic != null) {
+            // Delete the flashcards under chosen subject and topic for the user
+            Main.cardDAO.deleteBySubjectAndTopic(Main.loggedInUser.getId(), selectedSubject, selectedTopic);
+
+            // Pull updated list of user's cards from the DB
+            usersCards.setAll(Main.cardDAO.getByUserID(Main.loggedInUser.getId()));
+
+            // Rebuild subject list on the remaining cards
+            subjects.clear();
+            for (Card card : usersCards) {
+                if (!subjects.contains(card.getSubject())) {
+                    subjects.add(card.getSubject());
+                }
+            }
+            subjectComboBox.setItems(subjects); //updates the dropdown options
+
+            // If the subject is now gone this clears it on the ListView
+            if (!subjects.contains(selectedSubject)) {
+                subjectComboBox.getSelectionModel().clearSelection();
+                topicsListView.setItems(FXCollections.observableArrayList());
+            } else {
+                // Refresh the topics list for the still-existing subject
+                subjectComboBox.setValue(selectedSubject); // re-triggering the selection logic
+                handleSubjectSelection();
+            }
+            //If nothing has happened the user is prompted
+            showAlert("Flashcards deleted for: " + selectedTopic);
+        } else {
+            showAlert("Please select both subject and topic.");
+        }
+    }
+
+    @FXML
+    private void handleUpdateFlashcards() {
+        // Get selected subject and topic from UI
+        String selectedSubject = subjectComboBox.getValue();
+        String selectedTopic = topicsListView.getSelectionModel().getSelectedItem();
+
+        if (selectedSubject != null && selectedTopic != null) {
+            // Load update view (to be created) might possibly create pop up
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/update-flashcards-view.fxml"));
+                Parent root = fxmlLoader.load();
+
+                Stage popupStage = new Stage();
+                popupStage.setTitle("Update Flashcards");
+                popupStage.setScene(new Scene(root));
+                popupStage.initModality(Modality.APPLICATION_MODAL);
+                popupStage.showAndWait();
+
+                initialize(); // Refresh
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            showAlert("Please select both subject and topic.");
+        }
+    }
+
+    //Reusable Alert to reduce code duplication
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Info");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }
