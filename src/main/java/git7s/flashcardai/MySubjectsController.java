@@ -180,4 +180,45 @@ public class MySubjectsController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleDeleteFlashcards() {
+        String selectedSubject = subjectComboBox.getValue();
+        String selectedTopic = topicsListView.getSelectionModel().getSelectedItem();
+
+        if (selectedSubject != null && selectedTopic != null) {
+            Main.cardDAO.deleteBySubjectAndTopic(Main.loggedInUser.getId(), selectedSubject, selectedTopic);
+            showAlert("Flashcards deleted for: " + selectedTopic);
+            initialize(); // Refresh list
+        } else {
+            showAlert("Please select both subject and topic.");
+        }
+    }
+
+    @FXML
+    private void handleUpdateFlashcards() {
+        String selectedSubject = subjectComboBox.getValue();
+        String selectedTopic = topicsListView.getSelectionModel().getSelectedItem();
+
+        if (selectedSubject != null && selectedTopic != null) {
+            // Load update view (to be created)
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/update-flashcards-view.fxml"));
+                Parent root = fxmlLoader.load();
+
+                Stage popupStage = new Stage();
+                popupStage.setTitle("Update Flashcards");
+                popupStage.setScene(new Scene(root));
+                popupStage.initModality(Modality.APPLICATION_MODAL);
+                popupStage.showAndWait();
+
+                initialize(); // Refresh
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            showAlert("Please select both subject and topic.");
+        }
+    }
+
 }
