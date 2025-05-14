@@ -58,9 +58,8 @@ public class DashboardController {
         // Get Study Data
         String[] studyData = getStudyData();
         // Setting data
-        studyProgressBar.setProgress(Double.parseDouble(studyData[2]));
-        int percentage = 50;
-        progressTextLabel.setText("You have " + percentage + "% correct flashcards!");
+        studyProgressBar.setProgress(Double.parseDouble(studyData[2])/100);
+        progressTextLabel.setText("Your lifetime score is " + studyData[2] + "% correct!");
         strongestTopicLabel.setText(studyData[0]);
         weakestTopicLabel.setText(studyData[1]);
 
@@ -77,7 +76,7 @@ public class DashboardController {
         HashMap<String, Integer> incorrectCounter = new HashMap<String, Integer>();
         HashMap<Integer, String> subjects = new HashMap<Integer, String>();
 
-        double correctPercent = 0;
+        int correctPercent = 0;
         String strongestSubject = "Play more to find out!";
         String weakestSubject = "Play more to find out!";
         int strongestSubjectCount = 0;
@@ -136,7 +135,8 @@ public class DashboardController {
         }
 
         try {
-            correctPercent = (totalCorrect/(totalCorrect+totalIncorrect));
+            correctPercent = (int) (totalCorrect/(totalCorrect+totalIncorrect)*100);
+
         } catch (ArithmeticException e){
             correctPercent = 0;
         }

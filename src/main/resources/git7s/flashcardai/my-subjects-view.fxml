@@ -33,7 +33,7 @@
             style="-fx-background-color: #d3d3d3; -fx-text-fill: #000000; -fx-border-color: grey;" />
 
     <!-- Delete Flashcards Button -->
-    <Button fx:id="deleteFlashcardsButton" layoutX="200" layoutY="390" text="Delete Flashcards"
+    <Button fx:id="deleteFlashcardsButton" layoutX="200" layoutY="390" text="Delete Subject"
             onAction="#handleDeleteFlashcards"
             style="-fx-background-color: #60C3D8; -fx-text-fill: white;" />
 
