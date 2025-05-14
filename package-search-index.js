@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"git7sproject","l":"git7s.flashcardai"},{"m":"git7sproject","l":"git7s.flashcardai.dao"}];updateSearchResults();
