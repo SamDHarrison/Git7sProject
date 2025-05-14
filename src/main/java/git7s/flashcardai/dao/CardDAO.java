@@ -282,4 +282,20 @@ public class CardDAO {
         }
         close();
     }
+
+    public void updateCard(Card card) {
+        open();
+        try {
+            PreparedStatement ps = connection.prepareStatement(
+                    "UPDATE cards SET front = ?, back = ? WHERE cardID = ?"
+            );
+            ps.setString(1, card.getFront());
+            ps.setString(2, card.getBack());
+            ps.setInt(3, card.getCardID());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        close();
+    }
 }
