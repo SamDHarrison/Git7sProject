@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="git7s.flashcardai.UpdateFlashcardsController">
+
+    <ListView fx:id="flashcardListView" layoutX="20" layoutY="20" prefHeight="200" prefWidth="560" />
+
+    <TextField fx:id="frontField" layoutX="20" layoutY="240" prefWidth="560" promptText="Edit Question" />
+    <TextField fx:id="backField" layoutX="20" layoutY="280" prefWidth="560" promptText="Edit Answer" />
+
+    <Button layoutX="250" layoutY="330" text="Save Changes" onAction="#handleUpdateFlashcard" />
+</AnchorPane>

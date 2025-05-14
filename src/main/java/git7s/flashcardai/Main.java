@@ -42,6 +42,10 @@ public class Main extends Application {
      * User that is currently logged in.
      */
     public static User loggedInUser = null;
+    /**
+     * Stores the currently selected topic for testing or updating flashcards
+     */
+    public static String currentDeck = null;
 
 
     /**

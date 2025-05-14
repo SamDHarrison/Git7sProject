@@ -225,7 +225,7 @@ public class MySubjectsController {
         String selectedTopic = topicsListView.getSelectionModel().getSelectedItem();
 
         if (selectedSubject != null && selectedTopic != null) {
-            // Load update view (to be created) might possibly create pop up
+            Main.currentDeck = selectedTopic;
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/update-flashcards-view.fxml"));
                 Parent root = fxmlLoader.load();

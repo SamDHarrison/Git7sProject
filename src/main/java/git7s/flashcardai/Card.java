@@ -43,6 +43,16 @@ public class Card {
         this.back = back;
     }
 
+    // Constructor used when loading an existing card from the database (cardID already assigned)
+    public Card(int cardID, int userID, String topic, String subject, String front, String back) {
+        this.cardID = cardID;
+        this.userID = userID;
+        this.topic = topic;
+        this.subject = subject;
+        this.front = front;
+        this.back = back;
+    }
+
     //Getters
     /**
      * Get the current ID of the card, most likely to search the db
