@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Import necessary JavaFX classes -->
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Root layout: a vertical box that aligns its children at the center with spacing between them -->
+<VBox alignment="CENTER" spacing="15.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.settings.SettingsController"> <!-- Link to the controller class -->
+
+    <!-- Padding around the VBox contents (top, right, bottom, left) -->
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Title label for the settings screen -->
+    <Label text="Settings" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <!-- "My Account" button, styled and linked to a handler method in the controller -->
+    <Button fx:id="myAccountButton" text="My Account" prefWidth="250" prefHeight="40"
+            onAction="#handleMyAccount"
+            style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;"/>
+
+    <!-- "Accessibility" button, with similar styling and action handler -->
+    <Button fx:id="accessibilityButton" text="Accessibility" prefWidth="250" prefHeight="40"
+            onAction="#handleAccessibility"
+            style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;"/>
+
+    <!-- "Share Flash Cards" button, styled and linked to its respective event handler -->
+    <Button fx:id="shareFlashCardsButton" text="Share Flash Cards" prefWidth="250" prefHeight="40"
+            onAction="#handleShareFlashCards"
+            style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;"/>
+</VBox>
