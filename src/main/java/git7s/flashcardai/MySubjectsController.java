@@ -182,7 +182,7 @@ public class MySubjectsController {
 
     /**
      * This method handles the deletion of flashcards based on the selected subject and topic.
-     * It ensures the interface is refreshed so that the deleted topic and subject are properly removed.
+     * Ensures UI is refreshed so that the deleted topic and subject are properly removed.
      * @implNote It also handles refreshing the dropdown and list views, and displays a confirmation or error alert.
      */
     @FXML
