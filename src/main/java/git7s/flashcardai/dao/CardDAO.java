@@ -267,6 +267,14 @@ public class CardDAO {
         }
     }
 
+    /**
+     * Deletes all flashcards for a specific user, subject, and topic.
+     * Used when a user wants to remove an entire flashcard set.
+     *
+     * @param userID The ID of the user (student number).
+     * @param subject The subject the flashcards belong to.
+     * @param topic The topic (e.g., week) under which the flashcards are grouped.
+     */
     public void deleteBySubjectAndTopic(int userID, String subject, String topic) {
         open();
         try {
@@ -283,6 +291,12 @@ public class CardDAO {
         close();
     }
 
+    /**
+     * Updates the front and back content of an existing flashcard in the database.
+     * This is used when a user edits a flashcard's question or answer.
+     *
+     * @param card The Card object containing the updated data.
+     */
     public void updateCard(Card card) {
         open();
         try {
@@ -299,6 +313,14 @@ public class CardDAO {
         close();
     }
 
+    /**
+     * Retrieves all flashcards for a specific user and topic.
+     * Useful when loading a topic's flashcards for review or editing.
+     *
+     * @param topic The topic name (e.g., "Week 1").
+     * @param userId The ID of the user who owns the flashcards.
+     * @return A list of Card objects matching the given topic and user.
+     */
     public List<Card> getByTopicAndUser(String topic, int userId) {
         List<Card> result = new ArrayList<>();
         open();
