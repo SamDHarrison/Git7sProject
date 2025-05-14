@@ -298,4 +298,31 @@ public class CardDAO {
         }
         close();
     }
+
+    public List<Card> getByTopicAndUser(String topic, int userId) {
+        List<Card> result = new ArrayList<>();
+        open();
+        try {
+            PreparedStatement ps = connection.prepareStatement(
+                    "SELECT * FROM cards WHERE topic = ? AND userID = ?"
+            );
+            ps.setString(1, topic);
+            ps.setInt(2, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(new Card(
+                        rs.getInt("cardID"),
+                        rs.getInt("userID"),
+                        rs.getString("topic"),
+                        rs.getString("subject"),
+                        rs.getString("front"),
+                        rs.getString("back")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        close();
+        return result;
+    }
 }
