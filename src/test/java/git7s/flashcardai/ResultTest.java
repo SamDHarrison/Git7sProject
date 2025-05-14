@@ -1,9 +1,3 @@
-package git7s.flashcardai;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import java.sql.Timestamp;
-import static org.junit.jupiter.api.Assertions.*;
 /*
 public class ResultTest {
 

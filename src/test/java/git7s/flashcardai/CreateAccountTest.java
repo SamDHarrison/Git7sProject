@@ -1,10 +1,5 @@
-import git7s.flashcardai.Main;
-import git7s.flashcardai.User;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.stage.Stage;
+package git7s.flashcardai;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

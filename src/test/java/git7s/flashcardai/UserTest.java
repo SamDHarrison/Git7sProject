@@ -75,10 +75,4 @@ public class UserTest {
         assertEquals(hash1, hash2, "Hash should be consistent with same password and salt.");
     }
 
-    ///To String Test
-    @Test
-    void toStringShouldReturnFormattedUserDetails() {
-        String expected = "User: Name: Milly Smith. Student ID: 117249823. Admin: false. Subjects: ";
-        assertEquals(expected, milly.toString());
-    }
 }

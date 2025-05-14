@@ -1,14 +1,11 @@
-import git7s.flashcardai.Card;
-import git7s.flashcardai.Main;
-import git7s.flashcardai.Result;
+package git7s.flashcardai;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class Dashboard {
+public class DashboardTest {
 
     private double correctDouble1;
     private double incorrectDouble2;
