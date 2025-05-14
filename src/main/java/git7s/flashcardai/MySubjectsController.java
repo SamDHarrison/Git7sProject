@@ -180,6 +180,11 @@ public class MySubjectsController {
         }
     }
 
+    /**
+     * This method handles the deletion of flashcards based on the selected subject and topic.
+     * Ensures UI is refreshed so that the deleted topic and subject are properly removed.
+     * @implNote It also handles refreshing the dropdown and list views, and displays a confirmation or error alert.
+     */
     @FXML
     private void handleDeleteFlashcards() {
         // Get selected subject and topic from UI
@@ -193,31 +198,39 @@ public class MySubjectsController {
             // Pull updated list of user's cards from the DB
             usersCards.setAll(Main.cardDAO.getByUserID(Main.loggedInUser.getId()));
 
-            // Rebuild subject list on the remaining cards
+            // Rebuild subject list from the remaining cards
             subjects.clear();
             for (Card card : usersCards) {
                 if (!subjects.contains(card.getSubject())) {
                     subjects.add(card.getSubject());
                 }
             }
-            subjectComboBox.setItems(subjects); //updates the dropdown options
 
-            // If the subject is now gone this clears it on the ListView
+            // Update the subject dropdown with refreshed list
+            subjectComboBox.setItems(subjects);
+
+            // If the subject is now gone, clear the UI selection and list
             if (!subjects.contains(selectedSubject)) {
                 subjectComboBox.getSelectionModel().clearSelection();
                 topicsListView.setItems(FXCollections.observableArrayList());
             } else {
-                // Refresh the topics list for the still-existing subject
-                subjectComboBox.setValue(selectedSubject); // re-triggering the selection logic
+                // Re-select subject to refresh topic list
+                subjectComboBox.setValue(selectedSubject);
                 handleSubjectSelection();
             }
-            //If nothing has happened the user is prompted
+
+            // Show confirmation
             showAlert("Flashcards deleted for: " + selectedTopic);
         } else {
+            // Show error if no subject or topic selected
             showAlert("Please select both subject and topic.");
         }
     }
 
+    /**
+     * This method opens a popup window for updating flashcards under a selected topic.
+     * @implNote It also sets the selected topic as the active deck in Main before loading the new window.
+     */
     @FXML
     private void handleUpdateFlashcards() {
         // Get selected subject and topic from UI
@@ -225,27 +238,37 @@ public class MySubjectsController {
         String selectedTopic = topicsListView.getSelectionModel().getSelectedItem();
 
         if (selectedSubject != null && selectedTopic != null) {
+            // Store current deck for use in the update view
             Main.currentDeck = selectedTopic;
             try {
+                // 1. Load the update flashcards view
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/update-flashcards-view.fxml"));
                 Parent root = fxmlLoader.load();
 
+                // 2. Create and configure new popup window
                 Stage popupStage = new Stage();
                 popupStage.setTitle("Update Flashcards");
                 popupStage.setScene(new Scene(root));
-                popupStage.initModality(Modality.APPLICATION_MODAL);
+                popupStage.initModality(Modality.APPLICATION_MODAL); // Prevent interaction with other windows
+
+                // 3. Show popup and pause background
                 popupStage.showAndWait();
 
-                initialize(); // Refresh
+                // Refresh the current page once popup is closed
+                initialize();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
+            // Show alert if user hasn't selected both a subject and a topic
             showAlert("Please select both subject and topic.");
         }
     }
 
-    //Reusable Alert to reduce code duplication
+    /**
+     * Displays a reusable informational alert dialog.
+     * @param message The message to be shown in the alert.
+     */
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Info");
