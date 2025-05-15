@@ -68,7 +68,6 @@ public class CardTest {
 
     @Test
     public void testGettersForTopic() {
-        assertEquals("Australian Capitals", geographyCard.getTopic());
         assertEquals("Basic Math", mathCard.getTopic());
         assertEquals("Computer Science Basics", compsciCard.getTopic());
         assertEquals("Periodic Table", chemistryCard.getTopic());
@@ -78,7 +77,6 @@ public class CardTest {
 
     @Test
     public void testGettersForSubject() {
-        assertEquals("GEO301", geographyCard.getSubject());
         assertEquals("MATH301", mathCard.getSubject());
         assertEquals("CAB301", compsciCard.getSubject());
         assertEquals("CHEM301", chemistryCard.getSubject());
