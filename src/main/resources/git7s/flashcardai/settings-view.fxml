@@ -8,7 +8,7 @@
 
 <!-- Root layout: a vertical box that aligns its children at the center with spacing between them -->
 <VBox alignment="CENTER" spacing="15.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="git7s.flashcardai.SettingsController"> <!-- Link to the controller class -->
+      fx:controller="git7s.flashcardai.controller.SettingsController"> <!-- Link to the controller class -->
 
     <!-- Padding around the VBox contents (top, right, bottom, left) -->
     <padding>

@@ -1,5 +1,6 @@
 package git7s.flashcardai;
 
+import git7s.flashcardai.model.Card;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

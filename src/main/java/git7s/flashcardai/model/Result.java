@@ -1,4 +1,4 @@
-package git7s.flashcardai;
+package git7s.flashcardai.model;
 
 import java.sql.Timestamp;
 
@@ -26,7 +26,14 @@ public class Result {
      * Did the user get the correct answer?
      */
     private boolean correct;
-
+    /**
+     * Subject (String) records the subject the result was created from
+     */
+    private String subject;
+    /**
+     * Subject (topic) records the topic the result was created from
+     */
+    private String topic;
     /**
      * This constructor creates a new result
      * @param userID The user ID
@@ -34,15 +41,14 @@ public class Result {
      * @param at The time it happened
      * @param correct The result of the test
      */
-    public Result(int userID, int cardID, Timestamp at, boolean correct) {
+    public Result(int userID, int cardID, Timestamp at, boolean correct, String subject, String topic) {
         this.userID = userID;
         this.cardID = cardID;
         this.at = at;
         this.correct = correct;
+        this.subject = subject;
+        this.topic = topic;
     }
-
-    //Getters
-
     /**
      * This method returns the ResultID
      * @return Result ID
@@ -78,11 +84,25 @@ public class Result {
     public boolean isCorrect() {
         return correct;
     }
+    /**
+     * Gets the result's subject
+     * @return
+     */
+    public String getSubject() {
+        return subject;
+    }
+    /**
+     * Gets the result's topic
+     * @return
+     */
+    public String getTopic() {
+        return topic;
+    }
 
-    //setters
     /**
      * This method sets the ResultID
      */
+
     public void setResultID(int resultID) {
         this.resultID = resultID;
     }
@@ -109,5 +129,19 @@ public class Result {
      */
     public void setCorrect(boolean correct) {
         this.correct = correct;
+    }
+    /**
+     * Set the result's topic
+     * @param topic
+     */
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+    /**
+     * Set's the results subject
+     * @param subject
+     */
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }

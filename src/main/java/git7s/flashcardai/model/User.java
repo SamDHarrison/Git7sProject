@@ -1,4 +1,4 @@
-package git7s.flashcardai;
+package git7s.flashcardai.model;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

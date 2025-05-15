@@ -1,4 +1,4 @@
-package git7s.flashcardai;
+package git7s.flashcardai.model;
 /**
  * A Simple Card Class that represents a flashcard - linking the question to the subject, topic and user.
  */
@@ -35,7 +35,7 @@ public class Card {
      * @param front The front text of the flashcard
      * @param back  The back text of the flashcard.
      */
-    public Card(int userID, String topic, String subject, String front, String back) {
+    public Card(int userID, String subject, String topic, String front, String back) {
         this.userID = userID;
         this.topic = topic;
         this.subject = subject;
@@ -44,7 +44,7 @@ public class Card {
     }
 
     // Constructor used when loading an existing card from the database (cardID already assigned)
-    public Card(int cardID, int userID, String topic, String subject, String front, String back) {
+    public Card(int cardID, int userID, String subject, String topic, String front, String back) {
         this.cardID = cardID;
         this.userID = userID;
         this.topic = topic;
@@ -53,7 +53,7 @@ public class Card {
         this.back = back;
     }
 
-    //Getters
+
     /**
      * Get the current ID of the card, most likely to search the db
      * @return CardID
@@ -96,9 +96,6 @@ public class Card {
     public String getSubject() {
         return subject;
     }
-
-
-    //Setters
     /**
      * Set the card's ID
      * @param cardID The cards ID

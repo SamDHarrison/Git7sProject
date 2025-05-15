@@ -4,14 +4,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="git7s.flashcardai.CardDeckController">
 
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="git7s.flashcardai.controller.CardDeckController">
     <!-- Top bar with Back link, Title, and Deck label -->
     <top>
         <VBox style="-fx-background-color: #ffffff; -fx-padding: 10;">
             <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5;">
-                <Hyperlink fx:id="backToTopicsLink" text="← Back to Topics"
+                <Hyperlink fx:id="backToTopicsLink" text="← Back to Subjects"
                            style="-fx-text-fill: #555; -fx-font-size: 14px;" />
             </HBox>
             <HBox alignment="CENTER" spacing="20" style="-fx-padding: 5;">

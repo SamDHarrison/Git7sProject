@@ -1,14 +1,15 @@
 package git7s.flashcardai;
 
-import git7s.flashcardai.dao.CardDAO;
-import git7s.flashcardai.dao.ResultDAO;
-import git7s.flashcardai.dao.UserDAO;
+import git7s.flashcardai.dao.DatabaseConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * The Main class extends application and is the static base of the program.
@@ -27,25 +28,17 @@ public class Main extends Application {
      */
     public static final int HEIGHT = 360;
     /**
-     * User DAO object
+     * Static Connection for entire Application
      */
-    public static UserDAO userDAO = new UserDAO();
-    /**
-     * Result DAO object
-     */
-    public static ResultDAO resultDAO = new ResultDAO();
-    /**
-     * Card DAO object
-     */
-    public static CardDAO cardDAO = new CardDAO();
+    public static DatabaseConnection DataBaseConnection;
     /**
      * User that is currently logged in.
      */
-    public static User loggedInUser = null;
+    public static int loggedInUserID;
     /**
-     * Stores the currently selected topic for testing or updating flashcards
+     * Stores the currently selected topic to remediate transition between GUIs
      */
-    public static String currentDeck = null;
+    public static String currentDeck;
 
 
     /**
@@ -70,24 +63,30 @@ public class Main extends Application {
      * @param args Default Param
      */
     public static void main(String[] args) {
-        ///Connect to DB
-            userDAO.createTable();
-            resultDAO.createTable();
-            cardDAO.createTable();
-        /// Shutdown hook to close connections
+        //Setup
+        loggedInUserID = -1; //No user logged in
+        /// Shutdown hook (manage DB)
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
-                if (userDAO != null) userDAO.close();
-                if (resultDAO != null) resultDAO.close();
-                if (cardDAO != null) cardDAO.close();
-                System.out.println("DAO connections closed successfully.");
-            } catch (Exception e) {
-                System.err.println("Error closing DAO connections: " + e.getMessage());
+                DatabaseConnection.getInstance().close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         }));
-        ///Launch FXML App
+        //Launch FXML App
         launch();
 
+    }
+    /**
+     * Tacky message we have been using - getting rid of it, here for debugging only or critical messages
+     * @param message
+     */
+    public static void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Info");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 

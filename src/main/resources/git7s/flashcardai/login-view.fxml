@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="git7s.flashcardai.LoginController">
+<AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="git7s.flashcardai.controller.LoginController">
 
     <!-- App logo displayed using ImageView -->
     <ImageView fitHeight="240" fitWidth="240" layoutX="40" layoutY="70" pickOnBounds="true" preserveRatio="true">
@@ -31,4 +31,7 @@
     <Label layoutX="440" layoutY="220" text="Create Account"
            onMouseClicked="#handleCreateAccount"
            style="-fx-text-fill: #007BFF; -fx-underline: true; -fx-cursor: hand;" />
+
+    <Label fx:id="errorLabel" layoutX="300" layoutY="300" style="-fx-font-size: 14px; -fx-text-fill: red;" textAlignment="CENTER"/>
+
 </AnchorPane>

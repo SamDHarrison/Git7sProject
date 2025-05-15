@@ -1,5 +1,9 @@
-package git7s.flashcardai;
+package git7s.flashcardai.controller;
 
+import git7s.flashcardai.dao.CardDAO;
+import git7s.flashcardai.model.Card;
+import git7s.flashcardai.Main;
+import git7s.flashcardai.model.CardManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,6 +17,8 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+
+import java.util.List;
 
 /**
  * A class that handles the My Subjects GUI
@@ -38,7 +44,7 @@ public class MySubjectsController {
     /**
      * List that contains all the options for the card dropdown menu
      */
-    private ObservableList<Card> usersCards;
+    private List<Card> usersCards;
     /**
      * List that contains all the options for the subject dropdown menu
      */
@@ -47,6 +53,18 @@ public class MySubjectsController {
      * List that contains all the options for the topic dropdown menu
      */
     private ObservableList<String> selectedTopics;
+    /**
+     * First subject selection
+     */
+    private String firstSubjectSelection;
+    /**
+     * First topic selection
+     */
+    private String firstTopicSelection;
+    /**
+     * Card Manager
+     */
+    private CardManager cardManager;
 
     /**
      * Initialises the GUI
@@ -57,9 +75,13 @@ public class MySubjectsController {
     @FXML
     public void initialize() {
         //Load all users cards
-        usersCards = FXCollections.observableArrayList(Main.cardDAO.getByUserID(Main.loggedInUser.getId()));
+        cardManager = new CardManager(new CardDAO());
+        usersCards = cardManager.searchByUserID(Main.loggedInUserID);
+
         subjects = FXCollections.observableArrayList();
         selectedTopics = FXCollections.observableArrayList();
+
+
         //Pull menu values
         for (Card card : usersCards) {
             if(subjects != null) {
@@ -71,13 +93,16 @@ public class MySubjectsController {
             }
         }
         subjectComboBox.setItems(subjects);
-        try {
-            subjectComboBox.setValue(subjects.getFirst());
-            handleSubjectSelection();
-        } catch (Exception e) {
-            //Do Nothing - likely no subjects available
+        subjectComboBox.getSelectionModel().selectFirst();
+        if (!usersCards.isEmpty()){
+            if (firstSubjectSelection == null || firstTopicSelection == null){
+                subjectComboBox.getSelectionModel().selectFirst();
+                handleSubjectSelection();
+            } else {
+                subjectComboBox.getSelectionModel().select(firstSubjectSelection);
+                topicsListView.getSelectionModel().select(firstTopicSelection);
+            }
         }
-
     }
 
     /**
@@ -87,7 +112,7 @@ public class MySubjectsController {
     private void handleSubjectSelection() {
         String selectedSubject = subjectComboBox.getValue();
 
-        if (selectedSubject != null && subjects.contains(selectedSubject)) {
+        if (selectedSubject != null) {
             topicsListView.setItems(topicSelection(selectedSubject));
         }
     }
@@ -101,8 +126,12 @@ public class MySubjectsController {
     @FXML
     private void handleCreateFlashcardsPopup() {
         try {
+            firstSubjectSelection = "";
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/create-new-flashcards.fxml"));
             Parent popupRoot = fxmlLoader.load();
+
+            CreateNewFlashcardsController controller = fxmlLoader.getController();
+            controller.setParent(this);
 
             Stage popupStage = new Stage();
             popupStage.setTitle("Create Flashcards");
@@ -111,11 +140,13 @@ public class MySubjectsController {
             popupStage.showAndWait();
             //Refresh
             initialize();
+            if (!firstSubjectSelection.isEmpty()){
+                handleUpdateFlashcards();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     /**
      * This method takes a String s (subject) and returns a list of all the topics of that subject.
      * @param s The input subject query
@@ -131,7 +162,6 @@ public class MySubjectsController {
 
         return selectedTopics;
     }
-
     /**
      * This method handles the button that takes the user to the test screen
      * 1. Set selected topic
@@ -144,7 +174,7 @@ public class MySubjectsController {
         if (selection != null){
             if (selectedTopics.contains(selection)){
                 try {
-                    CardDeckController.currentDeck = selection;
+                    Main.currentDeck = selection;
 
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/card-deck-view.fxml"));
                     Parent root = fxmlLoader.load();
@@ -161,7 +191,6 @@ public class MySubjectsController {
             }
         }
     }
-
     /**
      * This button takes the user back to the dashboard
      */
@@ -186,44 +215,17 @@ public class MySubjectsController {
      * @implNote It also handles refreshing the dropdown and list views, and displays a confirmation or error alert.
      */
     @FXML
-    private void handleDeleteFlashcards() {
+    private void handleDeleteSubject() {
         // Get selected subject and topic from UI
         String selectedSubject = subjectComboBox.getValue();
         String selectedTopic = topicsListView.getSelectionModel().getSelectedItem();
 
         if (selectedSubject != null && selectedTopic != null) {
+            /// FIX ADD DELETE SUBJECT, DELETE TOPIC
             // Delete the flashcards under chosen subject and topic for the user
-            Main.cardDAO.deleteBySubjectAndTopic(Main.loggedInUser.getId(), selectedSubject, selectedTopic);
-
+            cardManager.deleteSubject(selectedSubject, selectedTopic);
             // Pull updated list of user's cards from the DB
-            usersCards.setAll(Main.cardDAO.getByUserID(Main.loggedInUser.getId()));
-
-            // Rebuild subject list from the remaining cards
-            subjects.clear();
-            for (Card card : usersCards) {
-                if (!subjects.contains(card.getSubject())) {
-                    subjects.add(card.getSubject());
-                }
-            }
-
-            // Update the subject dropdown with refreshed list
-            subjectComboBox.setItems(subjects);
-
-            // If the subject is now gone, clear the UI selection and list
-            if (!subjects.contains(selectedSubject)) {
-                subjectComboBox.getSelectionModel().clearSelection();
-                topicsListView.setItems(FXCollections.observableArrayList());
-            } else {
-                // Re-select subject to refresh topic list
-                subjectComboBox.setValue(selectedSubject);
-                handleSubjectSelection();
-            }
-
-            // Show confirmation
-            showAlert("Flashcards deleted for: " + selectedTopic);
-        } else {
-            // Show error if no subject or topic selected
-            showAlert("Please select both subject and topic.");
+            initialize();
         }
     }
 
@@ -256,24 +258,19 @@ public class MySubjectsController {
 
                 // Refresh the current page once popup is closed
                 initialize();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
-            // Show alert if user hasn't selected both a subject and a topic
-            showAlert("Please select both subject and topic.");
+            //Error message
         }
     }
 
-    /**
-     * Displays a reusable informational alert dialog.
-     * @param message The message to be shown in the alert.
-     */
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Info");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+
+
+    public void setSelected(String subject, String topic){
+        this.firstTopicSelection = topic;
+        this.firstSubjectSelection = subject;
     }
 }

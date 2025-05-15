@@ -1,63 +1,63 @@
-package git7s.flashcardai;
+package git7s.flashcardai.llm;
 
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import git7s.flashcardai.Main;
+import git7s.flashcardai.dao.CardDAO;
+import git7s.flashcardai.model.Card;
+import git7s.flashcardai.model.CardManager;
 
 /**
  * This class converts the API response, formats into flashcard
  */
-public class FlashCardDraft {
-    /**
-     * The response from the API REST POST call
-     */
-    private HttpResponse<String> response;
+public class FlashCardGenerateManager {
     /**
      * The Flashcards Hashmap references the processed front and back Strings
      */
-    private HashMap<String, String> Flashcards = new HashMap<String, String>();
-
+    private HashMap<String, String> NewFlashcards = new HashMap<String, String>();
+    /**
+     * String that holds the response from the LLM
+     */
+    private String response;
+    /**
+     * Card Manager to inject into the DB
+     */
+    private CardManager cardManager;
     /**
      * The FlashCardDraft constructor takes the API response and generates formatted cards.
      * @param response The response from the API REST POST call
      */
-    public FlashCardDraft(HttpResponse<String> response) {
+    public FlashCardGenerateManager(String response) {
+        cardManager = new CardManager(new CardDAO());
         this.response = response;
         generateFlashcards();
-
     }
-
     /**
      * This method generates the flashcards from the response.
      */
     public void generateFlashcards() {
-        String jsonBody = response.body();
-        JsonObject jsonObject = JsonParser.parseString(jsonBody).getAsJsonObject();
-        String responseParam = jsonObject.get("response").getAsString();
-
-        if (responseParam != null) {
-            System.out.println(responseParam);
+        if (response != null) {
             Pattern pattern = Pattern.compile("\\(([^)]+)\\)");
-            Matcher matcher = pattern.matcher(responseParam);
+            Matcher matcher = pattern.matcher(response);
             while (matcher.find()) {
                 String flashcardString = matcher.group(1).trim();  // e.g., "front:back"
                 String[] fb = flashcardString.split(":", 2); // Limit split to 2 parts
                 if (fb.length == 2) {
                     String front = fb[0].trim();
                     String back = fb[1].trim();
-                    Flashcards.put(front, back);
+                    NewFlashcards.put(front, back);
                 }
             }
+        }else {
+            System.out.println("Sent response before ready");
         }
 
     }
-
     /**
      * This method takes the generated flashcards and adds them to the db
      * @param subject The specified subject
@@ -65,10 +65,10 @@ public class FlashCardDraft {
      * @param quantity The specified quantity
      */
     public void addFlashCards(String subject, String topic, int quantity) {
-
         int created = 0;
-        for (String str : Flashcards.keySet()){
-            Main.cardDAO.insert(new Card(Main.loggedInUser.getId(), topic, subject, str, Flashcards.get(str)));
+        for (String str : NewFlashcards.keySet()){
+            Card card = new Card(Main.loggedInUserID, subject, topic, str, NewFlashcards.get(str));
+            cardManager.addCard(card);
             created++;
             if (created >= quantity) {
                 return;

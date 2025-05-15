@@ -1,8 +1,6 @@
 package git7s.flashcardai.dao;
 
-import git7s.flashcardai.Card;
-import git7s.flashcardai.DatabaseConnection;
-
+import git7s.flashcardai.model.Card;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +15,17 @@ public class CardDAO {
     private Connection connection;
 
     /**
+     * The Constructor which gets the static connection from the main class
+     */
+    public CardDAO() {
+        connection = DatabaseConnection.getInstance();
+        createTable();
+    }
+    /**
      * Creates a Table in the database if not already created.
      */
     public void createTable(){
-        open();
+        
         try {
             Statement createTable = connection.createStatement();
             createTable.execute(
@@ -37,7 +42,7 @@ public class CardDAO {
         } catch (SQLException ex) {
             System.err.println(ex);
         }
-        close();
+        
     }
 
     /**
@@ -45,7 +50,7 @@ public class CardDAO {
      * @param card New Card for insertion
      */
     public void insert(Card card){
-        open();
+        
         try {
             PreparedStatement insertCard = connection.prepareStatement(
                     "INSERT INTO cards (userID, topic, subject, front, back) VALUES (?, ?, ?, ?, ?)"
@@ -59,19 +64,20 @@ public class CardDAO {
         } catch (SQLException ex) {
             System.err.println(ex);
         }
-        close();
+        
     }
 
     /**
      * Updates a card in the db
-     * @param cardID New CardID
-     * @param newTopic New topic
-     * @param newSubject New Subject
-     * @param newFront New Front text
-     * @param newBack New back text
+     * @param card The new card
      */
-    public void update(int cardID, String newTopic, String newSubject, String newFront, String newBack){
-        open();
+    public void update(Card card){
+        int cardID = card.getCardID();
+        String newSubject = card.getSubject();
+        String newTopic = card.getTopic();
+        String newFront = card.getFront();
+        String newBack = card.getBack();
+
         try{
             PreparedStatement updateStatement = connection.prepareStatement("UPDATE cards SET topic = ?, subject = ?, front = ?, back = ? WHERE cardID = ?");
             updateStatement.setInt(5, cardID);
@@ -83,7 +89,7 @@ public class CardDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
+        
     }
 
     /**
@@ -91,15 +97,15 @@ public class CardDAO {
      * @param cardID Card to be deleted
      */
     public void delete(int cardID){
-        open();
+        
         try{
-            PreparedStatement getStatement = connection.prepareStatement("DELETE * FROM cards WHERE cardID = ?");
+            PreparedStatement getStatement = connection.prepareStatement("DELETE FROM cards WHERE cardID = ?");
             getStatement.setInt(1, cardID);
             getStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
+        
     }
 
     /**
@@ -108,7 +114,7 @@ public class CardDAO {
      * @return List of Cards by user ID
      */
     public List<Card> getByUserID(int userIDQuery){
-        open();
+        
         List<Card> cards = new ArrayList<>();
         try {
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE userID = ?");
@@ -128,7 +134,7 @@ public class CardDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        close();
+        
         return cards;
     }
     /**
@@ -137,7 +143,7 @@ public class CardDAO {
      * @return List of Cards by topic ID
      */
     public List<Card> getByTopic(String topicQuery){
-        open();
+        
         List<Card> cards = new ArrayList<>();
         try {
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE topic = ?");
@@ -157,7 +163,7 @@ public class CardDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        close();
+        
         return cards;
     }
     /**
@@ -166,7 +172,7 @@ public class CardDAO {
      * @return List of Cards by subject ID
      */
     public List<Card> getBySubject(String subjectQuery){
-        open();
+        
         List<Card> cards = new ArrayList<>();
         try {
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE subject = ?");
@@ -186,7 +192,7 @@ public class CardDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        close();
+        
         return cards;
     }
 
@@ -195,7 +201,7 @@ public class CardDAO {
      * @return List of all records
      */
     public List<Card> getAll(){
-        open();
+        
         List<Card> cards = new ArrayList<>();
         try {
             Statement insertStatement = connection.createStatement();
@@ -208,14 +214,14 @@ public class CardDAO {
                 String subject = resultSet.getString("subject");
                 String front = resultSet.getString("front");
                 String back = resultSet.getString("back");
-                Card card = new Card(userID, topic, subject, front, back);
+                Card card = new Card(userID, subject, topic, front, back);
                 card.setCardID(cardID);
                 cards.add(card);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        close();
+        
         return cards;
     }
 
@@ -225,7 +231,7 @@ public class CardDAO {
      * @return Card Object
      */
     public Card getById(int cardIDQuery) {
-        open();
+        
         try{
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE cardID = ?");
             getStatement.setInt(1, cardIDQuery);
@@ -245,27 +251,10 @@ public class CardDAO {
 
             e.printStackTrace();
         }
-        close();
+        
         return null;
     }
-
-    /**
-     * Open the DB connection
-     */
-    public void open(){
-        connection = DatabaseConnection.getInstance();
-    }
-
-    /**
-     * Close the DB connection
-     */
-    public void close(){
-        try {
-            connection.close();
-        } catch (SQLException ex) {
-            System.err.println(ex);
-        }
-    }
+    
 
     /**
      * Deletes all flashcards for a specific user, subject, and topic.
@@ -276,7 +265,7 @@ public class CardDAO {
      * @param topic The topic (e.g., week) under which the flashcards are grouped.
      */
     public void deleteBySubjectAndTopic(int userID, String subject, String topic) {
-        open();
+        
         try {
             PreparedStatement stmt = connection.prepareStatement(
                     "DELETE FROM cards WHERE userID = ? AND subject = ? AND topic = ?"
@@ -288,29 +277,7 @@ public class CardDAO {
         } catch (SQLException ex) {
             System.err.println(ex);
         }
-        close();
-    }
-
-    /**
-     * Updates the front and back content of an existing flashcard in the database.
-     * This is used when a user edits a flashcard's question or answer.
-     *
-     * @param card The Card object containing the updated data.
-     */
-    public void updateCard(Card card) {
-        open();
-        try {
-            PreparedStatement ps = connection.prepareStatement(
-                    "UPDATE cards SET front = ?, back = ? WHERE cardID = ?"
-            );
-            ps.setString(1, card.getFront());
-            ps.setString(2, card.getBack());
-            ps.setInt(3, card.getCardID());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        close();
+        
     }
 
     /**
@@ -323,7 +290,7 @@ public class CardDAO {
      */
     public List<Card> getByTopicAndUser(String topic, int userId) {
         List<Card> result = new ArrayList<>();
-        open();
+        
         try {
             PreparedStatement ps = connection.prepareStatement(
                     "SELECT * FROM cards WHERE topic = ? AND userID = ?"
@@ -344,7 +311,7 @@ public class CardDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
+        
         return result;
     }
 }
