@@ -1,4 +1,4 @@
-package git7s.flashcardai;
+package git7s.flashcardai.controller;
 
 
 // Import necessary JavaFX classes

@@ -1,6 +1,9 @@
-package git7s.flashcardai;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
+package git7s.flashcardai.controller;
+import git7s.flashcardai.dao.CardDAO;
+import git7s.flashcardai.dao.ResultDAO;
+import git7s.flashcardai.dao.UserDAO;
+import git7s.flashcardai.model.*;
+import git7s.flashcardai.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -26,6 +29,14 @@ public class DashboardController {
      */
     public Button testAllButton;
     /**
+     * Error Label for errors
+     */
+    public Label errorLabel;
+    /**
+     * Displays the name on entry
+     */
+    public Label welcomeLabel;
+    /**
      * The progress bar to track correct and incorrect
      */
     @FXML private ProgressBar studyProgressBar;
@@ -49,12 +60,27 @@ public class DashboardController {
      * Button for logging out
      */
     @FXML private Button logOutButton;
-
+    /**
+     * Result Manager for accessing DB
+     */
+    private ResultManager resultManager;
+    /**
+     * Card Manager for accessing DB
+     */
+    private CardManager cardManager;
+    /**
+     * For accessing the user DB
+     */
+    private UserManager userManager;
     /**
      * Initialise is run when the GUI is opened.
      */
     @FXML
     public void initialize() {
+        //DB
+        resultManager = new ResultManager(new ResultDAO());
+        cardManager = new CardManager(new CardDAO());
+        userManager = new UserManager(new UserDAO());
         // Get Study Data
         String[] studyData = getStudyData();
         // Setting data
@@ -62,14 +88,14 @@ public class DashboardController {
         progressTextLabel.setText("Your lifetime score is " + studyData[2] + "% correct!");
         strongestTopicLabel.setText(studyData[0]);
         weakestTopicLabel.setText(studyData[1]);
-
+        welcomeLabel.setText("Welcome, " + userManager.getUser(Main.loggedInUserID).getFullName());
     }
 
     /**
      * Generates a String[] that contains pertinent data from the Results table.
      * @return String[] of study data. 1: Strongest Topic, 2: Weakest Topic, 3: Correct/Incorrect Ratio
      */
-    private String[] getStudyData(){
+    private String[] getStudyData(){ /// Really inefficient, recommend studydatamanger class
         String[] studyData = new String[3];
 
         HashMap<String, Integer> correctCounter = new HashMap<String, Integer>();
@@ -84,51 +110,43 @@ public class DashboardController {
         double totalCorrect = 0;
         double totalIncorrect = 0;
 
-        //Get Subjects
-        for (Card card : Main.cardDAO.getByUserID(Main.loggedInUser.getId())){
-            subjects.put(card.getCardID(), card.getSubject());
-        }
         //Get Results
-        for (Result result : Main.resultDAO.getByUserID(Main.loggedInUser.getId())) {
-            Integer cardID = result.getCardID();
-
+        for (Result result : resultManager.getByUserID(Main.loggedInUserID)) {
             /// Correct
             if (result.isCorrect()){
-                if (correctCounter.containsKey(subjects.get(cardID))){
-                    Integer count = correctCounter.get(subjects.get(cardID));
-                    correctCounter.replace(subjects.get(cardID), count + 1);
+                totalCorrect++;
+                if (correctCounter.containsKey(result.getSubject())){
+                    Integer count = correctCounter.get(result.getSubject());
+                    correctCounter.replace(result.getSubject(), count + 1);
                     if (count > strongestSubjectCount) {
-                        strongestSubject = subjects.get(cardID);
+                        strongestSubject = result.getSubject();
                         strongestSubjectCount = count;
-                        totalCorrect++;
                     }
                 }
                 else {
-                    correctCounter.put(subjects.get(cardID), 1);
+                    correctCounter.put(result.getSubject(), 1);
                     if (strongestSubjectCount < 1) {
-                        strongestSubject = subjects.get(cardID);
+                        strongestSubject = result.getSubject();
                         strongestSubjectCount = 1;
-                        totalCorrect++;
                     }
                 }
             }
             /// Incorrect
             else {
-                if (incorrectCounter.containsKey(subjects.get(cardID))){
-                    Integer count = incorrectCounter.get(subjects.get(cardID));
-                    incorrectCounter.replace(subjects.get(cardID), count + 1);
+                totalIncorrect++;
+                if (incorrectCounter.containsKey(result.getSubject())){
+                    Integer count = incorrectCounter.get(result.getSubject());
+                    incorrectCounter.replace(result.getSubject(), count + 1);
                     if (count > weakestSubjectCount) {
-                        weakestSubject = subjects.get(cardID);
+                        weakestSubject = result.getSubject();
                         weakestSubjectCount = count;
-                        totalIncorrect++;
                     }
-                }
-                else {
-                    incorrectCounter.put(subjects.get(cardID), 1);
+
+                } else {
+                    incorrectCounter.put(result.getSubject(), 1);
                     if (weakestSubjectCount < 1) {
-                        weakestSubject = subjects.get(cardID);
+                        weakestSubject = result.getSubject();
                         weakestSubjectCount = 1;
-                        totalIncorrect++;
                     }
                 }
             }
@@ -140,11 +158,9 @@ public class DashboardController {
         } catch (ArithmeticException e){
             correctPercent = 0;
         }
-
         studyData[0] = strongestSubject;
         studyData[1] = weakestSubject;
         studyData[2] = String.valueOf(correctPercent);
-
         return studyData;
     }
 
@@ -173,12 +189,11 @@ public class DashboardController {
     private void handleLogout() {
         try {
             // Clear the logged-in user
-            Main.loggedInUser = null;
+            Main.loggedInUserID = -1;
 
             // Load login screen
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/login-view.fxml"));
             Parent root = loader.load();
-
             // Switch scenes
             Stage stage = (Stage) logOutButton.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -189,14 +204,13 @@ public class DashboardController {
             e.printStackTrace();
         }
     }
-
     /**
      * This method tests all the users flashcards
      */
     public void handleTestAll() {
-        if (Main.cardDAO.getByUserID(Main.loggedInUser.getId()) != null){
+        if (!cardManager.searchByUserID(Main.loggedInUserID).isEmpty()){
             try {
-                CardDeckController.currentDeck = "ALL";
+                Main.currentDeck = "ALL";
 
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/card-deck-view.fxml"));
                 Parent root = fxmlLoader.load();
@@ -210,23 +224,11 @@ public class DashboardController {
             }
         }
         else {
-            showAlert(Alert.AlertType.ERROR, "You have no cards", "Sorry, you do not have any cards. Press My Subjects to create some");
+            errorLabel.setText("You have no cards! Press My Subjects to create some!");
         }
 
     }
-    /**
-     * Simple alert GUI method
-     * @param alertType The type of alert
-     * @param title Title of the alert box
-     * @param message Message of the alert box
-     */
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
 }
 
 

@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="git7s.flashcardai.CreateNewFlashcardsController"
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="git7s.flashcardai.controller.CreateNewFlashcardsController"
       prefWidth="400" prefHeight="300" style="-fx-padding: 20;">
 
     <Label text="Create New Flashcards" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
@@ -17,5 +17,6 @@
     <Spinner fx:id="flashcardCountSpinner" promptText="Number of flashcards" editable="true" />
 
     <Button fx:id="createFlashcardsButton" text="Create Flashcards" onAction="#handleCreateFlashcards"
-            style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
+            style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    <Label fx:id="errorLabel" style="-fx-font-size: 12px;" />
 </VBox>

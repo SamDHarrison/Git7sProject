@@ -1,7 +1,6 @@
 package git7s.flashcardai.dao;
 
-import git7s.flashcardai.DatabaseConnection;
-import git7s.flashcardai.Result;
+import git7s.flashcardai.model.Result;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,10 +14,18 @@ public class ResultDAO {
      */
     private Connection connection;
     /**
+     * The Constructor which gets the static connection from the main class
+     */
+    public ResultDAO() {
+        connection = DatabaseConnection.getInstance();
+        createTable();
+    }
+    /**
      * Creates a Table in the database if not already created.
      */
+
     public void createTable(){
-        open();
+        
         try {
             Statement createTable = connection.createStatement();
             createTable.execute(
@@ -27,7 +34,9 @@ public class ResultDAO {
                             + "userID INTEGER NOT NULL, "
                             + "cardID INTEGER NOT NULL, "
                             + "at TIMESTAMP NOT NULL, "
-                            + "correct BIT NOT NULL,"
+                            + "correct BIT NOT NULL, "
+                            + "subject VARCHAR NOT NULL, "
+                            + "topic VARCHAR NOT NULL, "
                             + "FOREIGN KEY (userID) REFERENCES users(id), "
                             + "FOREIGN KEY (cardID) REFERENCES cards(id)"
                             + ")"
@@ -36,14 +45,14 @@ public class ResultDAO {
 
             System.err.println(ex);
         }
-        close();
+        
     }
     /**
      * Inserts a Result to the db
      * @param result New Result for insertion
      */
     public void insert(Result result){
-        open();
+        
         try {
             PreparedStatement insertResult = connection.prepareStatement(
                     "INSERT INTO results (userID, cardID, at, correct) VALUES (?, ?, ?, ?)"
@@ -56,7 +65,7 @@ public class ResultDAO {
         } catch (SQLException ex) {
             System.err.println(ex);
         }
-        close();
+        
     }
 
     /**
@@ -64,7 +73,7 @@ public class ResultDAO {
      * @param resultID Specified result
      */
     public void delete(int resultID){
-        open();
+        
         try{
             PreparedStatement getStatement = connection.prepareStatement("DELETE * FROM results WHERE resultID = ?");
             getStatement.setInt(1, resultID);
@@ -72,7 +81,7 @@ public class ResultDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
+        
     }
 
     /**
@@ -81,7 +90,7 @@ public class ResultDAO {
      * @return List of results
      */
     public List<Result> getByCardID(int cardIDQuery){
-        open();
+
         List<Result> results = new ArrayList<>();
         try {
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM results WHERE cardID = ?");
@@ -93,14 +102,16 @@ public class ResultDAO {
                 int cardID = resultSet.getInt("cardID");
                 Timestamp at = resultSet.getTimestamp("at");
                 boolean correct = resultSet.getBoolean("correct");
-                Result result = new Result(userID, cardID, at, correct);
+                String subject = resultSet.getString("subject");
+                String topic = resultSet.getString("topic");
+                Result result = new Result(userID, cardID, at, correct, subject, topic);
                 result.setResultID(resultID);
                 results.add(result);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        close();
+
         return results;
     }
 
@@ -109,7 +120,6 @@ public class ResultDAO {
      * @return List of results
      */
     public List<Result> getAll(){
-        open();
         List<Result> results = new ArrayList<>();
         try {
             Statement insertStatement = connection.createStatement();
@@ -121,14 +131,16 @@ public class ResultDAO {
                 int cardID = resultSet.getInt("cardID");
                 Timestamp at = resultSet.getTimestamp("at");
                 boolean correct = resultSet.getBoolean("correct");
-                Result result = new Result(userID, cardID, at, correct);
+                String subject = resultSet.getString("subject");
+                String topic = resultSet.getString("topic");
+                Result result = new Result(userID, cardID, at, correct, subject, topic);
                 result.setResultID(resultID);
                 results.add(result);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        close();
+        
         return results;
     }
 
@@ -138,7 +150,7 @@ public class ResultDAO {
      * @return List of results
      */
     public List<Result> getByUserID(int userIDQuery){
-        open();
+
         List<Result> results = new ArrayList<>();
         try {
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM results WHERE userID = ?");
@@ -150,33 +162,19 @@ public class ResultDAO {
                 int cardID = resultSet.getInt("cardID");
                 Timestamp at = resultSet.getTimestamp("at");
                 boolean correct = resultSet.getBoolean("correct");
-                Result result = new Result(userID, cardID, at, correct);
+                String subject = resultSet.getString("subject");
+                String topic = resultSet.getString("topic");
+                Result result = new Result(userID, cardID, at, correct, subject, topic);
                 result.setResultID(resultID);
                 results.add(result);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        close();
+
         return results;
 
     }
 
-    /**
-     * Close the DB
-     */
-    public void open(){
-        connection = DatabaseConnection.getInstance();
-    }
-
-    /**
-     * Open the db
-     */
-    public void close(){
-        try {
-            connection.close();
-        } catch (SQLException ex) {
-            System.err.println(ex);
-        }
-    }
+    
 }

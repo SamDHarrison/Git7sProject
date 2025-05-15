@@ -1,25 +1,26 @@
 package git7s.flashcardai.dao;
 
-import git7s.flashcardai.DatabaseConnection;
-import git7s.flashcardai.User;
-import javafx.scene.chart.PieChart;
+import git7s.flashcardai.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-/**
- * The DAO object for interacting with the User Table over the specified connection
- */
 public class UserDAO {
     /**
      * The connection used for connecting to the db
      */
     private Connection connection;
     /**
+     * The Constructor which gets the static connection from the main class
+     */
+    public UserDAO() {
+        connection = DatabaseConnection.getInstance();
+        createTable();
+    }
+    /**
      * Creates a Table in the database if not already created.
      */
     public void createTable(){
-        open();
         try {
             Statement createTable = connection.createStatement();
             createTable.execute(
@@ -37,14 +38,13 @@ public class UserDAO {
 
             System.err.println(ex);
         }
-        close();
     }
-    /**
+/**
      * Inserts a user to the db
      * @param user New User for insertion
      */
     public void insert(User user){
-        open();
+        
         try {
             PreparedStatement insertUser = connection.prepareStatement(
                     "INSERT INTO users (id, passwordHash, salt, firstName, lastName, admin) VALUES (?, ?, ?, ?, ?, ?)"
@@ -59,39 +59,29 @@ public class UserDAO {
         } catch (SQLException ex) {
             System.err.println(ex);
         }
-        close();
+        
     }
 
     /**
      * Update a specific user
-     * @param id The existing ID
-     * @param newID The new ID
-     * @param newPassword The new password
-     * @param newFirstName The new firstname
-     * @param newLastName The new lastname
-     * @param newAdmin The admin level
-     */
-    public void update(int id, int newID, String newPassword, String newFirstName, String newLastName, boolean newAdmin){
-        open();
-        try{
-            User existingUser= getById(id);
-            if(existingUser==null) {
-                return;
-            }
+     * @param oldUserID The existing ID
+     * @param user The updated user
 
+     */
+    public void update(int oldUserID, User user){
+        try{
             PreparedStatement updateStatement = connection.prepareStatement("UPDATE users SET id = ?, passwordHash = ?, salt = ?, firstname = ?, lastname = ?, admin = ? WHERE id = ?");
-            updateStatement.setInt(7, id);
-            updateStatement.setInt(1, newID);
-            updateStatement.setString(2, existingUser.getPasswordHash());
-            updateStatement.setString(3, existingUser.getSaltAsString());
-            updateStatement.setString(4, newFirstName);
-            updateStatement.setString(5, newLastName);
-            updateStatement.setBoolean(6, newAdmin);
+            updateStatement.setInt(7, oldUserID);
+            updateStatement.setInt(1, user.getId());
+            updateStatement.setString(2, user.getPasswordHash());
+            updateStatement.setString(3, user.getSaltAsString());
+            updateStatement.setString(4, user.getFirstName());
+            updateStatement.setString(5, user.getLastName());
+            updateStatement.setBoolean(6, false);
             updateStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
     }
 
     /**
@@ -99,7 +89,7 @@ public class UserDAO {
      * @param id Specified user
      */
     public void delete(int id){
-        open();
+        
         try{
             PreparedStatement getStatement = connection.prepareStatement("DELETE FROM users WHERE id = ?");
             getStatement.setInt(1, id);
@@ -107,7 +97,7 @@ public class UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
+        
     }
 
     /**
@@ -115,7 +105,7 @@ public class UserDAO {
      * @return List of users
      */
     public List<User> getAll(){
-        open();
+        
         List<User> users = new ArrayList<>();
         try {
             Statement insertStatement = connection.createStatement();
@@ -136,7 +126,7 @@ public class UserDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        close();
+        
         return users;
     }
 
@@ -146,7 +136,6 @@ public class UserDAO {
      * @return The User Specified, if exists
      */
     public User getById(int id) {
-        open();
         try{
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
             getStatement.setInt(1, id);
@@ -160,45 +149,12 @@ public class UserDAO {
                 User getUser = new User(id, passwordHash, firstName, lastName, admin);
                 getUser.setPasswordHash(passwordHash);
                 getUser.setSaltFromString(salt);
-                close();
+                
                 return getUser;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        close();
         return null;
-    }
-
-    /**
-     * Authenticates a user by their ID
-     * @param id User ID
-     * @param password User Password (Hashed)
-     * @return The User - if authenticated
-     */
-    public User authenticate(int id, String password) {
-        User user = getById(id);
-        if (user != null && user.authenticate(password)) {
-            return user;
-        }
-        return null;
-    }
-
-    /**
-     * Open the DB
-     */
-    public void open(){
-        connection = DatabaseConnection.getInstance();
-    }
-
-    /**
-     * Close the DB
-     */
-    public void close(){
-        try {
-            connection.close();
-        } catch (SQLException ex) {
-            System.err.println(ex);
-        }
     }
 }

@@ -3,16 +3,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="git7s.flashcardai.UpdateFlashcardsController">
+<AnchorPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="git7s.flashcardai.controller.UpdateFlashcardsController">
+    <Label fx:id="updateFlashCardsTitle" layoutX="25.0" layoutY="20.0" text="Title" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <ListView fx:id="flashcardListView" layoutX="20.0" layoutY="56.0" prefHeight="200" prefWidth="560" />
 
-    <ListView fx:id="flashcardListView" layoutX="20" layoutY="20" prefHeight="200" prefWidth="560" />
+    <TextField fx:id="frontField" layoutX="20.0" layoutY="268.0" prefWidth="560" promptText="Edit Question" />
+    <TextField fx:id="backField" layoutX="20.0" layoutY="312.0" prefWidth="560" promptText="Edit Answer" />
 
-    <TextField fx:id="frontField" layoutX="20" layoutY="240" prefWidth="560" promptText="Edit Question" />
-    <TextField fx:id="backField" layoutX="20" layoutY="280" prefWidth="560" promptText="Edit Answer" />
-
-    <Button fx:id="updateButton" layoutX="250" layoutY="330" text="Update Flashcard" onAction="#handleUpdateFlashcard" />
-    <Button fx:id="deleteButton" layoutX="400" layoutY="330" text="Delete Flashcard" onAction="#handleDeleteFlashcard" />
-    <Button fx:id="createButton" layoutX="100" layoutY="330" text="Create Flashcard" onAction="#handleCreateFlashcard" />
+    <Button fx:id="updateButton" layoutX="246.0" layoutY="356.0" onAction="#handleUpdateFlashcard" text="Update Flashcard" />
+    <Button fx:id="deleteButton" layoutX="400.0" layoutY="356.0" onAction="#handleDeleteFlashcard" text="Delete Flashcard" />
+    <Button fx:id="createButton" layoutX="98.0" layoutY="356.0" onAction="#handleCreateFlashcard" text="Create Flashcard" />
 </AnchorPane>
