@@ -1,3 +1,6 @@
 module:git7sproject
 git7s.flashcardai
+git7s.flashcardai.controller
 git7s.flashcardai.dao
+git7s.flashcardai.llm
+git7s.flashcardai.model

@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"git7sproject","l":"git7s.flashcardai"},{"m":"git7sproject","l":"git7s.flashcardai.dao"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"git7sproject","l":"git7s.flashcardai"},{"m":"git7sproject","l":"git7s.flashcardai.controller"},{"m":"git7sproject","l":"git7s.flashcardai.dao"},{"m":"git7sproject","l":"git7s.flashcardai.llm"},{"m":"git7sproject","l":"git7s.flashcardai.model"}];updateSearchResults();
