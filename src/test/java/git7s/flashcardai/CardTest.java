@@ -67,21 +67,23 @@ public class CardTest {
     }
 
     @Test
-    public void testGettersForTopic() {
-        assertEquals("Basic Math", mathCard.getTopic());
-        assertEquals("Computer Science Basics", compsciCard.getTopic());
-        assertEquals("Periodic Table", chemistryCard.getTopic());
-        assertEquals("Politics", politicsCard.getTopic());
-        assertEquals("Engineering", engineeringCard.getTopic());
+    public void testGettersForSubject() {
+        assertEquals("Australian Capitals", geographyCard.getSubject());
+        assertEquals("Basic Math", mathCard.getSubject());
+        assertEquals("Computer Science Basics", compsciCard.getSubject());
+        assertEquals("Periodic Table", chemistryCard.getSubject());
+        assertEquals("Politics", politicsCard.getSubject());
+        assertEquals("Engineering", engineeringCard.getSubject());
     }
 
     @Test
-    public void testGettersForSubject() {
-        assertEquals("MATH301", mathCard.getSubject());
-        assertEquals("CAB301", compsciCard.getSubject());
-        assertEquals("CHEM301", chemistryCard.getSubject());
-        assertEquals("POL301", politicsCard.getSubject());
-        assertEquals("ENGR301", engineeringCard.getSubject());
+    public void testGettersForTopic() {
+        assertEquals("GEO301", geographyCard.getTopic());
+        assertEquals("MATH301", mathCard.getTopic());
+        assertEquals("CAB301", compsciCard.getTopic());
+        assertEquals("CHEM301", chemistryCard.getTopic());
+        assertEquals("POL301", politicsCard.getTopic());
+        assertEquals("ENGR301", engineeringCard.getTopic());
     }
 
     @Test
