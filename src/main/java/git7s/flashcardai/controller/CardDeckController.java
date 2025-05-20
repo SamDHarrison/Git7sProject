@@ -216,7 +216,9 @@ public class CardDeckController {
         asyncTracker.setCycleCount(Animation.INDEFINITE);
         asyncTracker.play();
     }
-
+    /**
+     * Loads and displays the "My Subjects" view, replacing the current scene.
+     */
     private void returnToSubjectsView(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/my-subjects-view.fxml"));

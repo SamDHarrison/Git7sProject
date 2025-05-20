@@ -15,7 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * A class that handles the Create Account GUI
+ * Controller for the "Create Account" screen.
+ * Handles user input, validation, and account creation logic.
  */
 public class CreateAccountController {
     /**
@@ -72,7 +73,7 @@ public class CreateAccountController {
     }
 
     /**
-     * Initialise Controller
+     * Initializes the controller and sets up the user manager.
      */
     @FXML
     public void initialize() {
@@ -131,7 +132,7 @@ public class CreateAccountController {
     }
 
     /**
-     * A method that goes back to the login screen
+     * Method to return the user to the login screen.
      */
     @FXML
     private void handleBackToLogin() {

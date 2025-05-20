@@ -143,6 +143,11 @@ public class CreateNewFlashcardsController {
         asyncTracker.play();
     }
 
+    /**
+     * Sets the parent controller for communication between views.
+     *
+     * @param parent The MySubjectsController instance.
+     */
     public void setParent(MySubjectsController parent){
         this.parent = parent;
     }
