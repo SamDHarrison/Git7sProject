@@ -14,7 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * This class is the login GUI controller
+ * Controller for the login screen.
+ * Handles user authentication and navigation to account creation or dashboard.
  */
 public class LoginController {
     /**
@@ -54,11 +55,17 @@ public class LoginController {
         }
     }
 
+    /**
+     * Initializes the controller and sets up the user manager.
+     */
     @FXML
     public void initialize() {
         userManager = new UserManager(new UserDAO());
     }
 
+    /**
+     * Navigates to the Create Account screen.
+     */
     @FXML
     private void handleCreateAccount() {
         try {
