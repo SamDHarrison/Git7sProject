@@ -14,29 +14,29 @@
             <!-- Form and title -->
             <VBox alignment="TOP_LEFT" spacing="15" maxWidth="400">
                 <padding>
-                    <Insets top="15" right="20" bottom="20" left="90"/>
+                    <Insets top="15" right="20" bottom="20" left="70"/>
                 </padding>
 
                 <!-- Title -->
                 <Label text="CREATE ACCOUNT" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
 
                 <!-- Student Number -->
-                <TextField fx:id="usernameField" promptText="Student number" prefWidth="120" maxWidth="120"/>
+                <TextField fx:id="usernameField" promptText="Student number" prefWidth="145" maxWidth="145"/>
 
                 <!-- First and Last Name -->
                 <HBox spacing="10">
-                    <TextField fx:id="firstNameField" promptText="First Name" prefWidth="120"/>
-                    <TextField fx:id="lastNameField" promptText="Last Name" prefWidth="120"/>
+                    <TextField fx:id="firstNameField" promptText="First Name" prefWidth="150"/>
+                    <TextField fx:id="lastNameField" promptText="Last Name" prefWidth="150"/>
                 </HBox>
 
                 <!-- Password and Confirm Password -->
                 <HBox spacing="10">
-                    <PasswordField fx:id="passwordField" promptText="Password" prefWidth="120"/>
-                    <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" prefWidth="120"/>
+                    <PasswordField fx:id="passwordField" promptText="Password" prefWidth="150"/>
+                    <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" prefWidth="150"/>
                 </HBox>
 
                 <!-- Get Started Button -->
-                <Button text="Get Started!" onAction="#handleGetStarted" prefWidth="250"
+                <Button text="Get Started!" onAction="#handleGetStarted" prefWidth="320"
                         style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
 
                 <!-- Error label -->
