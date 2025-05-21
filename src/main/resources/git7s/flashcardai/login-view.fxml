@@ -1,37 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="git7s.flashcardai.controller.LoginController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            fx:controller="git7s.flashcardai.controller.LoginController">
 
-    <!-- App logo displayed using ImageView -->
-    <ImageView fitHeight="240" fitWidth="240" layoutX="40" layoutY="70" pickOnBounds="true" preserveRatio="true">
-        <Image url="@flashcardlogo.png" />
-    </ImageView>
+    <center>
+        <!-- Wrap everything in VBox to allow vertical centering -->
+        <VBox alignment="CENTER">
+            <HBox alignment="CENTER" spacing="20">
+                <!-- Logo area -->
+                <VBox alignment="CENTER" prefWidth="300">
+                    <ImageView fitHeight="240" fitWidth="240" preserveRatio="true">
+                        <Image url="@flashcardlogo.png"/>
+                    </ImageView>
+                </VBox>
 
-    <!-- Title -->
-    <Label layoutX="425" layoutY="80" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="LOGIN" />
+                <!-- Login form area -->
+                <VBox alignment="TOP_LEFT" spacing="15" maxWidth="300">
+                    <padding>
+                        <Insets top="30" right="20" bottom="20" left="20"/>
+                    </padding>
 
-    <!-- Student Number input field -->
-    <TextField fx:id="usernameField" layoutX="380" layoutY="115" promptText="Student number" />
+                    <!-- Title -->
+                    <Label text="LOGIN" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
 
-    <!-- Password input field -->
-    <PasswordField fx:id="passwordField" layoutX="380" layoutY="150" promptText="Password" />
+                    <!-- Username -->
+                    <TextField fx:id="usernameField" promptText="Student number" maxWidth="Infinity"/>
 
-    <!-- Login button triggers handleLogin() method in controller. Brings user to dashboard -->
-    <Button layoutX="380" layoutY="180" prefWidth="150" onAction="#handleLogin" text="Login"
-        style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold; "
-    />
+                    <!-- Password -->
+                    <PasswordField fx:id="passwordField" promptText="Password" maxWidth="Infinity"/>
 
-    <!-- Account creation prompt and link to Create Account Screen -->
-    <Label layoutX="380" layoutY="220" text="New here?" />
+                    <!-- Login button -->
+                    <Button text="Login" onAction="#handleLogin" maxWidth="Infinity"
+                            style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
 
-    <Label layoutX="440" layoutY="220" text="Create Account"
-           onMouseClicked="#handleCreateAccount"
-           style="-fx-text-fill: #007BFF; -fx-underline: true; -fx-cursor: hand;" />
+                    <!-- Account creation -->
+                    <HBox spacing="5">
+                        <Label text="New here?" />
+                        <Label text="Create Account"
+                               onMouseClicked="#handleCreateAccount"
+                               style="-fx-text-fill: #007BFF; -fx-underline: true; -fx-cursor: hand;" />
+                    </HBox>
 
-    <Label fx:id="errorLabel" layoutX="300" layoutY="300" style="-fx-font-size: 14px; -fx-text-fill: red;" textAlignment="CENTER"/>
-
-</AnchorPane>
+                    <!-- Error message -->
+                    <Label fx:id="errorLabel"
+                           style="-fx-font-size: 14px; -fx-text-fill: red;"
+                           textAlignment="CENTER"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
