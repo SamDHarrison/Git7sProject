@@ -1,37 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="git7s.flashcardai.controller.LoginController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/17.0.12"
+            fx:controller="git7s.flashcardai.controller.LoginController">
 
-    <!-- App logo displayed using ImageView -->
-    <ImageView fitHeight="240" fitWidth="240" layoutX="40" layoutY="70" pickOnBounds="true" preserveRatio="true">
-        <Image url="@flashcardlogo.png" />
-    </ImageView>
+    <center>
+        <GridPane hgap="20" vgap="10" alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="40"/>
+                <ColumnConstraints percentWidth="60"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS"/>
+            </rowConstraints>
 
-    <!-- Title -->
-    <Label layoutX="425" layoutY="80" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="LOGIN" />
+            <!-- App logo displayed using ImageView -->
+            <VBox alignment="CENTER" GridPane.rowIndex="0">
+                <ImageView fitHeight="240" fitWidth="240" preserveRatio="true">
+                    <Image url="@flashcardlogo.png"/>
+                </ImageView>
+            </VBox>
 
-    <!-- Student Number input field -->
-    <TextField fx:id="usernameField" layoutX="380" layoutY="115" promptText="Student number" />
+            <!-- Wrap the login form in a VBox and center it vertically -->
+            <VBox alignment="CENTER" GridPane.columnIndex="1">
+                <VBox alignment="TOP_LEFT" spacing="15">
+                    <padding>
+                        <Insets top="30" right="20" bottom="20" left="20"/>
+                    </padding>
 
-    <!-- Password input field -->
-    <PasswordField fx:id="passwordField" layoutX="380" layoutY="150" promptText="Password" />
+                    <!-- Title -->
+                    <Label text="LOGIN" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
 
-    <!-- Login button triggers handleLogin() method in controller. Brings user to dashboard -->
-    <Button layoutX="380" layoutY="180" prefWidth="150" onAction="#handleLogin" text="Login"
-        style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold; "
-    />
+                    <!-- Student Number input field -->
+                    <TextField fx:id="usernameField" promptText="Student number" maxWidth="200"/>
 
-    <!-- Account creation prompt and link to Create Account Screen -->
-    <Label layoutX="380" layoutY="220" text="New here?" />
+                    <!-- Password input field -->
+                    <PasswordField fx:id="passwordField" promptText="Password" maxWidth="200"/>
 
-    <Label layoutX="440" layoutY="220" text="Create Account"
-           onMouseClicked="#handleCreateAccount"
-           style="-fx-text-fill: #007BFF; -fx-underline: true; -fx-cursor: hand;" />
+                    <!-- Login button -->
+                    <Button text="Login" onAction="#handleLogin" prefWidth="150"
+                            style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
 
-    <Label fx:id="errorLabel" layoutX="300" layoutY="300" style="-fx-font-size: 14px; -fx-text-fill: red;" textAlignment="CENTER"/>
+                    <!-- Account creation prompt -->
+                    <HBox spacing="5">
+                        <Label text="New here?" />
+                        <Label text="Create Account"
+                               onMouseClicked="#handleCreateAccount"
+                               style="-fx-text-fill: #007BFF; -fx-underline: true; -fx-cursor: hand;" />
+                    </HBox>
 
-</AnchorPane>
+                    <!-- Error label -->
+                    <Label fx:id="errorLabel"
+                           style="-fx-font-size: 14px; -fx-text-fill: red;"
+                           textAlignment="CENTER"/>
+                </VBox>
+            </VBox>
+        </GridPane>
+    </center>
+</BorderPane>
