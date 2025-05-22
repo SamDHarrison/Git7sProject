@@ -5,6 +5,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the {@link Card} class.
+ * Covers the card flipping logic, all getter and setter methods.
+ */
 public class CardTest {
 
     private Card geographyCard;
@@ -13,6 +17,12 @@ public class CardTest {
     private Card chemistryCard;
     private Card politicsCard;
     private Card engineeringCard;
+
+
+    /**
+     * Sets up multiple card objects for testing, each representing a different subject and topic.
+     * This method is run before each test.
+     */
 
     @BeforeEach
     public void setUp() {
@@ -36,7 +46,9 @@ public class CardTest {
     }
 
 
-    ///Test for the Flip functionality of the card
+    /**
+     * Tests that the flip() method returns the back text of each card.
+     */
     @Test
     public void testFlipReturnsBackText() {
         assertEquals("Brisbane", geographyCard.flip());
@@ -46,6 +58,10 @@ public class CardTest {
         assertEquals("Anthony Albanese", politicsCard.flip());
         assertEquals("Computer-Aided Design", engineeringCard.flip());
     }
+
+    /**
+     * Tests that getCardID() returns the correct ID for each card.
+     */
     @Test
     public void testGettersForCardID() {
         assertEquals(1, geographyCard.getCardID());
@@ -56,6 +72,9 @@ public class CardTest {
         assertEquals(6, engineeringCard.getCardID());
     }
 
+    /**
+     * Tests that getUserID() returns the correct user ID for each card.
+     */
     @Test
     public void testGettersForUserID() {
         assertEquals(117249823, geographyCard.getUserID());
@@ -66,6 +85,9 @@ public class CardTest {
         assertEquals(117249828, engineeringCard.getUserID());
     }
 
+    /**
+     * Tests that getSubject() returns the correct subject string for each card.
+     */
     @Test
     public void testGettersForSubject() {
         assertEquals("Australian Capitals", geographyCard.getSubject());
@@ -76,6 +98,9 @@ public class CardTest {
         assertEquals("Engineering", engineeringCard.getSubject());
     }
 
+    /**
+     * Tests that getTopic() returns the correct topic string for each card.
+     */
     @Test
     public void testGettersForTopic() {
         assertEquals("GEO301", geographyCard.getTopic());
@@ -86,6 +111,9 @@ public class CardTest {
         assertEquals("ENGR301", engineeringCard.getTopic());
     }
 
+    /**
+     * Tests that getFront() returns the front text (question) for each card.
+     */
     @Test
     public void testGettersForFront() {
         assertEquals("Capital of Queensland?", geographyCard.getFront());
@@ -96,6 +124,9 @@ public class CardTest {
         assertEquals("What does CAD stand for?", engineeringCard.getFront());
     }
 
+    /**
+     * Tests that getBack() returns the back text (answer) for each card.
+     */
     @Test
     public void testGettersForBack() {
         assertEquals("Brisbane", geographyCard.getBack());
@@ -106,36 +137,54 @@ public class CardTest {
         assertEquals("Computer-Aided Design", engineeringCard.getBack());
     }
 
+    /**
+     * Tests that setCardID() correctly updates the card ID.
+     */
     @Test
     public void testSetterCardID() {
         geographyCard.setCardID(10);
         assertEquals(10, geographyCard.getCardID());
     }
 
+    /**
+     * Tests that setUserID() correctly updates the user ID.
+     */
     @Test
     public void testSetterUserID() {
         mathCard.setUserID(999999);
         assertEquals(999999, mathCard.getUserID());
     }
 
+    /**
+     * Tests that setTopic() correctly updates the topic string.
+     */
     @Test
     public void testSetterTopic() {
         compsciCard.setTopic("Advanced Computing");
         assertEquals("Advanced Computing", compsciCard.getTopic());
     }
 
+    /**
+     * Tests that setSubject() correctly updates the subject string.
+     */
     @Test
     public void testSetterSubject() {
         chemistryCard.setSubject("ADV_CHEM401");
         assertEquals("ADV_CHEM401", chemistryCard.getSubject());
     }
 
+    /**
+     * Tests that setFront() correctly updates the front text.
+     */
     @Test
     public void testSetterFront() {
         politicsCard.setFront("Who is the leader of the opposition?");
         assertEquals("Who is the leader of the opposition?", politicsCard.getFront());
     }
 
+    /**
+     * Tests that setBack() correctly updates the back text.
+     */
     @Test
     public void testSetterBack() {
         engineeringCard.setBack("Computer-Assisted Design");
