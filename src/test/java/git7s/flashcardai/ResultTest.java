@@ -19,11 +19,13 @@ public class ResultTest {
     @BeforeEach
     public void setUp() {
         correctResult1 = new Result(117249823, 1, Timestamp.valueOf("2025-04-28 10:15:30"), true, "GEO301", "Australian Capitals");
+        correctResult1.setResultID(1);
         correctResult2 = new Result(117249824, 2, Timestamp.valueOf("2025-04-28 14:45:00"), true, "MATH301", "Basic Math");
+        correctResult2.setResultID(2);
         incorrectResult1 = new Result(117249825, 3, Timestamp.valueOf("2025-04-28 17:20:45"), false, "CHEM301", "Periodic Table");
+        incorrectResult1.setResultID(3);
         incorrectResult2 = new Result(117249826, 4, Timestamp.valueOf("2025-04-28 23:59:59"), false, "ENGR301", "CAD");
-
-
+        incorrectResult2.setResultID(4);
     }
 
     /// Test Correctness
