@@ -83,14 +83,23 @@ public class CardManagerTest {
     @Test
     @Order(4)
     public void testDeleteCard() {
-        List<Card> cards = cardManager.searchByUserID(117249824); // mathCard
-        assertFalse(cards.isEmpty());
+        List<Card> cardsBefore = cardManager.searchByUserID(117249824);
 
-        int cardID = cards.get(0).getCardID();
-        cardManager.delete(cardID);
+        if (cardsBefore.isEmpty()) {
+            cardManager.addCard(mathCard);
+            cardsBefore = cardManager.searchByUserID(117249824);
+        }
 
-        List<Card> afterDelete = cardManager.searchByUserID(117249824);
-        assertTrue(afterDelete.isEmpty());
+        assertFalse(cardsBefore.isEmpty());
+        int cardIDToDelete = cardsBefore.get(0).getCardID();
+        int initialCount = cardsBefore.size();
+
+        cardManager.delete(cardIDToDelete);
+
+        List<Card> cardsAfter = cardManager.searchByUserID(117249824);
+        assertEquals(initialCount - 1, cardsAfter.size());
+        assertFalse(cardsAfter.stream().anyMatch(card -> card.getCardID() == cardIDToDelete));
     }
+
 }
 
