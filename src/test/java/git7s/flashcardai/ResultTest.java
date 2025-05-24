@@ -1,4 +1,14 @@
-/*
+package git7s.flashcardai;
+
+import git7s.flashcardai.model.Result;
+import java.sql.Timestamp;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class ResultTest {
 
     private Result correctResult1;
@@ -8,10 +18,12 @@ public class ResultTest {
 
     @BeforeEach
     public void setUp() {
-        correctResult1 = new Result(1, 117249823, 1, Timestamp.valueOf("2025-04-28 10:15:30"), true);
-        correctResult2 = new Result(2, 117249824, 2, Timestamp.valueOf("2025-04-28 14:45:00"), true);
-        incorrectResult1 = new Result(3, 117249825, 3, Timestamp.valueOf("2025-04-28 17:20:45"), false);
-        incorrectResult2 = new Result(4, 117249826, 4, Timestamp.valueOf("2025-04-28 23:59:59"), false);
+        correctResult1 = new Result(117249823, 1, Timestamp.valueOf("2025-04-28 10:15:30"), true, "GEO301", "Australian Capitals");
+        correctResult2 = new Result(117249824, 2, Timestamp.valueOf("2025-04-28 14:45:00"), true, "MATH301", "Basic Math");
+        incorrectResult1 = new Result(117249825, 3, Timestamp.valueOf("2025-04-28 17:20:45"), false, "CHEM301", "Periodic Table");
+        incorrectResult2 = new Result(117249826, 4, Timestamp.valueOf("2025-04-28 23:59:59"), false, "ENGR301", "CAD");
+
+
     }
 
     /// Test Correctness
@@ -91,5 +103,5 @@ public class ResultTest {
         correctResult1.setCorrect(false);
         assertFalse(correctResult1.isCorrect());
     }
+
 }
-*/
