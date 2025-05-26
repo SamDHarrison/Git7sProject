@@ -72,24 +72,18 @@ public class CardDAO {
      * @param card The new card
      */
     public void update(Card card){
-        int cardID = card.getCardID();
-        String newSubject = card.getSubject();
-        String newTopic = card.getTopic();
-        String newFront = card.getFront();
-        String newBack = card.getBack();
-
-        try{
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE cards SET topic = ?, subject = ?, front = ?, back = ? WHERE cardID = ?");
-            updateStatement.setInt(5, cardID);
-            updateStatement.setString(1, newTopic);
-            updateStatement.setString(2, newSubject);
-            updateStatement.setString(3, newFront);
-            updateStatement.setString(4, newBack);
-            updateStatement.executeUpdate();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "UPDATE cards SET topic = ?, subject = ?, front = ?, back = ? WHERE cardID = ?");
+            stmt.setString(1, card.getTopic());
+            stmt.setString(2, card.getSubject());
+            stmt.setString(3, card.getFront());
+            stmt.setString(4, card.getBack());
+            stmt.setInt(5, card.getCardID());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
     }
 
     /**
