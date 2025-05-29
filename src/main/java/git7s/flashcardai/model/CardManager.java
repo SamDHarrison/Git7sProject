@@ -31,7 +31,7 @@ public class CardManager {
     public List<Card> searchCardsBySubject(String subjectQuery) {
         return cardDAO.getAll()
                 .stream()
-                .filter(card -> (card.getSubject().equalsIgnoreCase(subjectQuery) && card.getUserID()==Main.loggedInUserID) )
+                .filter(card -> (card.getSubject().equalsIgnoreCase(subjectQuery)) )
                 .toList();
     }
 
