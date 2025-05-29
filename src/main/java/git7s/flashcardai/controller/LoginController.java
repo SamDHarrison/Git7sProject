@@ -23,6 +23,7 @@ public class LoginController {
      */
     @FXML
     public Label errorLabel;
+    public Label createAccountButton;
     /**
      * This textfield takes the username input
      */
@@ -60,8 +61,7 @@ public class LoginController {
      */
     @FXML
     public void initialize() {
-        userManager = new UserManager(new UserDAO());
-    }
+        userManager = new UserManager(new UserDAO());}
 
     /**
      * Navigates to the Create Account screen.
@@ -72,11 +72,9 @@ public class LoginController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/create-account-view.fxml"));
             Parent root = fxmlLoader.load();
 
-            Stage stage = (Stage) usernameField.getScene().getWindow();
-            Scene currentScene = usernameField.getScene();
-
-            stage.setScene(new Scene(root, currentScene.getWidth(), currentScene.getHeight()));
-            stage.setTitle("Create Account");
+            Stage stage = (Stage) createAccountButton.getScene().getWindow();
+            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
+            stage.setTitle("Flashcard AI - Create Account");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,11 +127,12 @@ public class LoginController {
             Parent root = fxmlLoader.load();
 
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
             stage.setTitle("Flashcard AI - Dashboard");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

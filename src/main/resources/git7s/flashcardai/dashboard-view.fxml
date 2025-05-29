@@ -1,67 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="git7s.flashcardai.controller.DashboardController">
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="git7s.flashcardai.controller.DashboardController" prefHeight="360" prefWidth="640">
     <top>
-        <HBox alignment="CENTER" style="-fx-padding: 5 20 10 20">
-            <Label fx:id="welcomeLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Welcome, "/>
+        <HBox alignment="CENTER" style="-fx-padding: 5 20 10 20" prefHeight="50">
+            <Label fx:id="welcomeLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Welcome, " />
         </HBox>
     </top>
     <!-- Left Panel: My Studies -->
     <left>
-        <VBox alignment="CENTER" prefWidth="300" spacing="30" style="-fx-padding: 5 20 10 20;">
-            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="MY STUDIES" />
-            <Button fx:id="testAllButton" prefHeight="40" prefWidth="250" text="Test All Flashcards"
-                    style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleTestAll" />
-            <Button fx:id="subjectsButton" prefHeight="40" prefWidth="250" text="My Subjects"
-                    style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleMySubjects" />
-            <Button fx:id="settingsButton" prefHeight="40" prefWidth="250"
-                    style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="Settings" />
-        </VBox>
+        <VBox alignment="TOP_CENTER" prefWidth="300" spacing="20" style="-fx-padding: 5 20 5 20;">
+                <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="QUICK PLAY" />
+                <Button fx:id="testAllButton" onAction="#handleTestAll" prefHeight="50" prefWidth="260" style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="Test All" />
+                <HBox>
+                    <VBox alignment="CENTER">
+                        <Label style="-fx-font-size: 12px; -fx-font-weight: bold;" text="STRONGEST" textAlignment="CENTER" />
+                        <Button fx:id="testStrongestSubject" onAction="#handleTestStrongest" prefHeight="50" prefWidth="125" style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="Strongest Subject" />
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <VBox alignment="CENTER">
+                        <Label style="-fx-font-size: 12px; -fx-font-weight: bold;" text="WEAKEST" textAlignment="CENTER" />
+                        <Button fx:id="testWeakestSubject" onAction="#handleTestWeakest" prefHeight="50" prefWidth="125" style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="Weakest Subject" />
+                    </VBox>
+                </HBox>
+            </VBox>
     </left>
 
     <!-- Vertical Separator -->
     <center>
-        <VBox prefWidth="2" alignment="CENTER">
-            <Rectangle width="2" height="250" style="-fx-fill: rgb(192,192,191);" />
+        <VBox alignment="TOP_CENTER" prefWidth="2">
+            <Rectangle height="200" style="-fx-fill: rgb(192,192,191);" width="2" />
         </VBox>
     </center>
 
     <!-- Right Panel: My Progress -->
     <right>
-        <VBox alignment="CENTER" spacing="30" style="-fx-padding: 5 20 10 20;">
-            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="MY PROGRESS" />
-
-            <VBox>
-                <ProgressBar fx:id="studyProgressBar" prefHeight="20.0" prefWidth="290.0"
-                             style="-fx-accent: #60C3D8;" />
-                <Label fx:id="progressTextLabel" style="-fx-text-fill: black; -fx-font-weight: bold;" text="Progress is:" />
+        <VBox alignment="TOP_CENTER" spacing="20" style="-fx-padding: 5 20 5 20;">
+            <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="STUDY"/>
+            <Button fx:id="subjectsButton" onAction="#handleMySubjects" prefHeight="50" prefWidth="260" style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="My Subjects and Topics" />
+            <VBox alignment="CENTER">
+                <Label style="-fx-font-size: 12px; -fx-font-weight: bold;" textAlignment="CENTER" />
+                <Button fx:id="statsButton" onAction="#handleStatistics" prefHeight="50" prefWidth="250" style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="My Statistics" />
             </VBox>
 
-            <HBox spacing="10">
-                <Label style="-fx-font-weight: bold;" text="Strongest subject:" />
-                <Label fx:id="strongestTopicLabel" text="Programming" />
-            </HBox>
-
-            <HBox spacing="10">
-                <Label style="-fx-font-weight: bold;" text="Weakest subject:" />
-                <Label fx:id="weakestTopicLabel" text="Science" />
-            </HBox>
         </VBox>
     </right>
 
     <!-- Log Out Button Positioned at Bottom Right -->
     <bottom>
-        <AnchorPane>
-            <Button fx:id="logOutButton" prefHeight="25" prefWidth="80" text="Log Out"
-                    onAction="#handleLogout"
-                    style="-fx-background-color: white; -fx-text-fill: black; -fx-font-weight: bold; -fx-border-color: black;"
-                    AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10" />
-            <Label fx:id="errorLabel" text="test" style="-fx-font-size: 12px;" AnchorPane.bottomAnchor="10" layoutX="300" textAlignment="CENTER" />
-        </AnchorPane>
+        <HBox alignment="CENTER" style="-fx-padding: 5 20 10 20">
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="editAccount" onAction="#handleEditAccount" prefHeight="50" prefWidth="160" style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="My Account" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="logOutButton" onAction="#handleLogout" prefHeight="50" prefWidth="160.0" style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="Logout" />
+            <Region HBox.hgrow="ALWAYS" />
+        </HBox>
     </bottom>
 
 </BorderPane>

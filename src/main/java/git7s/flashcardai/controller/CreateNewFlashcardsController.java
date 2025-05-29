@@ -1,5 +1,6 @@
 package git7s.flashcardai.controller;
 
+import git7s.flashcardai.Main;
 import git7s.flashcardai.dao.CardDAO;
 import git7s.flashcardai.llm.FlashCardGenerateManager;
 import git7s.flashcardai.llm.LLMGenerator;
@@ -99,6 +100,7 @@ public class CreateNewFlashcardsController {
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, 5); //Min, Max, Default
         flashcardCountSpinner.setValueFactory(valueFactory);
         cardManager = new CardManager(new CardDAO());
+        setPrefColours(Main.prefCol);
     }
     /**
      * This method checks if the inputs are correctly filled and generates the flashcards
@@ -150,6 +152,13 @@ public class CreateNewFlashcardsController {
      */
     public void setParent(MySubjectsController parent){
         this.parent = parent;
+    }
+
+    private void setPrefColours(String colour){
+        String s = "-fx-background-color: " + colour + "; -fx-text-fill: white; -fx-font-weight: bold;";
+
+        createFlashcardsButton.setStyle(s);
+
     }
 
 

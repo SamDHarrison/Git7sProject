@@ -114,7 +114,7 @@ public class CreateAccountController {
             return;
         }
         // Create the User object
-        userManager.addUser(new User(usernameID, password, firstName, lastName, false));
+        userManager.addUser(new User(usernameID, password, firstName, lastName, false, "#60C3D8"));
         Main.loggedInUserID = usernameID;
 
         // Navigate to Dashboard view
@@ -123,7 +123,7 @@ public class CreateAccountController {
             Parent root = fxmlLoader.load();
 
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
             stage.setTitle("Flashcard AI - Dashboard");
             stage.show();
         } catch (Exception e) {
@@ -141,7 +141,7 @@ public class CreateAccountController {
             Parent root = fxmlLoader.load();
 
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
             stage.setTitle("Login");
             stage.show();
         } catch (Exception e) {

@@ -1,35 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="inputPane" prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="git7s.flashcardai.controller.MySubjectsController">
+<BorderPane fx:id="inputPane" prefHeight="360" prefWidth="640" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="git7s.flashcardai.controller.MySubjectsController">
 
-
+<top>
     <!-- Page Title -->
-    <Label layoutX="265" layoutY="30" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="My Subjects" />
+    <HBox alignment="CENTER" style="-fx-padding: 5 20 10 20">
+        <Label layoutX="265" layoutY="30" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="CHOOSE TEST" />
+    </HBox>
+</top>
 
-    <!-- Subject Dropdown -->
-    <Label layoutX="22.0" layoutY="89.0" text="Select Subject:" />
-    <ComboBox fx:id="subjectComboBox" layoutX="105.0" layoutY="85.0" onAction="#handleSubjectSelection" prefHeight="25.0" prefWidth="459.0" />
+    <center>
+        <VBox prefHeight="300">
+            <TabPane fx:id="gameModePane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" tabClosingPolicy="UNAVAILABLE" tabMinWidth="100" tabMaxWidth="150">
+                <tabs>
+                    <Tab style="-fx-font-size: 16px; -fx-background-color: #FFFFFF; -fx-text-fill: white;" text="Subjects">
+                        <content>
+                            <VBox alignment="TOP_CENTER" style="-fx-padding: 5 20 10 20">
+                                <!-- Subjects List -->
+                                <Label style="-fx-font-size: 12px; -fx-font-weight: bold;" text="Choose a Subject to test:" />
+                                <ListView fx:id="subjectsListView" prefHeight="200" prefWidth="459.0" />
+                            </VBox>
+                        </content>
+                    </Tab>
+                    <Tab style="-fx-font-size: 16px; -fx-background-color: #FFFFFF; -fx-text-fill: white;" text="Topics">
+                        <content>
+                            <VBox alignment="TOP_CENTER" style="-fx-padding: 5 20 10 20">
+                                <!-- Subject Dropdown -->
+                                <Label style="-fx-font-size: 12px; -fx-font-weight: bold;" text="Select Subject:" />
+                                <ComboBox fx:id="subjectComboBox" onAction="#handleSubjectSelection" prefHeight="25.0" prefWidth="459.0" />
+                                <!-- Topics List -->
+                                <Label style="-fx-font-size: 12px; -fx-font-weight: bold;" text="Topics:" />
+                                <ListView fx:id="topicsListView" prefHeight="200" prefWidth="459.0" />
+                            </VBox>
+                        </content>
+                    </Tab>
+                    <Tab style="-fx-font-size: 16px; -fx-background-color: #FFFFFF; -fx-text-fill: white;" text="Targeted Testing">
+                        <content>
 
-    <!-- Topics List -->
-    <Label layoutX="23.0" layoutY="127.0" text="Topics:" />
-    <ListView fx:id="topicsListView" layoutX="105.0" layoutY="127.0" prefHeight="200" prefWidth="459.0" />
+                            <SplitPane dividerPositions="0.5" style="-fx-padding: 5 20 10 20" prefHeight="300">
+                                <items>
+                                    <VBox alignment="CENTER" style="-fx-padding: 5 20 10 20">
+                              <children>
+                                  <ToggleButton fx:id="strongestToggleButton" style="-fx-font-weight: bold; -fx-background-color: #FFFFFF; -fx-border-radius: 5px;" text="Strongest"/>
+                                 <PieChart fx:id="strongestPieChart" prefWidth="200" prefHeight="200" startAngle="45">
 
-    <!-- Button to create -->
-    <Button fx:id="createFlashcardsButton" layoutX="121.0" layoutY="350.0" onAction="#handleCreateFlashcardsPopup" style="-fx-background-color: #60C3D8; -fx-text-fill: white;" text="Create New Flashcards" />
+                                 </PieChart>
 
-    <Button fx:id="testCurrentTopic" layoutX="22.0" layoutY="237.0" onAction="#handleTestCurrentTopic" prefHeight="90.0" prefWidth="77.0" style="-fx-font-size: 20px; -fx-background-color: #60C3D8; -fx-text-fill: white;" text="Test Topic" textAlignment="CENTER" wrapText="true" />
+                              </children></VBox>
+                                    <VBox alignment="CENTER" style="-fx-padding: 5 20 10 20">
+                                        <ToggleButton fx:id="weakestToggleButton"
+                                                      style="-fx-font-weight: bold; -fx-background-color: #FFFFFF; -fx-border-radius: 5px;"
+                                                      text="Weakest"/>
+                                        <PieChart fx:id="weakestPieChart" prefWidth="200" prefHeight="200"
+                                                  startAngle="45">
 
-    <!-- Back to Dashboard Screen Button -->
-    <Button layoutX="20" layoutY="20" onAction="#handleBackToDashboard" style="-fx-background-color: #d3d3d3; -fx-text-fill: #000000; -fx-border-color: grey;" text="Back" />
+                                        </PieChart>
+                                    </VBox>
+                                </items>
+                            </SplitPane>
+                        </content>
+                    </Tab>
+                    <Tab style="-fx-font-size: 16px; -fx-background-color: #FFFFFF; -fx-text-fill: white;" text="Random Testing">
+                        <content>
+                            <VBox alignment="TOP_CENTER" style="-fx-padding: 5 20 10 20">
+                                <Label style="-fx-font-size: 12px; -fx-font-weight: bold;" textAlignment="CENTER" text=" &#10; &#10; &#10;In this mode, you can select how many random flashcards you want.&#10;Flashcards are taken randomly from across your deck!&#10; " wrapText="true" />
+                                <Slider fx:id="randomSlider" blockIncrement="1"  showTickLabels="true"  value="50" />
+                                <Label fx:id="randomDescription" style="-fx-font-size: 12px; -fx-font-weight: bold;" text="You will test x random flashcards" />
+                            </VBox>
+                        </content>
+                    </Tab>
+                </tabs>
+            </TabPane>
+        </VBox>
+    </center>
 
-    <!-- Delete Flashcards Button -->
-    <Button fx:id="deleteFlashcardsButton" layoutX="471.0" layoutY="350.0" onAction="#handleDeleteSubject" style="-fx-background-color: #60C3D8; -fx-text-fill: white;" text="Delete Subject" />
+<bottom>
+    <HBox alignment="CENTER" style="-fx-padding: 5 20 10 20">
+        <Region HBox.hgrow="ALWAYS" />
+        <Button fx:id="testCurrentTopic" onAction="#handleTestCurrentTopic" prefHeight="50" prefWidth="160.0" style="-fx-font-size: 16px; -fx-background-color: #60C3D8; -fx-text-fill: white;" text="Test" textAlignment="CENTER" wrapText="true" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button fx:id="backButton" onAction="#handleBackToDashboard" prefHeight="50" prefWidth="160.0" style="-fx-font-size: 16px; -fx-background-color: #60C3D8; -fx-text-fill: white;" text="Back" />
+        <Region HBox.hgrow="ALWAYS" />
+    </HBox>
 
-    <!-- Update Flashcards Button -->
-    <Button fx:id="updateFlashcardsButton" layoutX="312.0" layoutY="350.0" onAction="#handleUpdateFlashcards" style="-fx-background-color: #60C3D8; -fx-text-fill: white;" text="Update Flashcards" />
+</bottom>
+
+<right>
+    <VBox alignment="CENTER" style="-fx-padding: 5 20 10 20">
+        <Region VBox.vgrow="ALWAYS" />
+        <Button fx:id="createFlashCardsButton" onAction="#handleCreateFlashcardsPopup" prefHeight="62" prefWidth="80.0" style="-fx-font-size: 16px; -fx-background-color: #60C3D8; -fx-text-fill: white;" text="Create" />
+        <Region VBox.vgrow="ALWAYS" />
+        <!-- Update Flashcards Button -->
+        <Button fx:id="updateFlashcardsButton" onAction="#handleUpdateFlashcards" prefHeight="62" prefWidth="80.0" style="-fx-font-size: 16px; -fx-background-color: #60C3D8; -fx-text-fill: white;" text="Update" />
+        <!-- Button to create -->
+        <Region VBox.vgrow="ALWAYS" />
+        <!-- Delete Flashcards Button -->
+        <Button fx:id="deleteFlashcardsButton" onAction="#handleDeleteSubject" prefHeight="62" prefWidth="80.0" style="-fx-font-size: 16px; -fx-background-color: #60C3D8; -fx-text-fill: white;" text="Delete" />
+        <Region VBox.vgrow="ALWAYS" />
+    </VBox>
+</right>
 
 
-</AnchorPane>
+
+
+
+
+
+
+
+
+
+
+
+
+</BorderPane>

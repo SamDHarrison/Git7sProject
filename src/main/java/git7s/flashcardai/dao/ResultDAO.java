@@ -55,12 +55,14 @@ public class ResultDAO {
         
         try {
             PreparedStatement insertResult = connection.prepareStatement(
-                    "INSERT INTO results (userID, cardID, at, correct) VALUES (?, ?, ?, ?)"
+                    "INSERT INTO results (userID, cardID, at, correct, subject, topic) VALUES (?, ?, ?, ?, ?, ?)"
             );
             insertResult.setInt(1, result.getUserID());
             insertResult.setInt(2, result.getCardID());
             insertResult.setTimestamp(3, result.getAt());
             insertResult.setBoolean(4, result.isCorrect());
+            insertResult.setString(5, result.getSubject());
+            insertResult.setString(6, result.getTopic());
             insertResult.executeUpdate();
         } catch (SQLException ex) {
             System.err.println(ex);

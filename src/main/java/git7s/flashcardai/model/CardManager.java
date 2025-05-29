@@ -31,7 +31,7 @@ public class CardManager {
     public List<Card> searchCardsBySubject(String subjectQuery) {
         return cardDAO.getAll()
                 .stream()
-                .filter(card -> (card.getSubject().equalsIgnoreCase(subjectQuery)))
+                .filter(card -> (card.getSubject().equalsIgnoreCase(subjectQuery) && card.getUserID()==Main.loggedInUserID) )
                 .toList();
     }
 
@@ -41,7 +41,7 @@ public class CardManager {
     public List<Card> searchCardsByTopic(String topicQuery) {
         return cardDAO.getAll()
                 .stream()
-                .filter(card -> (card.getTopic().equalsIgnoreCase(topicQuery)))
+                .filter(card -> (card.getTopic().equalsIgnoreCase(topicQuery) && card.getUserID()==Main.loggedInUserID))
                 .toList();
     }
 
@@ -88,10 +88,15 @@ public class CardManager {
     /**
      * Mass delete (delete subject)
      */
-    public void deleteSubject(String subject, String topic){
+    public void deleteSubject(String subject){
+        cardDAO.deleteBySubject(Main.loggedInUserID, subject);
+    }
+    /**
+     * Mass delete (delete topic)
+     */
+    public void deleteTopic(String subject, String topic){
         cardDAO.deleteBySubjectAndTopic(Main.loggedInUserID, subject, topic);
     }
-
     /**
      * Search Function that gets a specific card
      */

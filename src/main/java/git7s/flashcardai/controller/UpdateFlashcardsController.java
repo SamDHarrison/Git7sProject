@@ -63,8 +63,11 @@ public class UpdateFlashcardsController {
         String currentTopic = Main.currentDeck;
         cardManager = new CardManager(new CardDAO());
 
-        flashcards = cardManager.searchCardsByTopic(currentTopic);
-
+        if (Main.currentGameMode == 0) {
+            flashcards = cardManager.searchCardsBySubject(currentTopic);
+        } else {
+            flashcards = cardManager.searchCardsByTopic(currentTopic);
+        }
         flashcardNameHash = FXCollections.observableArrayList();
         flashcardNameList = FXCollections.observableArrayList();
 
@@ -88,7 +91,11 @@ public class UpdateFlashcardsController {
             selectedCard = flashcards.stream().filter(card -> card.getCardID() == selectedCardID.get()).findFirst().get();
             frontField.setText(selectedCard.getFront());
             backField.setText(selectedCard.getBack());
-            updateFlashCardsTitle.setText("Viewing Flashcards for: " + flashcards.getFirst().getSubject() + ", " + flashcards.getFirst().getTopic());
+            if (Main.currentGameMode == 0) {
+                updateFlashCardsTitle.setText("Viewing Flashcards for: " + flashcards.getFirst().getSubject());
+            } else {
+                updateFlashCardsTitle.setText("Viewing Flashcards for: " + flashcards.getFirst().getSubject() + ", " + flashcards.getFirst().getTopic());
+            }
         });
     }
 
@@ -126,6 +133,15 @@ public class UpdateFlashcardsController {
         cardManager.addCard(new Card(Main.loggedInUserID, flashcards.getFirst().getSubject(), flashcards.getFirst().getTopic(), "ENTER NEW FRONT", "ENTER NEW BACK"));
         initialize();
         flashcardListView.getSelectionModel().select("ENTER NEW FRONT");
+
+    }
+
+    private void setPrefColours(String colour){
+        String s = "-fx-background-color: " + colour + "; -fx-text-fill: white; -fx-font-weight: bold;";
+
+        deleteButton.setStyle(s);
+        updateButton.setStyle(s);
+        createButton.setStyle(s);
 
     }
 }

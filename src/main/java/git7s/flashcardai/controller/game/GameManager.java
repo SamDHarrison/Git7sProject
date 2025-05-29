@@ -5,9 +5,13 @@ import git7s.flashcardai.dao.CardDAO;
 import git7s.flashcardai.dao.ResultDAO;
 import git7s.flashcardai.model.Card;
 import git7s.flashcardai.model.CardManager;
+import git7s.flashcardai.model.Result;
 import git7s.flashcardai.model.ResultManager;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Very simple class used to simplify the CardDeckController - acts as an advanced struct
@@ -75,13 +79,35 @@ public class GameManager {
      * @return cardDeck
      */
     private void setupDeck() {
-        switch (Main.currentDeck) {
-            case ("ALL"): {
+        switch (Main.currentGameMode) {
+            case 4: {
                 cardDeck = cardManager.searchByUserID(Main.loggedInUserID);
                 break;
             }
-            default: {
+            case 3: {
+
+                List<Card> tempDeck = cardManager.searchByUserID(Main.loggedInUserID);
+                int required = Integer.parseInt(Main.currentDeck);
+
+                cardDeck = new ArrayList<>();
+
+                cardDeck.add(tempDeck.getFirst());
+                while (cardDeck.size() <= required) {
+                    Random random = new Random();
+                    int choice = random.nextInt(tempDeck.size());
+                    Card card = tempDeck.get(choice);
+                    if (!cardDeck.contains(card)){
+                        cardDeck.add(card);
+                    }
+                }
+                break;
+            }
+            case 1: {
                 cardDeck = cardManager.searchCardsByTopic(Main.currentDeck);
+                break;
+            }
+            default: {
+                cardDeck = cardManager.searchCardsBySubject(Main.currentDeck);
                 break;
             }
         }
@@ -92,6 +118,8 @@ public class GameManager {
      * @param result Boolean that specifies outcome of flashcard
      */
     public void setResult(boolean result) {
+        Card card = cardDeck.get(deckTracker-1);
+        resultManager.addResult(new Result(Main.loggedInUserID, card.getCardID(), new Timestamp(System.currentTimeMillis()), result, card.getSubject(), card.getTopic()));
         this.results[deckTracker-1] = result;
     }
     /**
@@ -115,7 +143,6 @@ public class GameManager {
     }
 
     public void iterateFlashCardTracker() {
-        System.out.println(deckTracker + " " + cardDeck.size());
         if (deckTracker < cardDeck.size()) {
             deckTracker++;
         }
@@ -125,8 +152,10 @@ public class GameManager {
     }
 
     public String generateTitle(){
-        if (Main.currentDeck.equalsIgnoreCase("ALL")){
+        if (Main.currentGameMode == 4){
             return "Testing all subjects";
+        } else if (Main.currentGameMode == 3) {
+            return "Random Test";
         }
         else {
             return "Testing " + Main.currentDeck;
