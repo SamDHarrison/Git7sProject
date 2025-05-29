@@ -4,6 +4,7 @@ import git7s.flashcardai.dao.ResultDAO;
 import git7s.flashcardai.dao.UserDAO;
 import git7s.flashcardai.model.*;
 import git7s.flashcardai.Main;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -27,35 +28,43 @@ public class DashboardController {
     /**
      * This button lets the user test all of their flashcards
      */
-    public Button testAllButton;
+    @FXML public Button testAllButton;
     /**
      * Error Label for errors
      */
-    public Label errorLabel;
+    @FXML public Label errorLabel;
     /**
      * Displays the name on entry
      */
-    public Label welcomeLabel;
+    @FXML public Label welcomeLabel;
     /**
-     * The progress bar to track correct and incorrect
+     * Lets the user choose their topic
      */
-    @FXML private ProgressBar studyProgressBar;
+    @FXML public Button topicsButton;
     /**
-     * Strongest topic displayed
+     * Lets the user check their stats
      */
-    @FXML private Label strongestTopicLabel;
+    @FXML public Button statsButton;
     /**
-     * Weakest topic displayed
+     * Lets the user test their strongest subject
      */
-    @FXML private Label weakestTopicLabel;
+    @FXML public Button testStrongestSubject;
+    /**
+     * Lets the user test their weakest subject
+     */
+    @FXML public Button testWeakestSubject;
+    /**
+     * Lets the user change their accessibility settings
+     */
+    @FXML public Button accessButton;
+    /**
+     * Lets the user change their password
+     */
+    @FXML public Button editAccount;
     /**
      * Button to go to subjects GUI
      */
     @FXML private Button subjectsButton;
-    /**
-     * Button for settings GUI
-     */
-    @FXML private Button settingsButton;
     /**
      * Button for logging out
      */
@@ -82,86 +91,16 @@ public class DashboardController {
         cardManager = new CardManager(new CardDAO());
         userManager = new UserManager(new UserDAO());
         // Get Study Data
-        String[] studyData = getStudyData();
-        // Setting data
-        studyProgressBar.setProgress(Double.parseDouble(studyData[2])/100);
-        progressTextLabel.setText("Your lifetime score is " + studyData[2] + "% correct!");
-        strongestTopicLabel.setText(studyData[0]);
-        weakestTopicLabel.setText(studyData[1]);
+        String[] studyData = resultManager.getBasicStudyData();
+
+        Main.prefCol = userManager.getUser(Main.loggedInUserID).getPrefColour();
+        //Populate UI
+        testStrongestSubject.setText(studyData[0]);
+        testWeakestSubject.setText(studyData[1]);
+
         welcomeLabel.setText("Welcome, " + userManager.getUser(Main.loggedInUserID).getFullName());
-    }
 
-    /**
-     * Generates a String[] that contains pertinent data from the Results table.
-     * @return String[] of study data. 1: Strongest Topic, 2: Weakest Topic, 3: Correct/Incorrect Ratio
-     */
-    private String[] getStudyData(){ /// Really inefficient, recommend studydatamanger class
-        String[] studyData = new String[3];
-
-        HashMap<String, Integer> correctCounter = new HashMap<String, Integer>();
-        HashMap<String, Integer> incorrectCounter = new HashMap<String, Integer>();
-        HashMap<Integer, String> subjects = new HashMap<Integer, String>();
-
-        int correctPercent = 0;
-        String strongestSubject = "Play more to find out!";
-        String weakestSubject = "Play more to find out!";
-        int strongestSubjectCount = 0;
-        int weakestSubjectCount = 0;
-        double totalCorrect = 0;
-        double totalIncorrect = 0;
-
-        //Get Results
-        for (Result result : resultManager.getByUserID(Main.loggedInUserID)) {
-            /// Correct
-            if (result.isCorrect()){
-                totalCorrect++;
-                if (correctCounter.containsKey(result.getSubject())){
-                    Integer count = correctCounter.get(result.getSubject());
-                    correctCounter.replace(result.getSubject(), count + 1);
-                    if (count > strongestSubjectCount) {
-                        strongestSubject = result.getSubject();
-                        strongestSubjectCount = count;
-                    }
-                }
-                else {
-                    correctCounter.put(result.getSubject(), 1);
-                    if (strongestSubjectCount < 1) {
-                        strongestSubject = result.getSubject();
-                        strongestSubjectCount = 1;
-                    }
-                }
-            }
-            /// Incorrect
-            else {
-                totalIncorrect++;
-                if (incorrectCounter.containsKey(result.getSubject())){
-                    Integer count = incorrectCounter.get(result.getSubject());
-                    incorrectCounter.replace(result.getSubject(), count + 1);
-                    if (count > weakestSubjectCount) {
-                        weakestSubject = result.getSubject();
-                        weakestSubjectCount = count;
-                    }
-
-                } else {
-                    incorrectCounter.put(result.getSubject(), 1);
-                    if (weakestSubjectCount < 1) {
-                        weakestSubject = result.getSubject();
-                        weakestSubjectCount = 1;
-                    }
-                }
-            }
-        }
-
-        try {
-            correctPercent = (int) (totalCorrect/(totalCorrect+totalIncorrect)*100);
-
-        } catch (ArithmeticException e){
-            correctPercent = 0;
-        }
-        studyData[0] = strongestSubject;
-        studyData[1] = weakestSubject;
-        studyData[2] = String.valueOf(correctPercent);
-        return studyData;
+        setPrefColours(Main.prefCol);
     }
 
     /**
@@ -174,7 +113,7 @@ public class DashboardController {
             Parent root = fxmlLoader.load();
 
             Stage stage = (Stage) subjectsButton.getScene().getWindow();
-            stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
             stage.setTitle("My Subjects");
             stage.show();
         } catch (Exception e) {
@@ -196,8 +135,7 @@ public class DashboardController {
             Parent root = loader.load();
             // Switch scenes
             Stage stage = (Stage) logOutButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.sizeToScene();
+            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
             stage.setTitle("Login");
             stage.show();
         } catch (Exception e) {
@@ -210,13 +148,13 @@ public class DashboardController {
     public void handleTestAll() {
         if (!cardManager.searchByUserID(Main.loggedInUserID).isEmpty()){
             try {
-                Main.currentDeck = "ALL";
+                Main.currentGameMode = 4;
 
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/card-deck-view.fxml"));
                 Parent root = fxmlLoader.load();
 
                 Stage stage = (Stage) testAllButton.getScene().getWindow();
-                stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+                stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
                 stage.setTitle("Flashcard AI - Test");
                 stage.show();
             } catch (Exception e) {
@@ -228,6 +166,95 @@ public class DashboardController {
         }
 
     }
+
+    public void handleTestStrongest() {
+        if (resultManager.getBasicStudyData()[0].equals("Unknown")){
+            errorLabel.setText("You need to play more before I can calculate your strongest subject");
+        } else {
+            try {
+                Main.currentGameMode = 2;
+                Main.currentDeck = testStrongestSubject.getText();
+                if (cardManager.searchCardsBySubject(Main.currentDeck).isEmpty()) {
+                    return;
+                }
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/card-deck-view.fxml"));
+                Parent root = fxmlLoader.load();
+
+                Stage stage = (Stage) testAllButton.getScene().getWindow();
+                stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
+                stage.setTitle("Flashcard AI - Test");
+                stage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void handleTestWeakest() {
+        if (resultManager.getBasicStudyData()[1].equals("Unknown")){
+            errorLabel.setText("You need to play more before I can calculate your weakest subject");
+        } else {
+            try {
+                Main.currentGameMode = 2;
+                Main.currentDeck = testWeakestSubject.getText();
+                if (cardManager.searchCardsBySubject(Main.currentDeck).isEmpty()) {
+                    return;
+                }
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/card-deck-view.fxml"));
+                Parent root = fxmlLoader.load();
+
+                Stage stage = (Stage) testAllButton.getScene().getWindow();
+                stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
+                stage.setTitle("Flashcard AI - Test");
+                stage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void handleStatistics() {
+        if (!resultManager.getByUserID(Main.loggedInUserID).isEmpty()){
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/statistics-view.fxml"));
+                Parent root = fxmlLoader.load();
+
+                Stage stage = (Stage) statsButton.getScene().getWindow();
+                stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
+                stage.setTitle("Statistics");
+                stage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void handleEditAccount() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/my-account-view.fxml"));
+            Parent root = fxmlLoader.load();
+
+            Stage stage = (Stage) editAccount.getScene().getWindow();
+            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
+            stage.setTitle("My Account");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setPrefColours(String colour){
+        String s = "-fx-background-color: " + colour + "; -fx-text-fill: white; -fx-font-weight: bold;";
+
+        testAllButton.setStyle(s);
+        testStrongestSubject.setStyle(s);
+        testWeakestSubject.setStyle(s);
+        subjectsButton.setStyle(s);
+        statsButton.setStyle(s);
+        editAccount.setStyle(s);
+        logOutButton.setStyle(s);
+    }
+
 
 }
 

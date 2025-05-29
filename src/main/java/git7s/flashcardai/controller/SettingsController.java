@@ -2,6 +2,7 @@ package git7s.flashcardai.controller;
 
 
 // Import necessary JavaFX classes
+import git7s.flashcardai.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,7 +32,7 @@ public class SettingsController {
 
             // Create and set a new scene for the stage
             Scene scene = new Scene(root, 600, 400);
-            stage.setScene(scene);
+            stage. setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
             stage.setTitle("My Account");  // Set the window title
         } catch (IOException e) {
             // Print stack trace if loading fails

@@ -281,6 +281,28 @@ public class CardDAO {
     }
 
     /**
+     * Deletes all flashcards for a specific user, subject, and topic.
+     * Used when a user wants to remove an entire flashcard set.
+     *
+     * @param userID The ID of the user (student number).
+     * @param subject The subject the flashcards belong to.
+     */
+    public void deleteBySubject(int userID, String subject) {
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "DELETE FROM cards WHERE userID = ? AND subject = ?"
+            );
+            stmt.setInt(1, userID);
+            stmt.setString(2, subject);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+
+    }
+
+    /**
      * Retrieves all flashcards for a specific user and topic.
      * Useful when loading a topic's flashcards for review or editing.
      *

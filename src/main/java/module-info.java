@@ -4,6 +4,8 @@ module git7sproject {
     requires java.net.http;
     requires com.google.gson;
     requires java.sql;
+    requires commons.collections;
+    requires org.slf4j;
 
 
     opens git7s.flashcardai to javafx.fxml;

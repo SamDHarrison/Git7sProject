@@ -1,7 +1,7 @@
 package git7s.flashcardai.controller;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+
+import git7s.flashcardai.Main;
 import git7s.flashcardai.controller.game.GameManager;
 import git7s.flashcardai.llm.LLMGenerator;
 import javafx.animation.Animation;
@@ -10,13 +10,13 @@ import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point3D;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -100,6 +100,8 @@ public class CardDeckController {
         //Final Setup to Begin
         updateFXMLElements();
         flashcardLabel.setText(gameManager.getFlashCardDisplay());
+
+        setPrefColours(Main.prefCol);
     }
 
     /**
@@ -192,7 +194,7 @@ public class CardDeckController {
                     flashcardLabel.setText(gameManager.getFlashCardDisplay());
                 }
                 else {
-                    flashcardLabel.setText(gameManager.generateResultText());
+                    showFeedbackPopup(gameManager.generateResultText());
                 }
             }
         });
@@ -210,6 +212,7 @@ public class CardDeckController {
                         correctAnswerButton.setVisible(true);
                         flashcardLabel.setText(llm.getResponse());
                         flashcardCounterLabel.setText("AI Response");
+                        showFeedbackPopup(llm.getResponse());
                     }
                 })
         );
@@ -224,12 +227,46 @@ public class CardDeckController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/my-subjects-view.fxml"));
             Parent root = fxmlLoader.load();
             Stage stage = (Stage) correctAnswerButton.getScene().getWindow();
-            stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
             stage.setTitle("Flashcard AI - My Subjects");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public void showFeedbackPopup(String text) {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Feedback");
+
+        TextArea feedbackTextArea = new TextArea(text);
+        feedbackTextArea.setEditable(false);
+        feedbackTextArea.setWrapText(true);
+        feedbackTextArea.setPrefSize(400, 200);
+
+        ScrollPane scrollPane = new ScrollPane(feedbackTextArea);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+
+        VBox layout = new VBox(scrollPane);
+        layout.setPadding(new Insets(10));
+
+        Scene scene = new Scene(layout, 450, 250);
+        popupStage.setScene(scene);
+        popupStage.show();
+    }
+
+    private void setPrefColours(String colour){
+        String s = "-fx-background-color: " + colour + "; -fx-text-fill: white; -fx-font-weight: bold;";
+
+        flipCardButton.setStyle(s);
+        correctAnswerButton.setStyle(s);
+        correctAnswerButton.setStyle(s);
+        incorrectAnswerButton.setStyle(s);
+        askAI.setStyle(s);
+
+    }
+
 
 }

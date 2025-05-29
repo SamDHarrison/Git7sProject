@@ -35,6 +35,11 @@ public class User {
     private boolean admin;
 
     /**
+     * User's preferred GUI colour (accessibility)
+     */
+    private String prefColour;
+
+    /**
      * User Constructor - creates a new user with the following params:
      * @param id The userID (studentID) UNIQUE
      * @param password The user's password (unhashed)
@@ -51,11 +56,31 @@ public class User {
         this.salt= generateSalt();
         this.passwordHash = hashPassword(password, this.salt);
     }
+    /**
+     * Overloaded User Constructor - creates a new user with the following params:
+     * @param id The userID (studentID) UNIQUE
+     * @param password The user's password (unhashed)
+     * @param firstName The user's firstname
+     * @param lastName The user's lastname
+     * @param admin The user's priv level
+     * @param prefColour The user's preferred colour
+     * Then the constructor hashes the password
+     */
+    public User(int id, String password, String firstName, String lastName, boolean admin, String prefColour) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.admin = admin;
+        this.salt= generateSalt();
+        this.passwordHash = hashPassword(password, this.salt);
+        this.prefColour = prefColour;
+    }
 
     // Getters
 
     /**
      * Gets the user ID
+     *
      * @return userID
      */
     public int getId() {
@@ -214,6 +239,15 @@ public class User {
 
         }
 
+    }
+
+
+    public String getPrefColour() {
+        return prefColour;
+    }
+
+    public void setPrefColour(String prefColour) {
+        this.prefColour = prefColour;
     }
 
 

@@ -31,7 +31,7 @@ public class UserDAO {
                             + "firstName VARCHAR NOT NULL, "
                             + "lastName VARCHAR NOT NULL, "
                             + "admin BIT NOT NULL, "
-                            + "subjects VARCHAR"
+                            + "prefcol VARCHAR"
                             + ")"
             );
         } catch (SQLException ex) {
@@ -47,7 +47,7 @@ public class UserDAO {
         
         try {
             PreparedStatement insertUser = connection.prepareStatement(
-                    "INSERT INTO users (id, passwordHash, salt, firstName, lastName, admin) VALUES (?, ?, ?, ?, ?, ?)"
+                    "INSERT INTO users (id, passwordHash, salt, firstName, lastName, admin, prefcol) VALUES (?, ?, ?, ?, ?, ?, ?)"
             );
             insertUser.setInt(1, user.getId());
             insertUser.setString(2, user.getPasswordHash());
@@ -55,6 +55,7 @@ public class UserDAO {
             insertUser.setString(4, user.getFirstName());
             insertUser.setString(5, user.getLastName());
             insertUser.setBoolean(6, user.isAdmin());
+            insertUser.setString(7, user.getPrefColour());
             insertUser.executeUpdate();
         } catch (SQLException ex) {
             System.err.println(ex);
@@ -70,14 +71,15 @@ public class UserDAO {
      */
     public void update(int oldUserID, User user){
         try{
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE users SET id = ?, passwordHash = ?, salt = ?, firstname = ?, lastname = ?, admin = ? WHERE id = ?");
-            updateStatement.setInt(7, oldUserID);
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE users SET id = ?, passwordHash = ?, salt = ?, firstname = ?, lastname = ?, admin = ?, prefcol = ? WHERE id = ?");
+            updateStatement.setInt(8, oldUserID);
             updateStatement.setInt(1, user.getId());
             updateStatement.setString(2, user.getPasswordHash());
             updateStatement.setString(3, user.getSaltAsString());
             updateStatement.setString(4, user.getFirstName());
             updateStatement.setString(5, user.getLastName());
             updateStatement.setBoolean(6, false);
+            updateStatement.setString(7, user.getPrefColour());
             updateStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -118,7 +120,8 @@ public class UserDAO {
                 String firstName = resultSet.getString("firstname");
                 String lastName = resultSet.getString("lastname");
                 boolean admin = resultSet.getBoolean("admin");
-                User insertUser = new User(id, passwordHash, firstName, lastName, admin);
+                String prefCol = resultSet.getString("prefcol");
+                User insertUser = new User(id, passwordHash, firstName, lastName, admin, prefCol);
                 insertUser.setPasswordHash(passwordHash);
                 insertUser.setSaltFromString(salt);
                 users.add(insertUser);
@@ -146,7 +149,8 @@ public class UserDAO {
                 String firstName = resultSet.getString("firstname");
                 String lastName = resultSet.getString("lastname");
                 boolean admin = resultSet.getBoolean("admin");
-                User getUser = new User(id, passwordHash, firstName, lastName, admin);
+                String prefCol = resultSet.getString("prefcol");
+                User getUser = new User(id, passwordHash, firstName, lastName, admin, prefCol);
                 getUser.setPasswordHash(passwordHash);
                 getUser.setSaltFromString(salt);
                 

@@ -1,46 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<VBox alignment="TOP_CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="git7s.flashcardai.MyAccountController">
-    <padding>
-        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
-    </padding>
-
-    <!-- Profile Picture Section -->
-    <Label text="Profile Picture" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
-    <HBox spacing="15">
-        <Circle radius="25" stroke="gray" fill="lightgray"/>
-        <Circle radius="25" stroke="gray" fill="lightgray"/>
-        <Circle radius="25" stroke="gray" fill="lightgray"/>
-        <Circle radius="25" stroke="gray" fill="lightgray"/>
-        <StackPane>
-            <Circle radius="25" stroke="gray" fill="lightgray"/>
-            <Label text="+" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
-        </StackPane>
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="git7s.flashcardai.controller.MyAccountController">
+<top>
+    <HBox alignment="CENTER" prefHeight="50" style="-fx-padding: 5 20 10 20">
+        <Label fx:id="editAccountTitle" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Editing Account: " />
     </HBox>
+</top>
+<!-- Left Panel: My Studies -->
+<left>
+    <VBox alignment="CENTER">
+        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="EDIT ACCOUNT" />
+        <VBox alignment="TOP_LEFT" prefHeight="250" prefWidth="350" spacing="10" style="-fx-padding: 5 5 10 20">
+            <!-- Form and title -->
+            <!-- Title -->
 
-    <Separator/>
+            <!-- Student Number -->
+            <Label fx:id="usernameField" maxWidth="145" prefWidth="145"/>
 
-    <!-- Username Section -->
-    <GridPane hgap="10" vgap="10">
-        <Label text="Username" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-size: 16px;"/>
-        <Label text=".........." GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <Hyperlink text="edit" GridPane.rowIndex="1" GridPane.columnIndex="1" onAction="#handleEditUsername"/>
-    </GridPane>
+            <!-- First and Last Name -->
+            <HBox spacing="10">
+                <TextField fx:id="firstNameField" prefWidth="150" promptText="First Name" />
+                <TextField fx:id="lastNameField" prefWidth="150" promptText="Last Name" />
+            </HBox>
+            <!-- Password and Confirm Password -->
+            <HBox spacing="10">
+                <PasswordField fx:id="oldPasswordField" prefWidth="150" promptText="Password" />
+            </HBox>
+            <!-- Password and Confirm Password -->
+            <HBox spacing="10">
+                <PasswordField fx:id="passwordField" prefWidth="150" promptText="New Password" visible="false" />
+                <PasswordField fx:id="confirmPasswordField" prefWidth="150" promptText="Confirm Password" visible="false" />
+            </HBox>
+            <CheckBox fx:id="changePasswordOption" mnemonicParsing="false" onAction="#handleChangePasswordOption" text="I want to change my password" />
+            <Label fx:id="errorLabel" style="-fx-font-size: 14px; -fx-text-fill: red;" textAlignment="CENTER" />
+        </VBox>
+    </VBox>
 
-    <Separator/>
+</left>
 
-    <!-- Delete Account Section -->
-    <Label text="Delete Account" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
-    <Label text="This will delete all your data and cannot be undone"
-           style="-fx-text-fill: red; -fx-font-style: italic;"/>
-    <Button text="Delete Account" onAction="#handleDeleteAccount"
-            style="-fx-background-color: transparent; -fx-border-color: red; -fx-text-fill: red; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+<!-- Vertical Separator -->
+<center>
+    <VBox alignment="TOP_CENTER" prefWidth="2">
+        <Rectangle height="220" style="-fx-fill: rgb(192,192,191);" width="2" />
+    </VBox>
+</center>
 
-</VBox>
+<!-- Right Panel: My Progress -->
+<right>
+    <VBox alignment="TOP_CENTER" prefHeight="250" prefWidth="250" spacing="5" style="-fx-padding: 5 20 10 5;">
+        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="OTHER" />
+
+        <VBox alignment="TOP_CENTER" spacing="10" style="-fx-padding: 5 20 10 20;">
+            <VBox alignment="CENTER">
+                <Label style="-fx-font-size: 16px;" text="Preferred UI Colour" />
+                <ColorPicker fx:id="prefColourPicker" onAction="#handleChangeColour" />
+            </VBox>
+            <VBox alignment="CENTER">
+                <Label style="-fx-font-size: 16px;" text="Delete Account" />
+                <Button fx:id="deleteAccountButton" onAction="#handleDeleteAccount" prefHeight="40" prefWidth="160" style="-fx-background-color: #FF0000; -fx-text-fill: white; -fx-font-weight: bold;" text="Delete Account" />
+
+            </VBox>
+            <Button fx:id="applyAdmin" onAction="#handleAttemptAdmin" prefHeight="40" prefWidth="160" style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="Request Admin Privs" />
+
+        </VBox>
+
+    </VBox>
+</right>
+
+<!-- Log Out Button Positioned at Bottom Right -->
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-padding: 5 20 10 20">
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="saveAccount" onAction="#handleSaveAccount" prefHeight="40" prefWidth="160" style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="Save Changes" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="backButton" onAction="#handleDashboard" prefHeight="40" prefWidth="160.0" style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" text="Back" />
+            <Region HBox.hgrow="ALWAYS" />
+        </HBox>
+    </bottom>
+
+</BorderPane>
