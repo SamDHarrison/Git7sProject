@@ -190,6 +190,43 @@ public class CardTest {
         engineeringCard.setBack("Computer-Assisted Design");
         assertEquals("Computer-Assisted Design", engineeringCard.getBack());
     }
+
+    /**
+     * Testing of edge cases: Null Value
+     */
+
+    @Test
+    public void testSettersWithNullValues() {
+        geographyCard.setSubject(null);
+        assertNull(geographyCard.getSubject());
+
+        geographyCard.setFront(null);
+        assertNull(geographyCard.getFront());
+    }
+
+    /**
+     * Testing of edge cases: Empty Value
+     */
+    @Test
+    public void testSettersWithEmptyStrings() {
+        mathCard.setSubject("");
+        assertEquals("", mathCard.getSubject());
+
+        mathCard.setBack("");
+        assertEquals("", mathCard.getBack());
+    }
+
+    /**
+     * Testing of edge cases: Boundary Value
+     */
+    @Test
+    public void testSettersWithBoundaryValues() {
+        compsciCard.setCardID(0);
+        assertEquals(0, compsciCard.getCardID());
+
+        compsciCard.setCardID(-1);
+        assertEquals(-1, compsciCard.getCardID());
+    }
 }
 
 
