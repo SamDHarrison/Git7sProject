@@ -17,6 +17,15 @@ public class UserDAO {
         connection = DatabaseConnection.getInstance();
         createTable();
     }
+
+    /**
+     * The Constructor overload for testing - intended for unit testing with an in-memory database.
+     */
+    public UserDAO(Connection connection) {
+        this.connection = connection;
+        createTable();
+    }
+
     /**
      * Creates a Table in the database if not already created.
      */
