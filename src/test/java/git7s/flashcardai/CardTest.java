@@ -45,6 +45,18 @@ public class CardTest {
         engineeringCard.setCardID(6);
     }
 
+    /**
+     * Tests card constructor is functioning appropriately
+     */
+    @Test
+    public void testCardConstructor() {
+        Card test = new Card(42, "Math", "MATH101", "2+2?", "4");
+        assertEquals(42, test.getUserID());
+        assertEquals("Math", test.getSubject());
+        assertEquals("MATH101", test.getTopic());
+        assertEquals("2+2?", test.getFront());
+        assertEquals("4", test.getBack());
+    }
 
     /**
      * Tests that the flip() method returns the back text of each card.
@@ -203,6 +215,7 @@ public class CardTest {
         geographyCard.setFront(null);
         assertNull(geographyCard.getFront());
     }
+
 
     /**
      * Testing of edge cases: Empty Value
