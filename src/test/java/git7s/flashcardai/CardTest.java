@@ -45,6 +45,18 @@ public class CardTest {
         engineeringCard.setCardID(6);
     }
 
+    /**
+     * Tests card constructor is functioning appropriately
+     */
+    @Test
+    public void testCardConstructor() {
+        Card test = new Card(42, "Math", "MATH101", "2+2?", "4");
+        assertEquals(42, test.getUserID());
+        assertEquals("Math", test.getSubject());
+        assertEquals("MATH101", test.getTopic());
+        assertEquals("2+2?", test.getFront());
+        assertEquals("4", test.getBack());
+    }
 
     /**
      * Tests that the flip() method returns the back text of each card.
@@ -189,6 +201,44 @@ public class CardTest {
     public void testSetterBack() {
         engineeringCard.setBack("Computer-Assisted Design");
         assertEquals("Computer-Assisted Design", engineeringCard.getBack());
+    }
+
+    /**
+     * Testing of edge cases: Null Value
+     */
+
+    @Test
+    public void testSettersWithNullValues() {
+        geographyCard.setSubject(null);
+        assertNull(geographyCard.getSubject());
+
+        geographyCard.setFront(null);
+        assertNull(geographyCard.getFront());
+    }
+
+
+    /**
+     * Testing of edge cases: Empty Value
+     */
+    @Test
+    public void testSettersWithEmptyStrings() {
+        mathCard.setSubject("");
+        assertEquals("", mathCard.getSubject());
+
+        mathCard.setBack("");
+        assertEquals("", mathCard.getBack());
+    }
+
+    /**
+     * Testing of edge cases: Boundary Value
+     */
+    @Test
+    public void testSettersWithBoundaryValues() {
+        compsciCard.setCardID(0);
+        assertEquals(0, compsciCard.getCardID());
+
+        compsciCard.setCardID(-1);
+        assertEquals(-1, compsciCard.getCardID());
     }
 }
 
