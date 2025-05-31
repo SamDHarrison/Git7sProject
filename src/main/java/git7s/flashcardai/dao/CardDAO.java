@@ -22,6 +22,14 @@ public class CardDAO {
         createTable();
     }
     /**
+     * Constructor for testing with a custom database connection.
+     * @param connection The connection to use.
+     */
+    public CardDAO(Connection connection) {
+        this.connection = connection;
+        createTable();
+    }
+    /**
      * Creates a Table in the database if not already created.
      */
     public void createTable(){

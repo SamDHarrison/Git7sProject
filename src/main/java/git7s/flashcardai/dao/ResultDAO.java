@@ -21,6 +21,14 @@ public class ResultDAO {
         createTable();
     }
     /**
+     * Constructor for testing with a custom database connection.
+     * @param connection The connection to use.
+     */
+    public ResultDAO(Connection connection) {
+        this.connection = connection;
+        createTable();
+    }
+    /**
      * Creates a Table in the database if not already created.
      */
 
@@ -77,7 +85,7 @@ public class ResultDAO {
     public void delete(int resultID){
         
         try{
-            PreparedStatement getStatement = connection.prepareStatement("DELETE * FROM results WHERE resultID = ?");
+            PreparedStatement getStatement = connection.prepareStatement("DELETE FROM results WHERE resultID = ?");
             getStatement.setInt(1, resultID);
             getStatement.executeUpdate();
         } catch (SQLException e) {
