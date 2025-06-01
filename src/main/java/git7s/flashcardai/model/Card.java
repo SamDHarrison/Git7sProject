@@ -43,7 +43,15 @@ public class Card {
         this.back = back;
     }
 
-    // Constructor used when loading an existing card from the database (cardID already assigned)
+    /**
+     * Constructor for when no Card ID exists (testing)
+     * @param cardID Card ID
+     * @param userID User ID
+     * @param subject Subject
+     * @param topic Topic
+     * @param front Front
+     * @param back Back
+     */
     public Card(int cardID, int userID, String subject, String topic, String front, String back) {
         this.cardID = cardID;
         this.userID = userID;

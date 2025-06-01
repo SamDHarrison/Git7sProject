@@ -36,7 +36,7 @@
                     <PasswordField fx:id="passwordField" promptText="Password" maxWidth="Infinity"/>
 
                     <!-- Login button -->
-                    <Button text="Login" onAction="#handleLogin" maxWidth="Infinity"
+                    <Button fx:id="loginButton" text="Login" onAction="#handleLogin" maxWidth="Infinity"
                             style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
 
                     <!-- Account creation -->

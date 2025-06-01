@@ -12,7 +12,7 @@
         <!-- Vertically center all content -->
         <VBox alignment="CENTER" spacing="20">
             <!-- Form and title -->
-            <VBox alignment="TOP_LEFT" spacing="15" maxWidth="400">
+            <VBox spacing="15" maxWidth="400">
                 <padding>
                     <Insets top="15" right="20" bottom="20" left="70"/>
                 </padding>
@@ -36,7 +36,7 @@
                 </HBox>
 
                 <!-- Get Started Button -->
-                <Button text="Get Started!" onAction="#handleGetStarted" prefWidth="320"
+                <Button fx:id="getStartedButton" text="Get Started!" onAction="#handleGetStarted" prefWidth="320"
                         style="-fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
 
                 <!-- Error label -->
@@ -47,8 +47,8 @@
 
     <!-- Back button (top-left corner) -->
     <top>
-        <HBox alignment="TOP_LEFT">
-            <Button text="Back" onAction="#handleBackToLogin"
+        <HBox>
+            <Button fx:id="backButton" text="Back" onAction="#handleBackButton"
                     style="-fx-background-color: #d3d3d3; -fx-text-fill: #000000; -fx-border-color: grey;" />
         </HBox>
     </top>

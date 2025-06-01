@@ -1,91 +1,90 @@
 package git7s.flashcardai.controller;
 
-import git7s.flashcardai.Main;
-import git7s.flashcardai.dao.CardDAO;
+import git7s.flashcardai.AppDefaults;
 import git7s.flashcardai.dao.ResultDAO;
 import git7s.flashcardai.dao.UserDAO;
 import git7s.flashcardai.model.*;
+import git7s.flashcardai.service.SessionService;
+import git7s.flashcardai.service.StatisticsService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
 import java.util.List;
 
 /**
  * This class controls the dashboard GUI
  */
-public class StatisticsController {
+public class StatisticsController extends AbstractController implements IController{
     /**
-     * This label is the progress text on the progress bar
+     * Protected default constructor.
+     * <p>
+     * This constructor is intentionally protected because this class is abstract
+     * and should only be subclassed.
+     * </p>
      */
-    @FXML public Label progressTextLabel;
+    protected StatisticsController() {
+    }
     /**
-     * Displays the name on entry
+     * Labels
      */
-    public Label welcomeLabel;
-
-    public PieChart strongestPieChart;
-    public PieChart weakestPieChart;
-    public Button backButton;
-    public Label progressLabel;
-    public TabPane targetPane;
-    public Label strongestSubjectLabel;
-    public Label weakestSubjectLabel;
-    public Label lifetimeScoreLabel;
+    @FXML
+    public Label currentStreakDisplay, scoresLabel, volumeLabel, lifetimeScoreLabel, welcomeLabel, strongestTopicLabel, weakestTopicLabel;
+    /**
+     * Pie Charts
+     */
+    @FXML
+    public PieChart strongestPieChart, weakestPieChart;
+    /**
+     * Progress Bar
+     */
+    @FXML
     public ProgressBar lifetimeScoreBar;
-    public Label currentStreakDisplay;
-    public VBox strongestSubjectPane;
-    public VBox weakestSubjectPane;
-    public VBox weeklyScoresPane;
-    public Label scoresLabel;
-    public LineChart<Number, Number> scoresChart;
-    public VBox weeklyVolumePane;
-    public Label volumeLabel;
-    public LineChart<Number, Number> volumeChart;
+    /**
+     * Pane
+     */
+    @FXML
     public Pane choiceStatsPane;
-    public VBox weeklySubjectVolume;
-    public ComboBox<String> subjectVolumeComboBox;
-    public LineChart<Number, Number> subjectVolumeChart;
-    public VBox weeklySubjectScores;
-    public ComboBox<String> subjectScoresComboBox;
-    public LineChart<Number, Number> subjectScoresChart;
-    public Button viewStrongestButton;
-    public Button viewWeakestButton;
-    public Button viewVolumeButton;
-    public Button viewScoresButton;
-    public Button viewSubjectVolume;
-    public Button viewSubjectScores;
     /**
-     * Strongest topic displayed
+     * VBOX
      */
-    @FXML private Label strongestTopicLabel;
+    @FXML
+    public VBox weeklySubjectVolume, weeklySubjectScores, weeklyVolumePane, weeklyScoresPane, weakestSubjectPane, strongestSubjectPane;
     /**
-     * Weakest topic displayed
+     * ComboBox
      */
-    @FXML private Label weakestTopicLabel;
+    @FXML
+    public ComboBox<String> subjectVolumeComboBox, subjectScoresComboBox;
+    /**
+     * Line Chart
+     */
+    @FXML
+    public LineChart<Number, Number> subjectScoresChart, subjectVolumeChart, scoresChart, volumeChart;
+    /**
+     * Buttons
+     */
+    @FXML
+    public Button viewStrongestButton, viewWeakestButton, viewVolumeButton, viewScoresButton, viewSubjectVolume, viewSubjectScores, backButton;
     /**
      * Result Manager for accessing DB
      */
+    @FXML
     private ResultManager resultManager;
     /**
      * Card Manager for accessing DB
      */
+    @FXML
     private UserManager userManager;
     /**
      * List that contains all the options for the subject dropdown menu
      */
+    @FXML
     private ObservableList<String> subjects;
     /**
      * Initialise is run when the GUI is opened.
@@ -95,32 +94,45 @@ public class StatisticsController {
         //DB
         resultManager = new ResultManager(new ResultDAO());
         userManager = new UserManager(new UserDAO());
+        setupUIData();
+    }
+
+    /**
+     * Fill UI
+     */
+    @Override
+    public void setupUIData() {
         // Get Study Data
-        String[] studyData = resultManager.getBasicStudyData();
+        String[] studyData = StatisticsService.getInstance().getBasicStudyData();
         subjects = FXCollections.observableArrayList();
-        setPrefColours(Main.prefCol);
-        setupInitialUI(studyData);
+        setPrefColours(viewStrongestButton, viewWeakestButton, viewVolumeButton, viewScoresButton, viewSubjectVolume, viewSubjectScores, backButton);
+        setupExtraUI(studyData);
         setupOverallCharts(studyData);
-
     }
 
+    /**
+     * Go back to Dashboard
+     */
+    @Override
+    public void handleBackButton() {
+        handleBackToDashboard();
+    }
+
+    /**
+     * Go back to Dashboard
+     */
     public void handleBackToDashboard() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/dashboard-view.fxml"));
-            Parent root = fxmlLoader.load();
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
-            stage.setTitle("Dashboard");
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        changeView(AppDefaults.ViewTitles.DASHBOARD_VIEW, backButton);
     }
 
-    public void setupInitialUI(String[] studyData){
+    /**
+     * Setup other UI
+     * @param studyData Stats
+     */
+    public void setupExtraUI(String[] studyData){
         //Setup the subject, topic panes
-        for (Result result : resultManager.getByUserID(12345)) {
-            if(subjects != null) {
+        for (Result result : resultManager.getByUserID(SessionService.getInstance().loggedInID)) {
+            if(!subjects.isEmpty()) {
                 if (!subjects.contains(result.getSubject())) {
                     subjects.add(result.getSubject());
                 }
@@ -135,16 +147,20 @@ public class StatisticsController {
         subjectVolumeComboBox.getSelectionModel().selectFirst();
 
         // Setting General Data
-        welcomeLabel.setText("Statistics for: " + userManager.getUser(Main.loggedInUserID).getFullName());
+        welcomeLabel.setText("Statistics for: " + userManager.getUser(SessionService.getInstance().loggedInID).getFullName());
         lifetimeScoreLabel.setText("Your lifetime score is " + studyData[4] + "% correct!");
         lifetimeScoreBar.setProgress(Double.parseDouble(studyData[4])/100);
 
         strongestTopicLabel.setText("Strongest Subject: " + studyData[0]);
         weakestTopicLabel.setText("Weakest Subject: " + studyData[1]);
 
-        currentStreakDisplay.setText(resultManager.getCurrentStreak() + " Days!");
+        currentStreakDisplay.setText(StatisticsService.getInstance().getCurrentStreak() + " Days!");
     }
 
+    /**
+     * Set up the charts
+     * @param studyData Stats
+     */
     public void setupOverallCharts(String[] studyData){
         //Setup Panes
         strongestPieChart.setData(FXCollections.observableArrayList(
@@ -161,14 +177,14 @@ public class StatisticsController {
         weakestPieChart.setLabelsVisible(true);
 
 
-        List<XYChart.Series<Number, Number>> volumeChartData = resultManager.getVolumeChartData();
+        List<XYChart.Series<Number, Number>> volumeChartData = StatisticsService.getInstance().getVolumeChartData();
         for (XYChart.Series<Number, Number> e : volumeChartData) {
             volumeChart.getData().add(e);
         }
         volumeChart.setCreateSymbols(false);
         volumeChart.setTitle("Flashcards per Week");
 
-        List<XYChart.Series<Number, Number>> scoresChartData = resultManager.getScoresChartData();
+        List<XYChart.Series<Number, Number>> scoresChartData = StatisticsService.getInstance().getScoresChartData();
         for (XYChart.Series<Number, Number> e : scoresChartData) {
             scoresChart.getData().add(e);
         }
@@ -179,24 +195,31 @@ public class StatisticsController {
         handleUpdateSubjectVolumeChart();
     }
 
+    /**
+     * Updates the chart
+     */
     public void handleUpdateSubjectVolumeChart() {
-        List<XYChart.Series<Number, Number>> subjectVolumeData = resultManager.getSubjectVolumeData(subjectVolumeComboBox.getSelectionModel().getSelectedItem());
+        List<XYChart.Series<Number, Number>> subjectVolumeData = StatisticsService.getInstance().getSubjectVolumeData(subjectVolumeComboBox.getSelectionModel().getSelectedItem());
         for (XYChart.Series<Number, Number> e : subjectVolumeData) {
             subjectVolumeChart.getData().add(e);
         }
         subjectVolumeChart.setCreateSymbols(false);
         subjectVolumeChart.setTitle("Flashcards per Week");
     }
-
+    /**
+     * Updates the chart
+     */
     public void handleUpdateSubjectScoreChart() {
-        List<XYChart.Series<Number, Number>> subjectScoresData = resultManager.getSubjectScoresChartData(subjectScoresComboBox.getSelectionModel().getSelectedItem());
+        List<XYChart.Series<Number, Number>> subjectScoresData = StatisticsService.getInstance().getSubjectScoresChartData(subjectScoresComboBox.getSelectionModel().getSelectedItem());
         for (XYChart.Series<Number, Number> e : subjectScoresData) {
             subjectScoresChart.getData().add(e);
         }
         subjectScoresChart.setCreateSymbols(false);
         subjectScoresChart.setTitle("Correct % per Week");
     }
-
+    /**
+     * Selects the specific pane
+     */
     public void viewStrongestPane() {
         // Hide all child VBoxes
         for (Node node : choiceStatsPane.getChildren()) {
@@ -207,7 +230,9 @@ public class StatisticsController {
         // Show only the specific VBox
         strongestSubjectPane.setVisible(true);
     }
-
+    /**
+     * Selects the specific pane
+     */
     public void viewWeakestPane() {
         // Hide all child VBoxes
         for (Node node : choiceStatsPane.getChildren()) {
@@ -218,7 +243,9 @@ public class StatisticsController {
         // Show only the specific VBox
         weakestSubjectPane.setVisible(true);
     }
-
+    /**
+     * Selects the specific pane
+     */
     public void viewVolumePane() {
         // Hide all child VBoxes
         for (Node node : choiceStatsPane.getChildren()) {
@@ -229,7 +256,9 @@ public class StatisticsController {
         // Show only the specific VBox
         weeklyVolumePane.setVisible(true);
     }
-
+    /**
+     * Selects the specific pane
+     */
     public void viewScoresPane() {
         // Hide all child VBoxes
         for (Node node : choiceStatsPane.getChildren()) {
@@ -240,7 +269,9 @@ public class StatisticsController {
         // Show only the specific VBox
         weeklyScoresPane.setVisible(true);
     }
-
+    /**
+     * Selects the specific pane
+     */
     public void viewSubjectVolumePane() {
         // Hide all child VBoxes
         for (Node node : choiceStatsPane.getChildren()) {
@@ -251,7 +282,9 @@ public class StatisticsController {
         // Show only the specific VBox
         weeklySubjectVolume.setVisible(true);
     }
-
+    /**
+     * Selects the specific pane
+     */
     public void viewSubjectScoresPane() {
         // Hide all child VBoxes
         for (Node node : choiceStatsPane.getChildren()) {
@@ -262,21 +295,6 @@ public class StatisticsController {
         // Show only the specific VBox
         weeklySubjectScores.setVisible(true);
     }
-
-    private void setPrefColours(String colour){
-        String s = "-fx-background-color: " + colour + "; -fx-text-fill: white; -fx-font-weight: bold;";
-
-        backButton.setStyle(s);
-        viewScoresButton.setStyle(s);
-        viewStrongestButton.setStyle(s);
-        viewWeakestButton.setStyle(s);
-        viewVolumeButton.setStyle(s);
-        viewSubjectVolume.setStyle(s);
-        viewSubjectScores.setStyle(s);
-
-    }
-
-
 }
 
 

@@ -10,17 +10,19 @@ public class UserManager {
     /**
      * Local DAO object that is filled by calling screen
      */
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
 
     /**
      * The Constructor which takes the caller's DAO object and updates local
-     * @param userDAO
+     * @param userDAO DAO object which enables the manager.
      */
     public UserManager(UserDAO userDAO){
         this.userDAO = userDAO;
     }
     /**
      * Search Function that gets a list of users for handling GUI-side
+     * @param userID The USERID
+     * @return Users
      */
     public List<User> searchUsers(int userID){
         return userDAO.getAll()
@@ -30,9 +32,11 @@ public class UserManager {
     }
     /**
      * Search Function that gets a user for handling GUI-side
+     * @param userID The USERID
+    * @return Users
      */
     public User getUser(int userID){
-        return userDAO.getById(userID);
+        return userDAO.getByID(userID);
     }
     /**
      * Inserts a user to the DAO
@@ -43,13 +47,11 @@ public class UserManager {
     }
     /**
      * Update a specific user to the DAO
-     * @param oldUserID The existing ID
      * @param user The updated user
 
      */
-    public void update(int oldUserID, User user){
-        userDAO.update(oldUserID, user);
-        
+    public void update(User user){
+        userDAO.update(user);
     }
     /**
      * Deletes a specific user from the db
@@ -65,4 +67,5 @@ public class UserManager {
     public List<User> getAll(){
         return userDAO.getAll();
     }
+
 }

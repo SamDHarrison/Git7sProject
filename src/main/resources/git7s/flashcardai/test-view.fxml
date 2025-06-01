@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="git7s.flashcardai.controller.TestController">
+    <!-- Top bar with Back link, Title, and Deck label -->
+    <top>
+        <VBox style="-fx-background-color: #ffffff; -fx-padding: 10;">
+            <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 5;">
+                <Hyperlink fx:id="backToTopicsLink" text="← Back to Subjects"
+                           style="-fx-text-fill: #555; -fx-font-size: 14px;" />
+            </HBox>
+            <HBox alignment="CENTER" spacing="20" style="-fx-padding: 5;">
+                <Label fx:id="titleLabel" text="CAB203 Object Oriented Programming in Java"
+                       style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Flashcard Display -->
+    <center>
+        <VBox alignment="CENTER" spacing="20" style="-fx-padding: 30;">
+            <StackPane style="-fx-padding: 40; -fx-border-color: #ccc; -fx-border-radius: 10; -fx-background-color: white; -fx-background-radius: 10;">
+                <Label fx:id="flashcardLabel" wrapText="true"
+                       style="-fx-font-size: 14px; -fx-font-weight: normal; -fx-text-alignment: center;" />
+            </StackPane>
+        </VBox>
+    </center>
+
+    <!-- Bottom navigation -->
+    <bottom>
+        <HBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
+            <Label fx:id="flashcardCounterLabel" text="1 of 15" style="-fx-font-size: 16px;" />
+            <Button fx:id="flipCardButton" text="Flip" onAction="#flipCard"
+                    style="-fx-font-size: 14px; -fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Button fx:id="correctAnswerButton" text="✔"
+                    style="-fx-font-size: 14px; -fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Button fx:id="incorrectAnswerButton" text="✘"
+                    style="-fx-font-size: 14px; -fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
+            <Button fx:id="askAI" text="Ask AI to explain!" onAction="#handleAIExplanation"
+                    style="-fx-font-size: 14px; -fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
+        </HBox>
+    </bottom>
+</BorderPane>
+

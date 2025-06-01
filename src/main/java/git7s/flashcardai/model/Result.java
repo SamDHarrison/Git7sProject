@@ -40,6 +40,8 @@ public class Result {
      * @param cardID The card ID
      * @param at The time it happened
      * @param correct The result of the test
+     * @param subject The subject
+     * @param topic The topic
      */
     public Result(int userID, int cardID, Timestamp at, boolean correct, String subject, String topic) {
         this.userID = userID;
@@ -86,14 +88,14 @@ public class Result {
     }
     /**
      * Gets the result's subject
-     * @return
+     * @return Subject
      */
     public String getSubject() {
         return subject;
     }
     /**
      * Gets the result's topic
-     * @return
+     * @return Topic
      */
     public String getTopic() {
         return topic;
@@ -101,45 +103,49 @@ public class Result {
 
     /**
      * This method sets the ResultID
+     * @param resultID Result ID
      */
-
     public void setResultID(int resultID) {
         this.resultID = resultID;
     }
     /**
      * This method sets the UserID
+     * @param userID User ID
      */
     public void setUserID(int userID) {
         this.userID = userID;
     }
     /**
      * This method sets the CardID
+     * @param cardID CardID
      */
     public void setCardID(int cardID) {
         this.cardID = cardID;
     }
     /**
      * This method sets the Timestamp
+     * @param at Time
      */
     public void setAt(Timestamp at) {
         this.at = at;
     }
     /**
      * This method sets the answer status
+     * @param correct Boolean
      */
     public void setCorrect(boolean correct) {
         this.correct = correct;
     }
     /**
      * Set the result's topic
-     * @param topic
+     * @param topic Topic
      */
     public void setTopic(String topic) {
         this.topic = topic;
     }
     /**
      * Set's the results subject
-     * @param subject
+     * @param subject Subject
      */
     public void setSubject(String subject) {
         this.subject = subject;

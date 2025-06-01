@@ -1,31 +1,34 @@
 package git7s.flashcardai.dao;
 
 import git7s.flashcardai.model.User;
-
+import git7s.flashcardai.service.DatabaseService;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-public class UserDAO {
+
+/**
+ * User DAO Class for interacting with the SQLite Database
+ */
+public class UserDAO  implements IDAO<User> {
     /**
      * The connection used for connecting to the db
      */
-    private Connection connection;
+    private final Connection connection;
     /**
      * The Constructor which gets the static connection from the main class
      */
     public UserDAO() {
-        connection = DatabaseConnection.getInstance();
+        this.connection = DatabaseService.getInstance().getConnection();
         createTable();
     }
-
     /**
      * The Constructor overload for testing - intended for unit testing with an in-memory database.
+     * @param connection Connection
      */
     public UserDAO(Connection connection) {
         this.connection = connection;
         createTable();
     }
-
     /**
      * Creates a Table in the database if not already created.
      */
@@ -44,8 +47,7 @@ public class UserDAO {
                             + ")"
             );
         } catch (SQLException ex) {
-
-            System.err.println(ex);
+            System.err.println(ex.getMessage());
         }
     }
 /**
@@ -67,34 +69,31 @@ public class UserDAO {
             insertUser.setString(7, user.getPrefColour());
             insertUser.executeUpdate();
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.err.println(ex.getMessage());
         }
         
     }
-
     /**
      * Update a specific user
-     * @param oldUserID The existing ID
      * @param user The updated user
 
      */
-    public void update(int oldUserID, User user){
+    @Override
+    public void update(User user) {
         try{
-            PreparedStatement updateStatement = connection.prepareStatement("UPDATE users SET id = ?, passwordHash = ?, salt = ?, firstname = ?, lastname = ?, admin = ?, prefcol = ? WHERE id = ?");
-            updateStatement.setInt(8, oldUserID);
-            updateStatement.setInt(1, user.getId());
-            updateStatement.setString(2, user.getPasswordHash());
-            updateStatement.setString(3, user.getSaltAsString());
-            updateStatement.setString(4, user.getFirstName());
-            updateStatement.setString(5, user.getLastName());
-            updateStatement.setBoolean(6, false);
-            updateStatement.setString(7, user.getPrefColour());
+            PreparedStatement updateStatement = connection.prepareStatement("UPDATE users SET passwordHash = ?, salt = ?, firstname = ?, lastname = ?, admin = ?, prefcol = ? WHERE id = ?");
+            updateStatement.setInt(7, user.getId());
+            updateStatement.setString(1, user.getPasswordHash());
+            updateStatement.setString(2, user.getSaltAsString());
+            updateStatement.setString(3, user.getFirstName());
+            updateStatement.setString(4, user.getLastName());
+            updateStatement.setBoolean(5, user.isAdmin());
+            updateStatement.setString(6, user.getPrefColour());
             updateStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
     }
-
     /**
      * Deletes a specific user from the db
      * @param id Specified user
@@ -105,18 +104,46 @@ public class UserDAO {
             PreparedStatement getStatement = connection.prepareStatement("DELETE FROM users WHERE id = ?");
             getStatement.setInt(1, id);
             getStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
         
     }
 
     /**
+     * Gets a user by a specified ID
+     * @param ID The specified user ID
+     * @return The User Specified, if exists
+     */
+    @Override
+    public User getByID(int ID) {
+        try{
+            PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
+            getStatement.setInt(1, ID);
+            ResultSet resultSet = getStatement.executeQuery();
+            if (resultSet.next()){
+                String passwordHash = resultSet.getString("passwordHash");
+                String salt = resultSet.getString("salt");
+                String firstName = resultSet.getString("firstname");
+                String lastName = resultSet.getString("lastname");
+                boolean admin = resultSet.getBoolean("admin");
+                String prefCol = resultSet.getString("prefcol");
+                User getUser = new User(ID, passwordHash, firstName, lastName, admin, prefCol);
+                getUser.setPasswordHash(passwordHash);
+                getUser.setSaltFromString(salt);
+
+                return getUser;
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return null;
+    }
+    /**
      * Gets a list of all the users in the DB
      * @return List of users
      */
     public List<User> getAll(){
-        
         List<User> users = new ArrayList<>();
         try {
             Statement insertStatement = connection.createStatement();
@@ -135,39 +162,10 @@ public class UserDAO {
                 insertUser.setSaltFromString(salt);
                 users.add(insertUser);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
-        
         return users;
     }
-
-    /**
-     * Gets a user by a specified ID
-     * @param id The specified user ID
-     * @return The User Specified, if exists
-     */
-    public User getById(int id) {
-        try{
-            PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM users WHERE id = ?");
-            getStatement.setInt(1, id);
-            ResultSet resultSet = getStatement.executeQuery();
-            if (resultSet.next()){
-                String passwordHash = resultSet.getString("passwordHash");
-                String salt = resultSet.getString("salt");
-                String firstName = resultSet.getString("firstname");
-                String lastName = resultSet.getString("lastname");
-                boolean admin = resultSet.getBoolean("admin");
-                String prefCol = resultSet.getString("prefcol");
-                User getUser = new User(id, passwordHash, firstName, lastName, admin, prefCol);
-                getUser.setPasswordHash(passwordHash);
-                getUser.setSaltFromString(salt);
-                
-                return getUser;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
+

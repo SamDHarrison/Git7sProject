@@ -125,7 +125,7 @@ public class User {
 
     /**
      * Get's the user's salt as a string
-     * @return
+     * @return Salt as String
      */
     public String getSaltAsString() {
         return Base64.getEncoder().encodeToString(salt);
@@ -161,7 +161,7 @@ public class User {
 
     /**
      * Sets the password (hashed)
-     * @param passwordHash
+     * @param passwordHash PasswordHash
      */
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
@@ -241,11 +241,18 @@ public class User {
 
     }
 
-
+    /**
+     * Getter for Preferred Colour
+     * @return String
+     */
     public String getPrefColour() {
         return prefColour;
     }
 
+    /**
+     * Setter for Preferred Colour
+     * @param prefColour String
+     */
     public void setPrefColour(String prefColour) {
         this.prefColour = prefColour;
     }

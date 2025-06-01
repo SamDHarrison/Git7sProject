@@ -108,7 +108,7 @@ public class CardDAOTest {
         Card card = cardDAO.getAll().get(0);
         card.setBack("4.0");
         cardDAO.update(card);
-        Card updated = cardDAO.getById(card.getCardID());
+        Card updated = cardDAO.getByID(card.getCardID());
         assertEquals("4.0", updated.getBack());
     }
 

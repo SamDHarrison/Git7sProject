@@ -1,83 +1,73 @@
 package git7s.flashcardai.controller;
-
-import git7s.flashcardai.Main;
+/// Imports
+import git7s.flashcardai.AppDefaults;
 import git7s.flashcardai.dao.UserDAO;
 import git7s.flashcardai.model.User;
 import git7s.flashcardai.model.UserManager;
+import git7s.flashcardai.service.SessionService;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.scene.control.*;
 
 /**
  * Controller for the "Create Account" screen.
  * Handles user input, validation, and account creation logic.
  */
-public class CreateAccountController {
+public class CreateAccountController extends AbstractController implements IController{
+    /**
+     * Protected default constructor.
+     * <p>
+     * This constructor is intentionally protected because this class is abstract
+     * and should only be subclassed.
+     * </p>
+     */
+    protected CreateAccountController() {
+    }
     /**
      * Displays any errors that occur when creating account
      */
     @FXML
-    public Label errorLabel;
+    private Label errorLabel;
     /**
-     * Textfield for the username input
+     * Button for the login screen
      */
     @FXML
-    private TextField usernameField;
+    private Button backButton, getStartedButton;
     /**
-     * Textfield for the password input
+     * Password Fields
      */
     @FXML
-    private PasswordField passwordField;
+    private PasswordField passwordField, confirmPasswordField;
     /**
-     * Textfield for the confirmed password input
+     * Textfields
      */
     @FXML
-    private PasswordField confirmPasswordField;
-    /**
-     * Textfield for the First Name input
-     */
-    @FXML
-    private TextField firstNameField;
-    /**
-     * Textfield for the Last Name input
-     */
-    @FXML
-    private TextField lastNameField;
+    private TextField firstNameField, lastNameField, usernameField;
     /**
      * Manager for user objects
      */
     private UserManager userManager;
-    /**
-     * Enum that holds error text
-     */
-    private enum CreateAccountError {
-        notFilledFields("Please fill in all fields"),
-        notConfirmedPassword("Passwords are not matching"),
-        notNumericalID("Your Student ID must be all numerical digits"),
-        notSatisfactoryPassword("Your password must be over 5 digits"),
-        notUniqueUsername("The specified Student ID already exists");
-        final String description;
-
-        CreateAccountError(String description) {
-            this.description = description;
-        }
-        public String getDescription(){
-            return description;
-        }
-    }
-
     /**
      * Initializes the controller and sets up the user manager.
      */
     @FXML
     public void initialize() {
         userManager = new UserManager(new UserDAO());
+        setupUIData();
+    }
+    /**
+     * Sets up UI Data
+     */
+    @Override
+    public void setupUIData(){
+        //Nothing to do here yet
+    }
+    /**
+     * Method to return the user to the login screen.
+     */
+    @FXML
+    @Override
+    public void handleBackButton() {
+        changeView(AppDefaults.ViewTitles.LOGIN_VIEW, backButton);
     }
     /**
      * This is the method called when the get started button is pressed, generating a user if inputs are correct
@@ -92,62 +82,36 @@ public class CreateAccountController {
         String lastName = lastNameField.getText();
 
         // Makes sure that no fields are empty
-        if (username.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            errorLabel.setText(CreateAccountError.notFilledFields.getDescription());
+        if (checkFieldsEmpty(usernameField, passwordField, confirmPasswordField, firstNameField, lastNameField)) {
+            errorLabel.setText(AppDefaults.ErrorMessages.NOT_FILLED_FIELDS.get());
             return;
         }
         // Makes sure that password and confirmation match
         if (!password.equals(confirmPassword)) {
-            errorLabel.setText(CreateAccountError.notConfirmedPassword.getDescription());
+            errorLabel.setText(AppDefaults.ErrorMessages.NOT_CONFIRMED_PASSWORD.get());
             return;
         }
         // Attempt to parse username (student number) into an integer
         try {
             usernameID = Integer.parseInt(username);
         } catch (NumberFormatException err) {
-            errorLabel.setText(CreateAccountError.notNumericalID.getDescription());
+            errorLabel.setText(AppDefaults.ErrorMessages.NOT_NUMERICAL_ID.get());
             return;
         }
         //Check if username already exists
         if (userManager.getUser(usernameID)!=null) {
-            errorLabel.setText(CreateAccountError.notUniqueUsername.getDescription());
+            errorLabel.setText(AppDefaults.ErrorMessages.NOT_UNIQUE_USERNAME.get());
             return;
         }
         // Create the User object
         userManager.addUser(new User(usernameID, password, firstName, lastName, false, "#60C3D8"));
-        Main.loggedInUserID = usernameID;
+        SessionService.getInstance().loggedInID = usernameID;
 
-        // Navigate to Dashboard view
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/dashboard-view.fxml"));
-            Parent root = fxmlLoader.load();
-
-            Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
-            stage.setTitle("Flashcard AI - Dashboard");
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        changeView(AppDefaults.ViewTitles.DASHBOARD_VIEW, getStartedButton);
     }
 
-    /**
-     * Method to return the user to the login screen.
-     */
-    @FXML
-    private void handleBackToLogin() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/login-view.fxml"));
-            Parent root = fxmlLoader.load();
 
-            Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
-            stage.setTitle("Login");
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 
 
 }

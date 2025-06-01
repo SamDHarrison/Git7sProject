@@ -1,23 +1,23 @@
 package git7s.flashcardai.dao;
 
 import git7s.flashcardai.model.Result;
-
+import git7s.flashcardai.service.DatabaseService;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 /**
  * The DAO object for interacting with the Results Table over the specified connection
  */
-public class ResultDAO {
+public class ResultDAO implements IDAO<Result> {
     /**
      * The connection used for connecting to the db
      */
-    private Connection connection;
+    private final Connection connection;
     /**
      * The Constructor which gets the static connection from the main class
      */
     public ResultDAO() {
-        connection = DatabaseConnection.getInstance();
+        this.connection = DatabaseService.getInstance().getConnection();
         createTable();
     }
     /**
@@ -33,7 +33,6 @@ public class ResultDAO {
      */
 
     public void createTable(){
-        
         try {
             Statement createTable = connection.createStatement();
             createTable.execute(
@@ -50,8 +49,7 @@ public class ResultDAO {
                             + ")"
             );
         } catch (SQLException ex) {
-
-            System.err.println(ex);
+            System.err.println(ex.getMessage());
         }
         
     }
@@ -60,7 +58,6 @@ public class ResultDAO {
      * @param result New Result for insertion
      */
     public void insert(Result result){
-        
         try {
             PreparedStatement insertResult = connection.prepareStatement(
                     "INSERT INTO results (userID, cardID, at, correct, subject, topic) VALUES (?, ?, ?, ?, ?, ?)"
@@ -73,7 +70,7 @@ public class ResultDAO {
             insertResult.setString(6, result.getTopic());
             insertResult.executeUpdate();
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.err.println(ex.getMessage());
         }
         
     }
@@ -88,12 +85,11 @@ public class ResultDAO {
             PreparedStatement getStatement = connection.prepareStatement("DELETE FROM results WHERE resultID = ?");
             getStatement.setInt(1, resultID);
             getStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
         
     }
-
     /**
      * Gets results for a specified Card
      * @param cardIDQuery Specified Card
@@ -118,13 +114,12 @@ public class ResultDAO {
                 result.setResultID(resultID);
                 results.add(result);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
 
         return results;
     }
-
     /**
      * Pulls all db results
      * @return List of results
@@ -147,13 +142,12 @@ public class ResultDAO {
                 result.setResultID(resultID);
                 results.add(result);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
         
         return results;
     }
-
     /**
      * Gets results by the user who got the results
      * @param userIDQuery The user ID
@@ -178,13 +172,53 @@ public class ResultDAO {
                 result.setResultID(resultID);
                 results.add(result);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
 
         return results;
 
     }
 
+    @Override
+    public void update(Result result) {
+        try {
+            PreparedStatement updateResult = connection.prepareStatement(
+                    "UPDATE results SET userID = ?, cardID = ?, at = ?, correct = ?, subject = ?, topic = ? WHERE resultID = ?)"
+            );
+            updateResult.setInt(1, result.getUserID());
+            updateResult.setInt(2, result.getCardID());
+            updateResult.setTimestamp(3, result.getAt());
+            updateResult.setBoolean(4, result.isCorrect());
+            updateResult.setString(5, result.getSubject());
+            updateResult.setString(6, result.getTopic());
+            updateResult.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+    @Override
+    public Result getByID(int ID) {
+        try {
+            PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM results WHERE resultID = ?");
+            getStatement.setInt(1, ID);
+            ResultSet resultSet = getStatement.executeQuery();
+            if (resultSet.next()){
+                int resultID = resultSet.getInt("resultID");
+                int userID = resultSet.getInt("userID");
+                int cardID = resultSet.getInt("cardID");
+                Timestamp at = resultSet.getTimestamp("at");
+                boolean correct = resultSet.getBoolean("correct");
+                String subject = resultSet.getString("subject");
+                String topic = resultSet.getString("topic");
+                Result result = new Result(userID, cardID, at, correct, subject, topic);
+                result.setResultID(resultID);
+                return result;
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return null;
+    }
     
 }

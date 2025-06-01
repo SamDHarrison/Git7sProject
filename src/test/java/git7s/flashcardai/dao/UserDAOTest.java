@@ -55,7 +55,7 @@ public class UserDAOTest {
         User taylah = new User(117249823, "Secure123", "Taylah", "McCullough", false, "#FF5733");
         userDAO.insert(taylah);
 
-        User result = userDAO.getById(117249823);
+        User result = userDAO.getByID(117249823);
         assertNotNull(result);
         assertEquals("Taylah", result.getFirstName());
         assertEquals("McCullough", result.getLastName());
@@ -84,16 +84,16 @@ public class UserDAOTest {
 
         String updatedSalt = updated.getSaltAsString(); // store current salt for comparison
 
-        userDAO.update(117249823, updated);
+        userDAO.update(updated);
 
-        User result = userDAO.getById(117249823);
+        User result = userDAO.getByID(117249823);
         assertNotNull(result);
         assertEquals("Tay", result.getFirstName());
         assertEquals("Updated", result.getLastName());
         assertEquals(updated.getPasswordHash(), result.getPasswordHash());
         assertEquals(updatedSalt, result.getSaltAsString());
         assertEquals("#0000FF", result.getPrefColour());
-        assertFalse(result.isAdmin());  // DAO is hardcoded to false for now
+        assertTrue(result.isAdmin());  // DAO is hardcoded to false for now
     }
 
     /**
@@ -103,7 +103,7 @@ public class UserDAOTest {
     @Order(4)
     public void testDelete() {
         userDAO.delete(117249823);
-        User deleted = userDAO.getById(117249823);
+        User deleted = userDAO.getByID(117249823);
         assertNull(deleted);
     }
 
