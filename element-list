@@ -4,3 +4,4 @@ git7s.flashcardai.controller
 git7s.flashcardai.dao
 git7s.flashcardai.llm
 git7s.flashcardai.model
+git7s.flashcardai.service
