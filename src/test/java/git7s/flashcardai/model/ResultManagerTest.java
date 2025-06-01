@@ -16,7 +16,7 @@ public class ResultManagerTest {
 
     private static Connection connection;
     private static ResultDAO resultDAO;
-    private ResultManager resultManager; // ✅ made non-static
+    private ResultManager resultManager; //
     private static Timestamp now;
 
     /**
