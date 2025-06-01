@@ -71,5 +71,20 @@ public class FlashCardGenerateManager {
         }
     }
 
+    /**
+     * For mock testing to replace current CardManager.
+     * @param cardManager The CardManager to use.
+     */
+    public void setCardManager(CardManager cardManager) {
+        this.cardManager = cardManager;
+    }
+
+    /**
+     * For mock testing to replace current CardManager, returns the flashcards parsed from the response.
+     * @return A map of front -> back flashcard content.
+     */
+    public HashMap<String, String> getNewFlashcards() {
+        return NewFlashcards;
+    }
 
 }

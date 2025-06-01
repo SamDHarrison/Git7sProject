@@ -1,7 +1,6 @@
-package git7s.flashcardai;
+package git7s.flashcardai.dao;
 
 import git7s.flashcardai.model.User;
-import git7s.flashcardai.dao.UserDAO;
 import org.junit.jupiter.api.*;
 
 import java.sql.*;

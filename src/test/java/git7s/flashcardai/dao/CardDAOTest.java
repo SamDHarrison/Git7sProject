@@ -1,6 +1,5 @@
-package git7s.flashcardai;
+package git7s.flashcardai.dao;
 
-import git7s.flashcardai.dao.CardDAO;
 import git7s.flashcardai.model.Card;
 import org.junit.jupiter.api.*;
 

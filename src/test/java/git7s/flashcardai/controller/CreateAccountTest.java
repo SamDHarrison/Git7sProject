@@ -1,10 +1,14 @@
-package git7s.flashcardai;
+package git7s.flashcardai.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+/**
+ * Tests the logic for creating an account, checking edge cases like missing fields or password mismatch.
+ */
 public class CreateAccountTest {
 
     private String[] notConfirmed;
@@ -13,6 +17,9 @@ public class CreateAccountTest {
     private String[] noLastName;
     private String[] noUsername;
 
+    /**
+     * Sets up different input cases for testing account creation validation.
+     */
     @BeforeEach
     public void setUp() {
         notConfirmed = new String[] {"123", "password", "Steve", "Smith", "XYZ"};
@@ -22,6 +29,10 @@ public class CreateAccountTest {
         noUsername = new String[]{"ABC", "password", "Steve", "Smith", "password"};
 
     }
+
+    /**
+     * Tests the createAccount method for various edge cases and one valid case.
+     */
     @Test
     public void createAccountTest() {
         assertEquals(true, createAccount(correct));
@@ -31,6 +42,15 @@ public class CreateAccountTest {
         assertEquals(false, createAccount(noUsername));
     }
 
+    /**
+     * Validates the creation of a new account with basic checks:
+     * - no field is empty
+     * - password matches confirmation
+     * - username is a valid integer (student ID)
+     *
+     * @param s String array of [username, password, firstName, lastName, confirmPassword]
+     * @return true if all conditions are met, false otherwise
+     */
     private boolean createAccount(String[] s) {
         String username = s[0];
         String password = s[1];
