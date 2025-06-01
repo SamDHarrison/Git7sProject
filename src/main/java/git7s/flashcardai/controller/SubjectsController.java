@@ -28,13 +28,9 @@ import java.util.List;
  */
 public class SubjectsController extends AbstractController implements IController {
     /**
-     * Protected default constructor.
-     * <p>
-     * This constructor is intentionally protected because this class is abstract
-     * and should only be subclassed.
-     * </p>
+     * Public default constructor.
      */
-    protected SubjectsController() {
+    public SubjectsController() {
     }
     /**
      * Piecharts
