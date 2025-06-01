@@ -22,7 +22,7 @@ public class FlashCardGenerateManager {
     /**
      * Card Manager to inject into the DB
      */
-    private final CardManager cardManager;
+    private CardManager cardManager;
     /**
      * The FlashCardDraft constructor takes the API response and generates formatted cards.
      * @param response The response from the API REST POST call
