@@ -1,6 +1,5 @@
-package git7s.flashcardai;
+package git7s.flashcardai.dao;
 
-import git7s.flashcardai.dao.ResultDAO;
 import git7s.flashcardai.model.Result;
 import org.junit.jupiter.api.*;
 
@@ -19,6 +18,10 @@ public class ResultDAOTest {
     private ResultDAO resultDAO;
     private static Timestamp sampleTimestamp;
 
+    /**
+     * Sets up the in-memory database and creates required tables.
+     * Runs once before all tests.
+     */
     @BeforeAll
     public static void setupDatabase() throws SQLException {
         connection = DriverManager.getConnection("jdbc:sqlite::memory:");
@@ -46,11 +49,17 @@ public class ResultDAOTest {
         stmt.executeUpdate("INSERT INTO cards (id) VALUES (101)");
     }
 
+    /**
+     * Creates a fresh DAO instance before each test.
+     */
     @BeforeEach
     public void init() {
         resultDAO = new ResultDAO(connection);
     }
 
+    /**
+     * Tests inserting a result and retrieving it by user ID.
+     */
     @Test
     @Order(1)
     public void testInsertAndGetByUserID() {
@@ -62,6 +71,9 @@ public class ResultDAOTest {
         assertEquals("Math", results.get(0).getSubject());
     }
 
+    /**
+     * Tests retrieving a result by card ID.
+     */
     @Test
     @Order(2)
     public void testGetByCardID() {
@@ -70,6 +82,9 @@ public class ResultDAOTest {
         assertEquals("Algebra", results.get(0).getTopic());
     }
 
+    /**
+     * Tests retrieving all results in the database.
+     */
     @Test
     @Order(3)
     public void testGetAll() {
@@ -77,6 +92,9 @@ public class ResultDAOTest {
         assertEquals(1, results.size());
     }
 
+    /**
+     * Tests deleting a result and verifying it no longer exists.
+     */
     @Test
     @Order(4)
     public void testDelete() {
@@ -90,6 +108,9 @@ public class ResultDAOTest {
         assertTrue(resultsAfter.isEmpty());
     }
 
+    /**
+     * Closes the database connection after all tests.
+     */
     @AfterAll
     public static void tearDown() throws SQLException {
         connection.close();

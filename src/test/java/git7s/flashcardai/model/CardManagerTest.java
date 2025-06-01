@@ -1,7 +1,5 @@
-package git7s.flashcardai;
+package git7s.flashcardai.model;
 
-import git7s.flashcardai.model.Card;
-import git7s.flashcardai.model.CardManager;
 import org.junit.jupiter.api.*;
 import git7s.flashcardai.dao.CardDAO;
 
@@ -10,7 +8,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * Unit tests for the CardManager class.
+ * Tests adding, searching, updating, and deleting cards.
+ */
 public class CardManagerTest {
 
     private CardManager cardManager;
@@ -40,6 +41,11 @@ public class CardManagerTest {
         politicsCard = new Card(117249827, "Politics", "POL301", "Who is the current Prime Minister of Australia?", "Anthony Albanese");
         engineeringCard = new Card(117249828, "Engineering", "ENGR301", "What does CAD stand for?", "Computer-Aided Design");
     }
+
+    /**
+     * Tests adding multiple cards and retrieving them by subject.
+     * Ensures cards are stored and searchable.
+     */
     @Test
     @Order(1)
     public void testAddCards() {
@@ -55,6 +61,10 @@ public class CardManagerTest {
         assertEquals("CAB301", result.get(0).getTopic());
     }
 
+    /**
+     * Tests searching for cards by user ID.
+     * Verifies that the correct card is returned for a specific user.
+     */
     @Test
     @Order(2)
     public void testSearchCardsByUserID() {
@@ -62,6 +72,11 @@ public class CardManagerTest {
         assertTrue(cards.stream().anyMatch(c -> c.getFront().contains("RAM")));
     }
 
+
+    /**
+     * Tests updating an existing card's back field.
+     * Ensures updates are persisted and retrievable.
+     */
     @Test
     @Order(3)
     public void testUpdateCard() {
@@ -79,7 +94,10 @@ public class CardManagerTest {
         assertEquals("Correct Answer: Brisbane", updated.getBack());
     }
 
-
+    /**
+     * Tests deleting a card by its ID.
+     * Verifies that the card is removed and count is reduced.
+     */
     @Test
     @Order(4)
     public void testDeleteCard() {

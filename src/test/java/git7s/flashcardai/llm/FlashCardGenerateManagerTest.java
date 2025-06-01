@@ -1,7 +1,5 @@
-package git7s.flashcardai;
+package git7s.flashcardai.llm;
 
-import git7s.flashcardai.dao.CardDAO;
-import git7s.flashcardai.llm.FlashCardGenerateManager;
 import git7s.flashcardai.model.Card;
 import git7s.flashcardai.model.CardManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
