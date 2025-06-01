@@ -16,7 +16,6 @@ public class CardManager {
     private final CardDAO cardDAO;
     /**
      * The Constructor which takes the caller's DAO object and updates local
-     *
      * @param cardDAO DAO that enables the Manager
      */
     public CardManager(CardDAO cardDAO) {
@@ -25,6 +24,8 @@ public class CardManager {
 
     /**
      * Search Function that gets a list of cards for handling GUI-side
+     * @param subjectQuery Query
+     * @return List of Cards
      */
     public List<Card> searchCardsBySubject(String subjectQuery) {
         return cardDAO.getAll()
@@ -35,6 +36,8 @@ public class CardManager {
 
     /**
      * Search Function that gets a list of cards for handling GUI-side
+     * @param topicQuery Query
+     * @return List of Cards
      */
     public List<Card> searchCardsByTopic(String topicQuery) {
         return cardDAO.getAll()
@@ -45,7 +48,6 @@ public class CardManager {
 
     /**
      * Inserts a Result to the db
-     *
      * @param card New Card for insertion
      */
     public void addCard(Card card) {
@@ -54,7 +56,6 @@ public class CardManager {
 
     /**
      * Deletes the specified result
-     *
      * @param cardID Specified result
      */
     public void delete(int cardID) {
@@ -63,7 +64,6 @@ public class CardManager {
 
     /**
      * Pulls all db results
-     *
      * @return List of results
      */
     public List<Card> getAll() {
@@ -72,7 +72,6 @@ public class CardManager {
 
     /**
      * Gets results by the user who got the results
-     *
      * @param userIDQuery The user ID
      * @return List of results
      */
@@ -85,18 +84,23 @@ public class CardManager {
 
     /**
      * Mass delete (delete subject)
+     * @param subject Subject
      */
     public void deleteSubject(String subject){
         cardDAO.deleteBySubject(SessionService.getInstance().loggedInID, subject);
     }
     /**
      * Mass delete (delete topic)
+     * @param topic Topic
+     * @param subject Subject
      */
     public void deleteTopic(String subject, String topic){
         cardDAO.deleteBySubjectAndTopic(SessionService.getInstance().loggedInID, subject, topic);
     }
     /**
      * Search Function that gets a specific card
+     * @param cardID Int
+     * @return Card
      */
     public Card getCardID(int cardID) {
         return cardDAO.getByID(cardID);

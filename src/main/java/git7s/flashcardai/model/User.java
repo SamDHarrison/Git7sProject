@@ -241,11 +241,18 @@ public class User {
 
     }
 
-
+    /**
+     * Getter for Preferred Colour
+     * @return String
+     */
     public String getPrefColour() {
         return prefColour;
     }
 
+    /**
+     * Setter for Preferred Colour
+     * @param prefColour String
+     */
     public void setPrefColour(String prefColour) {
         this.prefColour = prefColour;
     }

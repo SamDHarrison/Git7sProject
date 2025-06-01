@@ -12,6 +12,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class LLMGenerator {
     /**
+     * Public default constructor.
+     */
+    public LLMGenerator() {
+    }
+    /**
      * This object is responsible for interacting with the API
      */
     private final HttpClient client = HttpClient.newHttpClient();
@@ -27,7 +32,9 @@ public class LLMGenerator {
      * Define Possible Query types
      */
     public enum QueryType {
+        /** QUERY TYPES */
         EXPLAIN_QUERY,
+        /** QUERY TYPES */
         GENERATE_QUERY
     }
     /**

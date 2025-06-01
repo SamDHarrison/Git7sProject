@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * AdminService Class which controls all administrative functions.
+ */
 public class AdminService {
     /**
      * Protected constructor - cannot be instantiated
@@ -94,7 +97,7 @@ public class AdminService {
     }
 
     /**
-     * Admin Direct Access to SQLite & Database
+     * Admin Direct Access to SQLite Database
      * @param sql SQL Statement
      * @throws SQLException If statement is poor / incorrect
      */

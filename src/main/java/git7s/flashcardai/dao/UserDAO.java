@@ -2,10 +2,13 @@ package git7s.flashcardai.dao;
 
 import git7s.flashcardai.model.User;
 import git7s.flashcardai.service.DatabaseService;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * User DAO Class for interacting with the SQLite Database
+ */
 public class UserDAO  implements IDAO<User> {
     /**
      * The connection used for connecting to the db
@@ -20,6 +23,7 @@ public class UserDAO  implements IDAO<User> {
     }
     /**
      * The Constructor overload for testing - intended for unit testing with an in-memory database.
+     * @param connection Connection
      */
     public UserDAO(Connection connection) {
         this.connection = connection;

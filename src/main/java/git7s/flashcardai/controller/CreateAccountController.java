@@ -14,6 +14,15 @@ import javafx.scene.control.*;
  */
 public class CreateAccountController extends AbstractController implements IController{
     /**
+     * Protected default constructor.
+     * <p>
+     * This constructor is intentionally protected because this class is abstract
+     * and should only be subclassed.
+     * </p>
+     */
+    protected CreateAccountController() {
+    }
+    /**
      * Displays any errors that occur when creating account
      */
     @FXML

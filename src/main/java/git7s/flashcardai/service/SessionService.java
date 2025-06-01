@@ -53,6 +53,7 @@ public class SessionService {
 
     /**
      * Logs in the user
+     * @param id Int
      */
     public void login(int id){
         loggedInID = id;
@@ -60,6 +61,7 @@ public class SessionService {
 
     /**
      * Logs in the user
+     * @param col String
      */
     public void setUiColour(String col){
         uiColour = col;

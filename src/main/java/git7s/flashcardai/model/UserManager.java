@@ -21,6 +21,8 @@ public class UserManager {
     }
     /**
      * Search Function that gets a list of users for handling GUI-side
+     * @param userID The USERID
+     * @return Users
      */
     public List<User> searchUsers(int userID){
         return userDAO.getAll()
@@ -30,6 +32,8 @@ public class UserManager {
     }
     /**
      * Search Function that gets a user for handling GUI-side
+     * @param userID The USERID
+    * @return Users
      */
     public User getUser(int userID){
         return userDAO.getByID(userID);

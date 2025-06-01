@@ -17,8 +17,19 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Class which provides in-build behaviours for all Controller Classes.
+ */
 public abstract class AbstractController {
-
+    /**
+     * Protected default constructor for AbstractController.
+     * <p>
+     * This constructor is intentionally protected because this class is abstract
+     * and should only be subclassed.
+     * </p>
+     */
+    protected AbstractController() {
+    }
     /**
      * ChangeView is used for all Controllers to switch Scenes
      * @param viewTitle The title of the new scene
@@ -60,6 +71,7 @@ public abstract class AbstractController {
      * Templated Input Dialogue which can be used to get basic input
      * @param title The title of the dialogue
      * @param header The header of the dialogue
+     * @return Optional String, if the user uses the dialogue
      */
     public Optional<String> inputDialogue(String title, String header) {
         TextInputDialog inputDialog = new TextInputDialog();
@@ -72,6 +84,7 @@ public abstract class AbstractController {
 
     /**
      * SetPrefColours is used to change the UI colours of all buttons in the scene
+     * @param nodes The buttons to set the style of
      */
     public void setPrefColours(Node ... nodes) {
         String style = "-fx-background-color: " + SessionService.getInstance().uiColour + "; -fx-text-fill: white; -fx-font-weight: bold;";
@@ -85,6 +98,7 @@ public abstract class AbstractController {
 
     /**
      * Logs out the user and moves to the login screen, handling all internal functionality with SessionService
+     * @param actionNode The action node used to move back to the login view.
      */
     public void logoutCurrentUser(Node actionNode) {
         SessionService.getInstance().logout();
@@ -93,6 +107,8 @@ public abstract class AbstractController {
 
     /**
      * Checks all fields are filled and if so, returns true or false
+     * @param textFields The textfields which are checked to be empty.
+     * @return True if any of the fields are empty.
      */
     public boolean checkFieldsEmpty(TextField... textFields) {
         for (TextField textField : textFields) {

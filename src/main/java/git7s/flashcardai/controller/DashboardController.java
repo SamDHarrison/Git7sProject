@@ -16,6 +16,15 @@ import javafx.scene.control.Label;
  */
 public class DashboardController extends AbstractController implements IController{
     /**
+     * Protected default constructor.
+     * <p>
+     * This constructor is intentionally protected because this class is abstract
+     * and should only be subclassed.
+     * </p>
+     */
+    protected DashboardController() {
+    }
+    /**
      * Buttons
      */
     @FXML public Button testAllButton, statsButton, testStrongestSubject, testWeakestSubject, subjectsButton, logOutButton, editAccountButton;
@@ -48,6 +57,9 @@ public class DashboardController extends AbstractController implements IControll
         setupUIData();
     }
 
+    /**
+     * Sets up the UI data.
+     */
     @Override
     public void setupUIData(){
         User user = userManager.getUser(SessionService.getInstance().loggedInID);
@@ -62,6 +74,10 @@ public class DashboardController extends AbstractController implements IControll
         setPrefColours(testAllButton, statsButton, testStrongestSubject, testWeakestSubject, subjectsButton, logOutButton, editAccountButton);
 
     }
+
+    /**
+     * Back button for controller.
+     */
     @FXML
     @Override
     public void handleBackButton(){

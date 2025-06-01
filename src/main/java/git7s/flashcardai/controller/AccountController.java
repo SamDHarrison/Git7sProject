@@ -18,6 +18,15 @@ import java.util.Optional;
  */
 public class AccountController extends AbstractController implements IController{
     /**
+     * Protected default constructor.
+     * <p>
+     * This constructor is intentionally protected because this class is abstract
+     * and should only be subclassed.
+     * </p>
+     */
+    protected AccountController() {
+    }
+    /**
      * Scene Labels
      */
     @FXML

@@ -2,7 +2,6 @@ package git7s.flashcardai.dao;
 
 import git7s.flashcardai.model.Result;
 import git7s.flashcardai.service.DatabaseService;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

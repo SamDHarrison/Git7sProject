@@ -23,6 +23,8 @@ public class ResultManager {
     }
     /**
      * Search Function that gets a list of results for handling GUI-side
+     * @param subject Subject
+     * @return List of Results
      */
     public List<Result> searchResultsBySubject(String subject) {
         return resultDAO.getAll()
@@ -32,6 +34,8 @@ public class ResultManager {
     }
     /**
      * Search Function that gets a list of results for handling GUI-side
+     * @param topic Subject
+     * @return List of Results
      */
     public List<Result> searchResultsByTopic(String topic) {
         return resultDAO.getAll()

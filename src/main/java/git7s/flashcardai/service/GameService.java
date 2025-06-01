@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Very simple class used to simplify the CardDeckController - acts as an advanced struct
+ * Class used to simplify the CardDeckController
  */
 public class GameService {
     /**
@@ -73,7 +73,12 @@ public class GameService {
      * Set possible gamestates
      */
     public enum GAMESTATE {
-        GAME_PLAY, GAME_AI, GAME_FINISH
+        /** GAME STATE */
+        GAME_PLAY,
+        /** GAME STATE */
+        GAME_AI,
+        /** GAME STATE */
+        GAME_FINISH
     }
     /**
      * Track game state
@@ -230,26 +235,50 @@ public class GameService {
     }
 
     /// Getters and Setters
+    /**
+     * Gets the game mode
+     * @return Int
+     */
     public int getCurrentGameMode() {
         return currentGameMode;
     }
 
+    /**
+     * Sets the game mode
+     * @param currentGameMode Game Mode Int
+     */
     public void setCurrentGameMode(int currentGameMode) {
         GameService.currentGameMode = currentGameMode;
     }
 
+    /**
+     * Gets the current deck
+     * @return String
+     */
     public String getCurrentDeck() {
         return currentDeck;
     }
 
+    /**
+     * Sets current Deck
+     * @param currentDeck String
+     */
     public void setCurrentDeck(String currentDeck) {
         GameService.currentDeck = currentDeck;
     }
 
+    /**
+     * Gets the game state
+     * @return State
+     */
     public GAMESTATE getGamestate() {
         return gamestate;
     }
 
+    /**
+     * Sets the Gamestate
+     * @param gamestate state
+     */
     public void setGamestate(GAMESTATE gamestate) {
         this.gamestate = gamestate;
     }

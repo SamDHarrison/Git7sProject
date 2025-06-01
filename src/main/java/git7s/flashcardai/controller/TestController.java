@@ -24,6 +24,15 @@ import javafx.util.Duration;
  */
 public class TestController extends AbstractController implements IController{
     /**
+     * Protected default constructor.
+     * <p>
+     * This constructor is intentionally protected because this class is abstract
+     * and should only be subclassed.
+     * </p>
+     */
+    protected TestController() {
+    }
+    /**
      * Buttons
      */
     @FXML

@@ -14,6 +14,10 @@ import java.sql.SQLException;
  */
 public class Main extends Application {
     /**
+     * Default Constructor, cannot be instantiated
+     */
+    protected Main() {}
+    /**
      * Called to initialise FXML operations
      * @param stage The stage for the current view
      * @throws IOException Exception in-case of error loading stage.

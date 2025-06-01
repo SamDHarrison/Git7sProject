@@ -1,3 +1,6 @@
+/**
+ * Module for Git7s Project - Flashcard AI
+ */
 module git7sproject {
     requires javafx.controls;
     requires javafx.fxml;
