@@ -16,7 +16,7 @@ public class Main extends Application {
     /**
      * Default Constructor, cannot be instantiated
      */
-    protected Main() {}
+    public Main() {}
     /**
      * Called to initialise FXML operations
      * @param stage The stage for the current view

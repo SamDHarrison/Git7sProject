@@ -16,13 +16,9 @@ import javafx.scene.control.TextField;
  */
 public class LoginController extends AbstractController implements IController{
     /**
-     * Protected default constructor.
-     * <p>
-     * This constructor is intentionally protected because this class is abstract
-     * and should only be subclassed.
-     * </p>
+     * Public default constructor.
      */
-    protected LoginController() {
+    public LoginController() {
     }
     /**
      * Labels
