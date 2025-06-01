@@ -125,7 +125,7 @@ public class User {
 
     /**
      * Get's the user's salt as a string
-     * @return
+     * @return Salt as String
      */
     public String getSaltAsString() {
         return Base64.getEncoder().encodeToString(salt);
@@ -161,7 +161,7 @@ public class User {
 
     /**
      * Sets the password (hashed)
-     * @param passwordHash
+     * @param passwordHash PasswordHash
      */
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;

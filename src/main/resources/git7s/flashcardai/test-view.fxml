@@ -6,7 +6,7 @@
 
 
 <BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="git7s.flashcardai.controller.CardDeckController">
+            fx:controller="git7s.flashcardai.controller.TestController">
     <!-- Top bar with Back link, Title, and Deck label -->
     <top>
         <VBox style="-fx-background-color: #ffffff; -fx-padding: 10;">
@@ -35,13 +35,13 @@
     <bottom>
         <HBox alignment="CENTER" spacing="20" style="-fx-padding: 20;">
             <Label fx:id="flashcardCounterLabel" text="1 of 15" style="-fx-font-size: 16px;" />
-            <Button fx:id="flipCardButton" text="Flip"
+            <Button fx:id="flipCardButton" text="Flip" onAction="#flipCard"
                     style="-fx-font-size: 14px; -fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
             <Button fx:id="correctAnswerButton" text="✔"
                     style="-fx-font-size: 14px; -fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
             <Button fx:id="incorrectAnswerButton" text="✘"
                     style="-fx-font-size: 14px; -fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
-            <Button fx:id="askAI" text="Ask AI to explain!"
+            <Button fx:id="askAI" text="Ask AI to explain!" onAction="#handleAIExplanation"
                     style="-fx-font-size: 14px; -fx-background-color: #60C3D8; -fx-text-fill: white; -fx-font-weight: bold;" />
         </HBox>
     </bottom>

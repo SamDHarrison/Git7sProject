@@ -1,6 +1,8 @@
 package git7s.flashcardai.dao;
 
 import git7s.flashcardai.model.Card;
+import git7s.flashcardai.service.DatabaseService;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,17 +10,16 @@ import java.util.List;
 /**
  * The DAO object for interacting with the Card Table over the specified connection
  */
-public class CardDAO {
+public class CardDAO implements IDAO<Card>{
     /**
      * The connection used for connecting to the db
      */
-    private Connection connection;
-
+    private final Connection connection;
     /**
      * The Constructor which gets the static connection from the main class
      */
     public CardDAO() {
-        connection = DatabaseConnection.getInstance();
+        this.connection = DatabaseService.getInstance().getConnection();
         createTable();
     }
     /**
@@ -33,7 +34,6 @@ public class CardDAO {
      * Creates a Table in the database if not already created.
      */
     public void createTable(){
-        
         try {
             Statement createTable = connection.createStatement();
             createTable.execute(
@@ -48,17 +48,14 @@ public class CardDAO {
                             + ")"
             );
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.err.println(ex.getMessage());
         }
-        
     }
-
     /**
      * Inserts a card to the db
      * @param card New Card for insertion
      */
     public void insert(Card card){
-        
         try {
             PreparedStatement insertCard = connection.prepareStatement(
                     "INSERT INTO cards (userID, topic, subject, front, back) VALUES (?, ?, ?, ?, ?)"
@@ -70,9 +67,8 @@ public class CardDAO {
             insertCard.setString(5, card.getBack());
             insertCard.executeUpdate();
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.err.println(ex.getMessage());
         }
-        
     }
 
     /**
@@ -89,8 +85,8 @@ public class CardDAO {
             stmt.setString(4, card.getBack());
             stmt.setInt(5, card.getCardID());
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
     }
 
@@ -104,19 +100,17 @@ public class CardDAO {
             PreparedStatement getStatement = connection.prepareStatement("DELETE FROM cards WHERE cardID = ?");
             getStatement.setInt(1, cardID);
             getStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
         
     }
-
     /**
      * Get by userID - pulls all cards for the specified userID
      * @param userIDQuery Specified user ID
      * @return List of Cards by user ID
      */
     public List<Card> getByUserID(int userIDQuery){
-        
         List<Card> cards = new ArrayList<>();
         try {
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE userID = ?");
@@ -133,10 +127,10 @@ public class CardDAO {
                 card.setCardID(cardID);
                 cards.add(card);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
-        
+
         return cards;
     }
     /**
@@ -162,10 +156,9 @@ public class CardDAO {
                 card.setCardID(cardID);
                 cards.add(card);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
-        
         return cards;
     }
     /**
@@ -191,10 +184,9 @@ public class CardDAO {
                 card.setCardID(cardID);
                 cards.add(card);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
-        
         return cards;
     }
 
@@ -220,10 +212,9 @@ public class CardDAO {
                 card.setCardID(cardID);
                 cards.add(card);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
-        
         return cards;
     }
 
@@ -232,7 +223,7 @@ public class CardDAO {
      * @param cardIDQuery Specified Card
      * @return Card Object
      */
-    public Card getById(int cardIDQuery) {
+    public Card getByID(int cardIDQuery) {
         
         try{
             PreparedStatement getStatement = connection.prepareStatement("SELECT * FROM cards WHERE cardID = ?");
@@ -249,11 +240,9 @@ public class CardDAO {
                 card.setCardID(cardID);
                 return card;
             }
-        } catch (SQLException e) {
-
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
-        
         return null;
     }
     
@@ -277,11 +266,10 @@ public class CardDAO {
             stmt.setString(3, topic);
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.err.println(ex.getMessage());
         }
         
     }
-
     /**
      * Deletes all flashcards for a specific user, subject, and topic.
      * Used when a user wants to remove an entire flashcard set.
@@ -299,11 +287,9 @@ public class CardDAO {
             stmt.setString(2, subject);
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            System.err.println(ex);
+            System.err.println(ex.getMessage());
         }
-
     }
-
     /**
      * Retrieves all flashcards for a specific user and topic.
      * Useful when loading a topic's flashcards for review or editing.
@@ -332,10 +318,9 @@ public class CardDAO {
                         rs.getString("back")
                 ));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
         }
-        
         return result;
     }
 }

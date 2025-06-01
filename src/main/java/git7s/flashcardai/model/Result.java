@@ -86,14 +86,14 @@ public class Result {
     }
     /**
      * Gets the result's subject
-     * @return
+     * @return Subject
      */
     public String getSubject() {
         return subject;
     }
     /**
      * Gets the result's topic
-     * @return
+     * @return Topic
      */
     public String getTopic() {
         return topic;
@@ -132,14 +132,14 @@ public class Result {
     }
     /**
      * Set the result's topic
-     * @param topic
+     * @param topic Topic
      */
     public void setTopic(String topic) {
         this.topic = topic;
     }
     /**
      * Set's the results subject
-     * @param subject
+     * @param subject Subject
      */
     public void setSubject(String subject) {
         this.subject = subject;

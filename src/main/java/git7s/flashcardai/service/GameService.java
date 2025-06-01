@@ -1,6 +1,5 @@
-package git7s.flashcardai.controller.game;
+package git7s.flashcardai.service;
 
-import git7s.flashcardai.Main;
 import git7s.flashcardai.dao.CardDAO;
 import git7s.flashcardai.dao.ResultDAO;
 import git7s.flashcardai.model.Card;
@@ -16,7 +15,36 @@ import java.util.Random;
 /**
  * Very simple class used to simplify the CardDeckController - acts as an advanced struct
  */
-public class GameManager {
+public class GameService {
+    /**
+     * Protected constructor - cannot be instantiated
+     */
+    protected GameService() {
+        cardManager = new CardManager(new CardDAO());
+        resultManager = new ResultManager(new ResultDAO());
+    }
+    /**
+     * Subclass which acts as container
+     */
+    private static class Game {
+        private static final GameService INSTANCE = new GameService();
+    }
+
+    /**
+     * getInstance returns the static INSTANCE of AdminService
+     * @return INSTANCE
+     */
+    public static GameService getInstance() {
+        return GameService.Game.INSTANCE;
+    }
+    /**
+     * Stores the currently selected topic to remediate transition between GUIs
+     */
+    private static String currentDeck;
+    /**
+     * Stores the currently selected gamemode 0 - subject, 1 - topic, 2 - subject targeted, 3 - random, 4 - all
+     */
+    public static int currentGameMode;
     /**
      * This boolean determines whether the question is currently being displayed
      */
@@ -36,11 +64,11 @@ public class GameManager {
     /**
      * Card Manager for retrieving cards
      */
-    private CardManager cardManager;
+    private final CardManager cardManager;
     /**
      * Result Manager for posting results
      */
-    private ResultManager resultManager;
+    private final ResultManager resultManager;
     /**
      * Set possible gamestates
      */
@@ -50,22 +78,18 @@ public class GameManager {
     /**
      * Track game state
      */
-    public GAMESTATE gamestate;
+    private GAMESTATE gamestate;
     /**
-     * Constructor - sets up the List and GameVars
+     * New Game sets up a new game
      */
-    public GameManager() {
-        cardManager = new CardManager(new CardDAO());
-        resultManager = new ResultManager(new ResultDAO());
+    public void newGame(){
         deckTracker = 1;
         gamestate = GAMESTATE.GAME_PLAY;
         showingFront = true;
 
         setupDeck();
         results = new boolean[cardDeck.size()];
-
     }
-
     /**
      * Gets the results to display to the user
      * @return boolean[] - True/False for each flashcard
@@ -75,22 +99,18 @@ public class GameManager {
     }
 
     /**
-     * Returns the current card deck which is used at the start of gameplay to init
-     * @return cardDeck
+     * Sets up the current card deck which is used at the start of gameplay to init
      */
     private void setupDeck() {
-        switch (Main.currentGameMode) {
+        switch (currentGameMode) {
             case 4: {
-                cardDeck = cardManager.searchByUserID(Main.loggedInUserID);
+                cardDeck = cardManager.searchByUserID(SessionService.getInstance().loggedInID);
                 break;
             }
             case 3: {
-
-                List<Card> tempDeck = cardManager.searchByUserID(Main.loggedInUserID);
-                int required = Integer.parseInt(Main.currentDeck);
-
+                List<Card> tempDeck = cardManager.searchByUserID(SessionService.getInstance().loggedInID);
+                int required = Integer.parseInt(currentDeck);
                 cardDeck = new ArrayList<>();
-
                 cardDeck.add(tempDeck.getFirst());
                 while (cardDeck.size() <= required) {
                     Random random = new Random();
@@ -103,11 +123,11 @@ public class GameManager {
                 break;
             }
             case 1: {
-                cardDeck = cardManager.searchCardsByTopic(Main.currentDeck);
+                cardDeck = cardManager.searchCardsByTopic(currentDeck);
                 break;
             }
             default: {
-                cardDeck = cardManager.searchCardsBySubject(Main.currentDeck);
+                cardDeck = cardManager.searchCardsBySubject(currentDeck);
                 break;
             }
         }
@@ -119,7 +139,7 @@ public class GameManager {
      */
     public void setResult(boolean result) {
         Card card = cardDeck.get(deckTracker-1);
-        resultManager.addResult(new Result(Main.loggedInUserID, card.getCardID(), new Timestamp(System.currentTimeMillis()), result, card.getSubject(), card.getTopic()));
+        resultManager.addResult(new Result(SessionService.getInstance().loggedInID, card.getCardID(), new Timestamp(System.currentTimeMillis()), result, card.getSubject(), card.getTopic()));
         this.results[deckTracker-1] = result;
     }
     /**
@@ -130,18 +150,17 @@ public class GameManager {
         return showingFront;
     }
 
+    /**
+     * Sets the flashcard to show front or back
+     * @param showingFront State
+     */
     public void setShowingFront(boolean showingFront) {
         this.showingFront = showingFront;
     }
 
-    public int getDeckTracker() {
-        return deckTracker;
-    }
-
-    public void setDeckTracker(int deckTracker) {
-        deckTracker = deckTracker;
-    }
-
+    /**
+     * Iterates the flashcards in the tracker
+     */
     public void iterateFlashCardTracker() {
         if (deckTracker < cardDeck.size()) {
             deckTracker++;
@@ -151,31 +170,42 @@ public class GameManager {
         }
     }
 
+    /**
+     * Generates the title of the game for the title label.
+     * @return Title text
+     */
     public String generateTitle(){
-        if (Main.currentGameMode == 4){
+        if (currentGameMode == 4){
             return "Testing all subjects";
-        } else if (Main.currentGameMode == 3) {
+        } else if (currentGameMode == 3) {
             return "Random Test";
         }
         else {
-            return "Testing " + Main.currentDeck;
+            return "Testing " + currentDeck;
         }
     }
 
+    /**
+     * Generates the end of game results text
+     * @return Results Text
+     */
     public String generateResultText(){
-        String cardResultsText = "";
-        int iterate = 0;
+        StringBuilder cardResultsText = new StringBuilder();
         for (int i= 1; i < cardDeck.size()+1; i++) {
-            if (results[i-1] == true){
-                cardResultsText += "Question " + i + ": Correct!\n";
+            if (results[i - 1]){
+                cardResultsText.append("Question ").append(i).append(": Correct!\n");
             }
             else {
-                cardResultsText += "Question " + i + ": Incorrect...\n";
+                cardResultsText.append("Question ").append(i).append(": Incorrect...\n");
             }
         }
         return "Well done, you achieved the following results:\n\n" + cardResultsText;
     }
 
+    /**
+     * Gets what should be currently displayed
+     * @return Flashcard Display Text
+     */
     public String getFlashCardDisplay(){
         if (showingFront) {
             return cardDeck.get(deckTracker-1).getFront();
@@ -184,8 +214,36 @@ public class GameManager {
         }
     }
 
+    /**
+     * Generates text for the tracker label
+     * @return Tracker text
+     */
     public String generateTrackerText(){
         return deckTracker + " of " + cardDeck.size();
+    }
+    /**
+     * Gets the latest front and back to input into the AI
+     * @return String Query text
+     */
+    public String getTextForQuery(){
+        return cardDeck.get(deckTracker-1).getFront() + " : " + cardDeck.get(deckTracker-1).getBack();
+    }
+
+    /// Getters and Setters
+    public int getCurrentGameMode() {
+        return currentGameMode;
+    }
+
+    public void setCurrentGameMode(int currentGameMode) {
+        GameService.currentGameMode = currentGameMode;
+    }
+
+    public String getCurrentDeck() {
+        return currentDeck;
+    }
+
+    public void setCurrentDeck(String currentDeck) {
+        GameService.currentDeck = currentDeck;
     }
 
     public GAMESTATE getGamestate() {
@@ -194,9 +252,5 @@ public class GameManager {
 
     public void setGamestate(GAMESTATE gamestate) {
         this.gamestate = gamestate;
-    }
-
-    public String getTextForQuery(){
-        return cardDeck.get(deckTracker-1).getFront() + " : " + cardDeck.get(deckTracker-1).getBack();
     }
 }

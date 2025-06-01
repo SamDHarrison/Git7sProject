@@ -18,4 +18,6 @@ module git7sproject {
     opens git7s.flashcardai.model to javafx.fxml;
     exports git7s.flashcardai.llm;
     opens git7s.flashcardai.llm to javafx.fxml;
+    exports git7s.flashcardai.service;
+    opens git7s.flashcardai.service to javafx.fxml;
 }

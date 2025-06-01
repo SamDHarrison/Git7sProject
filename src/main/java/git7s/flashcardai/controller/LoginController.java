@@ -1,36 +1,37 @@
 package git7s.flashcardai.controller;
 
-import git7s.flashcardai.Main;
+import git7s.flashcardai.AppDefaults;
 import git7s.flashcardai.dao.UserDAO;
-import git7s.flashcardai.model.User;
 import git7s.flashcardai.model.UserManager;
+import git7s.flashcardai.service.SessionService;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 /**
  * Controller for the login screen.
  * Handles user authentication and navigation to account creation or dashboard.
  */
-public class LoginController {
+public class LoginController extends AbstractController implements IController{
     /**
-     * This label displays error when logging in
+     * Labels
      */
     @FXML
-    public Label errorLabel;
-    public Label createAccountButton;
+    public Label errorLabel, createAccountButton;
     /**
-     * This textfield takes the username input
+     * Login Button
+     */
+    @FXML
+    public Button loginButton;
+    /**
+     * This text field takes the username input
      */
     @FXML
     private TextField usernameField;
     /**
-     * This textfield takes the password input
+     * This text field takes the password input
      */
     @FXML
     private PasswordField passwordField;
@@ -39,22 +40,6 @@ public class LoginController {
      */
     private UserManager userManager;
 
-    /**
-     * This handles the button that takes the user to the Create Account gui
-     */
-    private enum LoginError {
-        notFilledFields("Please fill in all fields"),
-        failedLogin("Login Failed");
-        final String description;
-
-        LoginError(String description) {
-            this.description = description;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-    }
 
     /**
      * Initializes the controller and sets up the user manager.
@@ -63,22 +48,22 @@ public class LoginController {
     public void initialize() {
         userManager = new UserManager(new UserDAO());}
 
+    @Override
+    public void setupUIData() {
+        //Nil Required yet
+    }
+
+    @Override
+    public void handleBackButton() {
+        handleCreateAccount();
+    }
+
     /**
      * Navigates to the Create Account screen.
      */
     @FXML
     private void handleCreateAccount() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/create-account-view.fxml"));
-            Parent root = fxmlLoader.load();
-
-            Stage stage = (Stage) createAccountButton.getScene().getWindow();
-            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
-            stage.setTitle("Flashcard AI - Create Account");
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        changeView(AppDefaults.ViewTitles.CREATE_ACCOUNT_VIEW, createAccountButton);
     }
 
     /**
@@ -87,52 +72,39 @@ public class LoginController {
     @FXML
     private void handleLogin() {
         int username;
-        User attemptUser;
 
         try {
             username = Integer.parseInt(usernameField.getText());
         } catch (NumberFormatException err) {
-            errorLabel.setText(LoginError.failedLogin.getDescription());
+            errorLabel.setText(AppDefaults.ErrorMessages.NOT_NUMERICAL_ID.get());
             return;
         }
 
         if (usernameField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-            errorLabel.setText(LoginError.notFilledFields.getDescription());
+            errorLabel.setText(AppDefaults.ErrorMessages.NOT_FILLED_FIELDS.get());
             return;
         }
 
         if (userManager.getUser(username) == null) {
-            errorLabel.setText(LoginError.failedLogin.getDescription());
+            errorLabel.setText(AppDefaults.ErrorMessages.INCORRECT_PASSWORD.get());
             return;
         }
 
-        attemptUser = userManager.getUser(username);
-        String attemptPassword = attemptUser.hashPassword(passwordField.getText(), attemptUser.getSalt());
-
-        if (attemptUser.getPasswordHash().equals(attemptPassword)) {
+        if (userManager.getUser(username).authenticate(passwordField.getText())) {
             SuccessfulLogin(username);
         } else {
-            errorLabel.setText(LoginError.failedLogin.getDescription());
+            errorLabel.setText(AppDefaults.ErrorMessages.INCORRECT_PASSWORD.get());
         }
 
     }
 
     /**
-     * If the userinput is good, login
+     * If the user input is good, login
      */
     private void SuccessfulLogin(int username){
-        try {
-            Main.loggedInUserID = username;
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/git7s/flashcardai/dashboard-view.fxml"));
-            Parent root = fxmlLoader.load();
+        SessionService.getInstance().login(username);
 
-            Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
-            stage.setTitle("Flashcard AI - Dashboard");
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        changeView(AppDefaults.ViewTitles.DASHBOARD_VIEW, loginButton);
     }
 
 }

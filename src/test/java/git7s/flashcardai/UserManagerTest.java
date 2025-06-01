@@ -46,7 +46,7 @@ public class UserManagerTest {
     public void testUpdateUser() {
         userManager.addUser(milly);
         milly.setLastName("Jones");
-        userManager.update(117249823, milly);
+        userManager.update(milly);
 
         List<User> updated = userManager.searchUsers(117249823);
         assertEquals("Jones", updated.get(0).getLastName());

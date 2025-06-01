@@ -2,8 +2,9 @@ package git7s.flashcardai.controller;
 
 import git7s.flashcardai.dao.CardDAO;
 import git7s.flashcardai.model.Card;
-import git7s.flashcardai.Main;
 import git7s.flashcardai.model.CardManager;
+import git7s.flashcardai.service.GameService;
+import git7s.flashcardai.service.SessionService;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -19,39 +20,39 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Controller for the Update Flashcards screen.
  * Allows the user to view and update flashcards within a selected topic.
  */
-public class UpdateFlashcardsController {
-
-    @FXML public Button updateButton;
-    @FXML public Button deleteButton;
-    @FXML public Button createButton;
+public class UpdateFlashcardsController extends  AbstractController implements  IController {
+    /**
+     * Buttons
+     */
+    @FXML public Button updateButton, deleteButton, createButton;
+    /**
+     * Labels
+     */
     @FXML public Label updateFlashCardsTitle;
+    /**
+     * Listview
+     */
     @FXML private ListView<String> flashcardListView;
-    @FXML private TextField frontField;
-    @FXML private TextField backField;
-
+    /**
+     * Text field
+     */
+    @FXML private TextField frontField, backField;
+    /**
+     * Flashcards currently displayed
+     */
     private List<Card> flashcards;
-    private ObservableList<String> flashcardNameList;
+    /**
+     * Links the names to the actual card object
+     */
     private ObservableList<Map.Entry<String, Integer>> flashcardNameHash;
+    /**
+     * Currently selected card
+     */
     private Card selectedCard;
-
+    /**
+     * Card Manager for DAO access
+     */
     private CardManager cardManager;
-
-    private enum UpdateFlashCardMessage {
-        UPDATED("Your flashcard has been updated"),
-        ERROR("There was an error, try again"),
-        DELETED("Your flashcard was deleted");
-
-        private String result;
-
-        UpdateFlashCardMessage(String result){
-            this.result = result;
-        }
-
-        public String getResult(){
-            return result;
-        }
-
-    }
 
     /**
      * Initializes the controller.
@@ -60,16 +61,24 @@ public class UpdateFlashcardsController {
      */
     @FXML
     public void initialize() {
-        String currentTopic = Main.currentDeck;
         cardManager = new CardManager(new CardDAO());
+        setupUIData();
+    }
 
-        if (Main.currentGameMode == 0) {
+    /**
+     * Sets up the UI with correct data
+     */
+    @Override
+    public void setupUIData() {
+        String currentTopic = GameService.getInstance().getCurrentDeck();
+
+        if (GameService.getInstance().getCurrentGameMode() == 0) {
             flashcards = cardManager.searchCardsBySubject(currentTopic);
         } else {
             flashcards = cardManager.searchCardsByTopic(currentTopic);
         }
         flashcardNameHash = FXCollections.observableArrayList();
-        flashcardNameList = FXCollections.observableArrayList();
+        ObservableList<String> flashcardNameList = FXCollections.observableArrayList();
 
         for (Card f : flashcards) {
             String displayName = f.getFront();
@@ -91,14 +100,22 @@ public class UpdateFlashcardsController {
             selectedCard = flashcards.stream().filter(card -> card.getCardID() == selectedCardID.get()).findFirst().get();
             frontField.setText(selectedCard.getFront());
             backField.setText(selectedCard.getBack());
-            if (Main.currentGameMode == 0) {
+            if (GameService.getInstance().getCurrentGameMode() == 0) {
                 updateFlashCardsTitle.setText("Viewing Flashcards for: " + flashcards.getFirst().getSubject());
             } else {
                 updateFlashCardsTitle.setText("Viewing Flashcards for: " + flashcards.getFirst().getSubject() + ", " + flashcards.getFirst().getTopic());
             }
         });
+        setPrefColours(createButton, updateButton, deleteButton);
     }
 
+    /**
+     * Back button
+     */
+    @Override
+    public void handleBackButton() {
+        //Nil required, closed by window
+    }
     /**
      * Called when the user clicks the "Save Changes" button.
      * Updates the selected flashcard with new front and back values in the database.
@@ -113,7 +130,6 @@ public class UpdateFlashcardsController {
         initialize();
     }
 
-
     /**
      * Delete a specific flashcard
      */
@@ -121,7 +137,7 @@ public class UpdateFlashcardsController {
         if (selectedCard != null) {
             cardManager.delete(selectedCard.getCardID());
         }
-        flashcardListView.getSelectionModel().selectFirst();;
+        flashcardListView.getSelectionModel().selectFirst();
         initialize();
 
     }
@@ -130,18 +146,10 @@ public class UpdateFlashcardsController {
      * Create a new flashcard
      */
     public void handleCreateFlashcard() {
-        cardManager.addCard(new Card(Main.loggedInUserID, flashcards.getFirst().getSubject(), flashcards.getFirst().getTopic(), "ENTER NEW FRONT", "ENTER NEW BACK"));
+        cardManager.addCard(new Card(SessionService.getInstance().loggedInID, flashcards.getFirst().getSubject(), flashcards.getFirst().getTopic(), "ENTER NEW FRONT", "ENTER NEW BACK"));
         initialize();
         flashcardListView.getSelectionModel().select("ENTER NEW FRONT");
 
     }
 
-    private void setPrefColours(String colour){
-        String s = "-fx-background-color: " + colour + "; -fx-text-fill: white; -fx-font-weight: bold;";
-
-        deleteButton.setStyle(s);
-        updateButton.setStyle(s);
-        createButton.setStyle(s);
-
-    }
 }

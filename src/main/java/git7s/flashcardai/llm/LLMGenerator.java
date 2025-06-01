@@ -1,9 +1,7 @@
 package git7s.flashcardai.llm;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import java.net.URI;
 import java.net.http.*;
 import java.util.Map;
@@ -16,7 +14,7 @@ public class LLMGenerator {
     /**
      * This object is responsible for interacting with the API
      */
-    private HttpClient client = HttpClient.newHttpClient();
+    private final HttpClient client = HttpClient.newHttpClient();
     /**
      * This object is responsible for storing the API response - Completeable Future type enables an asynchronous response
      */
@@ -24,13 +22,13 @@ public class LLMGenerator {
     /**
      * This Atomic Boolean is used to track if the response from the API is complete.
      */
-    private AtomicBoolean responded = new AtomicBoolean(false);
+    private final AtomicBoolean responded = new AtomicBoolean(false);
     /**
      * Define Possible Query types
      */
     public enum QueryType {
         EXPLAIN_QUERY,
-        GENERATE_QUERY;
+        GENERATE_QUERY
     }
     /**
      * The fetchFlashCards method is responsible for sending the POST request to the Ollama API
@@ -50,13 +48,13 @@ public class LLMGenerator {
                         responded.set(true); // Mark as completed
                         return response;
                     }).exceptionally(e -> {
-                        e.printStackTrace();
+                        System.err.println(e.getLocalizedMessage());
                         responded.set(false); // Handle failure
                         return null;
                     });
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getLocalizedMessage());
         }
     }
     /**

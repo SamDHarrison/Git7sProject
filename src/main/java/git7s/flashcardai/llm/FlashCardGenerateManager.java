@@ -1,16 +1,11 @@
 package git7s.flashcardai.llm;
-
-import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import git7s.flashcardai.Main;
 import git7s.flashcardai.dao.CardDAO;
 import git7s.flashcardai.model.Card;
 import git7s.flashcardai.model.CardManager;
+import git7s.flashcardai.service.SessionService;
 
 /**
  * This class converts the API response, formats into flashcard
@@ -19,15 +14,15 @@ public class FlashCardGenerateManager {
     /**
      * The Flashcards Hashmap references the processed front and back Strings
      */
-    private HashMap<String, String> NewFlashcards = new HashMap<String, String>();
+    private final HashMap<String, String> NewFlashcards = new HashMap<>();
     /**
      * String that holds the response from the LLM
      */
-    private String response;
+    private final String response;
     /**
      * Card Manager to inject into the DB
      */
-    private CardManager cardManager;
+    private final CardManager cardManager;
     /**
      * The FlashCardDraft constructor takes the API response and generates formatted cards.
      * @param response The response from the API REST POST call
@@ -67,7 +62,7 @@ public class FlashCardGenerateManager {
     public void addFlashCards(String subject, String topic, int quantity) {
         int created = 0;
         for (String str : NewFlashcards.keySet()){
-            Card card = new Card(Main.loggedInUserID, subject, topic, str, NewFlashcards.get(str));
+            Card card = new Card(SessionService.getInstance().loggedInID, subject, topic, str, NewFlashcards.get(str));
             cardManager.addCard(card);
             created++;
             if (created >= quantity) {
