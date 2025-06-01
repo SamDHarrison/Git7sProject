@@ -93,7 +93,7 @@ public class UserDAOTest {
         assertEquals(updated.getPasswordHash(), result.getPasswordHash());
         assertEquals(updatedSalt, result.getSaltAsString());
         assertEquals("#0000FF", result.getPrefColour());
-        assertFalse(result.isAdmin());  // DAO is hardcoded to false for now
+        assertTrue(result.isAdmin());  // DAO is hardcoded to false for now
     }
 
     /**

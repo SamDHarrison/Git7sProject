@@ -2,7 +2,9 @@ package git7s.flashcardai.model;
 
 import git7s.flashcardai.dao.ResultDAO;
 
+import java.sql.*;
 import java.util.*;
+
 /**
  * The DAO object for interacting with the Results Table over the specified connection
  */
@@ -14,10 +16,28 @@ public class ResultManager {
     /**
      * The Constructor which takes the caller's DAO object and updates local
      *
-     * @param resultDAO DAO Object
+     * @param resultDAO Result DAO Object
      */
     public ResultManager(ResultDAO resultDAO) {
         this.resultDAO = resultDAO;
+    }
+    /**
+     * Search Function that gets a list of results for handling GUI-side
+     */
+    public List<Result> searchResultsBySubject(String subject) {
+        return resultDAO.getAll()
+                .stream()
+                .filter(result -> (result.getSubject().equalsIgnoreCase(subject)))
+                .toList();
+    }
+    /**
+     * Search Function that gets a list of results for handling GUI-side
+     */
+    public List<Result> searchResultsByTopic(String topic) {
+        return resultDAO.getAll()
+                .stream()
+                .filter(result -> (result.getTopic().equalsIgnoreCase(topic)))
+                .toList();
     }
     /**
      * Inserts a Result to the db
@@ -33,6 +53,18 @@ public class ResultManager {
      */
     public void delete(int resultID){
         resultDAO.delete(resultID);
+    }
+
+    /**
+     * Gets results for a specified Card
+     * @param cardIDQuery Specified Card
+     * @return List of results
+     */
+    public List<Result> getByCardID(int cardIDQuery){
+        return resultDAO.getAll()
+                .stream()
+                .filter(result -> result.getCardID() == cardIDQuery).
+                toList();
     }
     /**
      * Pulls all db results
@@ -50,6 +82,18 @@ public class ResultManager {
         return resultDAO.getAll()
                 .stream()
                 .filter(result -> result.getUserID() == userIDQuery).
+                toList();
+    }
+    /**
+     * Gets results by the user who got the results
+     * @param start Starting Date (Timestamp)
+     * @param end ending Date (Timestamp)
+     * @return List of results
+     */
+    public List<Result> getByTimeFrame(Timestamp start, Timestamp end){
+        return resultDAO.getAll()
+                .stream()
+                .filter(result -> (result.getAt().after(start) && result.getAt().before(end))).
                 toList();
     }
 }

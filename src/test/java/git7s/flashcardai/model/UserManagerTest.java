@@ -60,8 +60,8 @@ public class UserManagerTest {
     @Test
     public void testUpdateUser() {
         User updatedUser = new User(117249823, "NewPass123", "Milly", "Jones", true, "green");
-        userManager.update(user.getId(), updatedUser);
-        verify(userDAO).update(user.getId(), updatedUser);
+        userManager.update(updatedUser);
+        verify(userDAO).update(updatedUser);
     }
 
     /**
@@ -80,7 +80,7 @@ public class UserManagerTest {
      */
     @Test
     public void testGetUserById() {
-        when(userDAO.getById(user.getId())).thenReturn(user);
+        when(userDAO.getByID(user.getId())).thenReturn(user);
         User result = userManager.getUser(user.getId());
         assertNotNull(result);
         assertEquals("Smith", result.getLastName());
