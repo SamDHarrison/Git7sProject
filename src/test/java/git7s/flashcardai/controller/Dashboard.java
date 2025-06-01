@@ -1,11 +1,14 @@
-package git7s.flashcardai;
+package git7s.flashcardai.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DashboardTest {
+/**
+ * Tests logic related to validating study data (correct, incorrect, and percentage values).
+ */
+public class Dashboard {
 
     private double correctDouble1;
     private double incorrectDouble2;
@@ -19,6 +22,9 @@ public class DashboardTest {
     private int incorrectCount2;
     private int incorrectCount3;
 
+    /**
+     * Sets up test data for different valid and invalid cases.
+     */
     @BeforeEach
     public void setUp() {
         correctDouble1 = 0.5;
@@ -34,6 +40,10 @@ public class DashboardTest {
         incorrectCount3 = -11;
 
     }
+
+    /**
+     * Tests different combinations of study data inputs to check validity.
+     */
     @Test
     public void createAccountTest() {
         assertEquals(true, checkStudyData(correctCount1, correctCount2, correctDouble1));
@@ -42,7 +52,14 @@ public class DashboardTest {
         assertEquals(false, checkStudyData(correctCount3, correctCount1, incorrectDouble3));
         assertEquals(false, checkStudyData(correctCount3, correctCount3, incorrectDouble3));
     }
-    //Return false if studydata is not correctly formatted
+    /**
+     * Checks if the input data for study results is valid.
+     *
+     * @param c correct count
+     * @param i incorrect count
+     * @param p percentage correct
+     * @return true if all values are valid; false otherwise
+     */
     private boolean checkStudyData(int c, int i, double p){
         int correct = c;
         int incorrect = i;

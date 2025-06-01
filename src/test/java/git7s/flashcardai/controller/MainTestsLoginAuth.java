@@ -1,4 +1,4 @@
-package git7s.flashcardai;
+package git7s.flashcardai.controller;
 
 import git7s.flashcardai.model.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +10,10 @@ public class MainTestsLoginAuth {
     private User mainLoggedOut;
     private User mainLoggedIn;
 
+    /**
+     * Sets up test users.
+     * One logged in user, one null (logged out).
+     */
     @BeforeEach
     public void setUp() {
         mainLoggedIn = new User(12345, "Password", "Sam", "Smith", false);
@@ -17,7 +21,10 @@ public class MainTestsLoginAuth {
 
     }
 
-    ///Test for when the Create Account / Log in screen changes to dashboard
+    /**
+     * Tests login state.
+     * Verifies that a logged-in user is not null and a logged-out user is null.
+     */
     @Test
     public void logInReturnAbility() {
         assertEquals(true, (mainLoggedIn!=null));
